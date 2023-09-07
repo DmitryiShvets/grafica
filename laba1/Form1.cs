@@ -16,20 +16,24 @@ namespace laba1
         private Graphics g;
         Pen pen_figure = new Pen(Color.Black, 3f);
         Pen pen_axes = new Pen(Color.Black, 1f);
+
         public Form1()
         {
             InitializeComponent();
-            g = pictureBox1.CreateGraphics();
-
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            listBox1.SelectedIndex=0;
+            listBox1.SelectedIndex = 0;
         }
 
         private void button1_Click(object sender, EventArgs e)
+        {
+            CanvasUpdate();
+
+        }
+
+        private void CanvasUpdate()
         {
             switch (listBox1.SelectedIndex)
             {
@@ -42,12 +46,12 @@ namespace laba1
                 case 6: Draw(SinMinusX); break;
                 case 7: Draw(Const2); break;
             }
-
         }
 
         private void Draw(Func<float, float> function)
         {
             //очищаем буфер
+            g = pictureBox1.CreateGraphics();
             g.Clear(Color.White);
 
             //парсим промт
@@ -87,9 +91,12 @@ namespace laba1
             g.DrawLines(pen_axes, x_axes);
             g.DrawLines(pen_axes, y_axes);
             g.DrawLines(pen_figure, points);
+
+
         }
 
         private float Const2(float x) { return x + 2.0f; }
+
         private float SinMinusX(float x) { return Sin(x) - x; }
 
         private float Parabola(float x)
@@ -127,6 +134,18 @@ namespace laba1
         private float LinY(float y, float min, float max)
         {
             return (y - max) / (min - max) * pictureBox1.Height;
+        }
+
+        private void Form1_SizeChanged(object sender, EventArgs e)
+        {
+
+            CanvasUpdate();
+
+        }
+
+        private void listBox1_SelectedValueChanged(object sender, EventArgs e)
+        {
+            CanvasUpdate();
         }
     }
 }
