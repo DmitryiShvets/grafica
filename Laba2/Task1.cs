@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 using FastBitmap1;
-
 namespace Laba2
 {
     public partial class Task1 : Form
@@ -70,24 +69,29 @@ namespace Laba2
         {
             using (var fastBitmap = new FastBitmap(source_image))
             {
-                var gray_1 = new FastBitmap(gray_image_1);
-                var gray_2 = new FastBitmap(gray_image_2);
-                for (var x = 0; x < fastBitmap.Width; x++)
-                    for (var y = 0; y < fastBitmap.Height; y++)
+                using (var fast_gray_1 = new FastBitmap(gray_image_1))
+                {
+                    using (var fast_gray_2 = new FastBitmap(gray_image_2))
                     {
-                        int ntsc = Convert.ToInt32(fastBitmap[x, y].R * 0.3 + fastBitmap[x, y].G * 0.59 + fastBitmap[x, y].B * 0.11);
-                        int srgb = Convert.ToInt32(fastBitmap[x, y].R * 0.21 + fastBitmap[x, y].G * 0.72 + fastBitmap[x, y].B * 0.07);
-                        gray_1[x, y] = Color.FromArgb(
-                            ntsc,
-                            ntsc,
-                            ntsc
-                        );
-                        gray_2[x, y] = Color.FromArgb(
-                            srgb,
-                            srgb,
-                            srgb
-                        );
+                        for (var x = 0; x < fastBitmap.Width; x++)
+                            for (var y = 0; y < fastBitmap.Height; y++)
+                            {
+
+                                int ntsc = Convert.ToInt32(fastBitmap[x, y].R * 0.3 + fastBitmap[x, y].G * 0.59 + fastBitmap[x, y].B * 0.11);
+                                int srgb = Convert.ToInt32(fastBitmap[x, y].R * 0.21 + fastBitmap[x, y].G * 0.72 + fastBitmap[x, y].B * 0.07);
+                                fast_gray_1[x, y] = Color.FromArgb(
+                                    ntsc,
+                                    ntsc,
+                                    ntsc
+                                );
+                                fast_gray_2[x, y] = Color.FromArgb(
+                                    srgb,
+                                    srgb,
+                                    srgb
+                                );
+                            }
                     }
+                }
             }
             gray_pix1.Image = gray_image_1;
             gray_pix1.Invalidate();
