@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 using FastBitmap1;
+using System.Windows.Forms.DataVisualization.Charting;
+using System.Xml.Linq;
+
 namespace Laba2
 {
     public partial class Task1 : Form
@@ -16,6 +19,8 @@ namespace Laba2
         public Task1()
         {
             InitializeComponent();
+            chart1.Series[0].Name = "";
+            chart1.Series[0].Color = Color.White;
         }
         private Bitmap source_image;
         private Bitmap gray_image_1;
@@ -29,6 +34,7 @@ namespace Laba2
             {
                 e.Cancel = true;
                 Hide();
+
             }
         }
 
@@ -51,6 +57,10 @@ namespace Laba2
             gray_image_1 = null;
             gray_image_2 = null;
             compare_image = null;
+
+            chart1.Series[0].Points.Clear();
+            chart1.Series[0].Name = "";
+            chart1.Series[0].Color = Color.White;
         }
 
         private void open_file_Click(object sender, EventArgs e)
@@ -69,12 +79,24 @@ namespace Laba2
 
                     source_pix.Image = source_image;
                     source_pix.Invalidate();
+                    gray_pix1.Image = null;
+                    gray_pix1.Invalidate();
+
+                    gray_pix2.Image = null;
+                    gray_pix2.Invalidate();
+
+                    compare_pix.Image = null;
+                    compare_pix.Invalidate();
+                    chart1.Series[0].Points.Clear();
+                    chart1.Series[0].Name = "";
+                    chart1.Series[0].Color = Color.White;
                 }
                 catch
                 {
                     DialogResult rezult = MessageBox.Show("Невозможно открыть выбранный файл",
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+
             }
         }
 
@@ -118,7 +140,8 @@ namespace Laba2
 
         private void compare_Click(object sender, EventArgs e)
         {
-            if (gray_image_1 != null && gray_image_2 != null)
+            if (gray_pix1.Image != null && gray_pix2.Image != null 
+                && gray_image_1 != null && gray_image_2 != null)
             {
                 int min = 255;
                 int max = 0;
@@ -153,11 +176,48 @@ namespace Laba2
 
         private int LinX(int x, int a, int b)
         {
-            return (x - a) * 255/(b - a);
+            return (x - a) * 255 / (b - a + 1);
         }
-        private void source_pix_Click(object sender, EventArgs e)
-        {
 
+        private void GenerateColorHistogram(Bitmap mage, string name)
+        {
+            int[] histogram = new int[256]; // 256 possible color values
+            using (var fastBitmap = new FastBitmap(mage))
+            {
+                for (int x = 0; x < fastBitmap.Width; x++)
+                {
+                    for (int y = 0; y < fastBitmap.Height; y++)
+                    {
+                        int value = fastBitmap[x, y].R;
+
+                        histogram[value]++;
+                    }
+                }
+            }
+            chart1.Series[0].Points.Clear();
+            for (int i = 0; i < histogram.Length - 1; i++)
+            {
+                chart1.Series[0].Points.Add(histogram[i]);
+            }
+
+            chart1.Series[0].Color = Color.Gray;
+            chart1.Series[0].Name = name;
+        }
+
+        private void gray_pix1_Click(object sender, EventArgs e)
+        {
+            if (gray_pix1.Image != null && gray_image_1 != null)
+            {
+                GenerateColorHistogram(gray_image_1, "NTSC");
+            }
+        }
+
+        private void gray_pix2_Click(object sender, EventArgs e)
+        {
+            if (gray_pix2.Image != null && gray_image_2 != null)
+            {
+                GenerateColorHistogram(gray_image_1, "sRGB");
+            }
         }
     }
 }

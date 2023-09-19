@@ -29,6 +29,9 @@ namespace Laba2
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.open_file = new System.Windows.Forms.Button();
             this.source_pix = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -41,10 +44,12 @@ namespace Laba2
             this.clear_file = new System.Windows.Forms.Button();
             this.convert_to_gray = new System.Windows.Forms.Button();
             this.compare = new System.Windows.Forms.Button();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             ((System.ComponentModel.ISupportInitialize)(this.source_pix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gray_pix1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gray_pix2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.compare_pix)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // open_file
@@ -60,18 +65,17 @@ namespace Laba2
             // source_pix
             // 
             this.source_pix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.source_pix.Location = new System.Drawing.Point(45, 34);
+            this.source_pix.Location = new System.Drawing.Point(12, 34);
             this.source_pix.Name = "source_pix";
             this.source_pix.Size = new System.Drawing.Size(400, 300);
             this.source_pix.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.source_pix.TabIndex = 1;
             this.source_pix.TabStop = false;
-            this.source_pix.Click += new System.EventHandler(this.source_pix_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(45, 15);
+            this.label1.Location = new System.Drawing.Point(28, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(127, 13);
             this.label1.TabIndex = 2;
@@ -80,27 +84,29 @@ namespace Laba2
             // gray_pix1
             // 
             this.gray_pix1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.gray_pix1.Location = new System.Drawing.Point(733, 34);
+            this.gray_pix1.Location = new System.Drawing.Point(772, 34);
             this.gray_pix1.Name = "gray_pix1";
             this.gray_pix1.Size = new System.Drawing.Size(400, 300);
             this.gray_pix1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.gray_pix1.TabIndex = 1;
             this.gray_pix1.TabStop = false;
+            this.gray_pix1.Click += new System.EventHandler(this.gray_pix1_Click);
             // 
             // gray_pix2
             // 
             this.gray_pix2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.gray_pix2.Location = new System.Drawing.Point(733, 355);
+            this.gray_pix2.Location = new System.Drawing.Point(772, 355);
             this.gray_pix2.Name = "gray_pix2";
             this.gray_pix2.Size = new System.Drawing.Size(400, 300);
             this.gray_pix2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.gray_pix2.TabIndex = 1;
             this.gray_pix2.TabStop = false;
+            this.gray_pix2.Click += new System.EventHandler(this.gray_pix2_Click);
             // 
             // compare_pix
             // 
             this.compare_pix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.compare_pix.Location = new System.Drawing.Point(45, 355);
+            this.compare_pix.Location = new System.Drawing.Point(12, 355);
             this.compare_pix.Name = "compare_pix";
             this.compare_pix.Size = new System.Drawing.Size(400, 300);
             this.compare_pix.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -110,7 +116,7 @@ namespace Laba2
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(730, 15);
+            this.label2.Location = new System.Drawing.Point(791, 15);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 2;
@@ -119,7 +125,7 @@ namespace Laba2
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(730, 339);
+            this.label3.Location = new System.Drawing.Point(791, 337);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 2;
@@ -128,7 +134,7 @@ namespace Laba2
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(45, 339);
+            this.label4.Location = new System.Drawing.Point(28, 339);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(55, 13);
             this.label4.TabIndex = 2;
@@ -164,11 +170,28 @@ namespace Laba2
             this.compare.UseVisualStyleBackColor = true;
             this.compare.Click += new System.EventHandler(this.compare_Click);
             // 
+            // chart1
+            // 
+            chartArea4.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.chart1.Legends.Add(legend4);
+            this.chart1.Location = new System.Drawing.Point(427, 355);
+            this.chart1.Name = "chart1";
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.chart1.Series.Add(series4);
+            this.chart1.Size = new System.Drawing.Size(329, 300);
+            this.chart1.TabIndex = 3;
+            this.chart1.Text = "chart1";
+            // 
             // Task1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 761);
+            this.Controls.Add(this.chart1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -188,6 +211,7 @@ namespace Laba2
             ((System.ComponentModel.ISupportInitialize)(this.gray_pix1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gray_pix2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.compare_pix)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -207,5 +231,6 @@ namespace Laba2
         private System.Windows.Forms.Button clear_file;
         private System.Windows.Forms.Button convert_to_gray;
         private System.Windows.Forms.Button compare;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     }
 }
