@@ -33,13 +33,16 @@ namespace Laba2
 
         private void clear_file_Click(object sender, EventArgs e)
         {
-            if (source_pix.Image != null)
+            if (source_pix != null)
             {
-                //source_pix.Image.Dispose();
                 source_pix.Image = null;
                 source_pix.Invalidate();
+                gray_pix1.Image = null;
+                gray_pix1.Invalidate();
+                gray_pix2.Image = null;
+                gray_pix2.Invalidate();
             }
-
+            source_image = null;
         }
 
         private void open_file_Click(object sender, EventArgs e)
@@ -67,42 +70,45 @@ namespace Laba2
 
         private void convert_to_gray_Click(object sender, EventArgs e)
         {
-            using (var fastBitmap = new FastBitmap(source_image))
+            if (source_image != null)
             {
-                using (var fast_gray_1 = new FastBitmap(gray_image_1))
+                using (var fastBitmap = new FastBitmap(source_image))
                 {
-                    using (var fast_gray_2 = new FastBitmap(gray_image_2))
+                    using (var fast_gray_1 = new FastBitmap(gray_image_1))
                     {
-                        for (var x = 0; x < fastBitmap.Width; x++)
-                            for (var y = 0; y < fastBitmap.Height; y++)
-                            {
+                        using (var fast_gray_2 = new FastBitmap(gray_image_2))
+                        {
+                            for (var x = 0; x < fastBitmap.Width; x++)
+                                for (var y = 0; y < fastBitmap.Height; y++)
+                                {
 
-                                int ntsc = Convert.ToInt32(fastBitmap[x, y].R * 0.3 + fastBitmap[x, y].G * 0.59 + fastBitmap[x, y].B * 0.11);
-                                int srgb = Convert.ToInt32(fastBitmap[x, y].R * 0.21 + fastBitmap[x, y].G * 0.72 + fastBitmap[x, y].B * 0.07);
-                                fast_gray_1[x, y] = Color.FromArgb(
-                                    ntsc,
-                                    ntsc,
-                                    ntsc
-                                );
-                                fast_gray_2[x, y] = Color.FromArgb(
-                                    srgb,
-                                    srgb,
-                                    srgb
-                                );
-                            }
+                                    int ntsc = Convert.ToInt32(fastBitmap[x, y].R * 0.3 + fastBitmap[x, y].G * 0.59 + fastBitmap[x, y].B * 0.11);
+                                    int srgb = Convert.ToInt32(fastBitmap[x, y].R * 0.21 + fastBitmap[x, y].G * 0.72 + fastBitmap[x, y].B * 0.07);
+                                    fast_gray_1[x, y] = Color.FromArgb(
+                                        ntsc,
+                                        ntsc,
+                                        ntsc
+                                    );
+                                    fast_gray_2[x, y] = Color.FromArgb(
+                                        srgb,
+                                        srgb,
+                                        srgb
+                                    );
+                                }
+                        }
                     }
                 }
+                gray_pix1.Image = gray_image_1;
+                gray_pix1.Invalidate();
+                gray_pix2.Image = gray_image_2;
+                gray_pix2.Invalidate();
             }
-            gray_pix1.Image = gray_image_1;
-            gray_pix1.Invalidate();
-            gray_pix2.Image = gray_image_2;
-            gray_pix2.Invalidate();
-
         }
 
         private void compare_Click(object sender, EventArgs e)
         {
-
+            source_pix.Image = source_image;
+            source_pix.Invalidate();
         }
 
         private void source_pix_Click(object sender, EventArgs e)
