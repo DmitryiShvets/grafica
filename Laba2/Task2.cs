@@ -69,29 +69,31 @@ namespace Laba2
             // Проход по каждому пикселю изображения
             using (var fastBitmap = new FastBitmap(image))
             {
-                var e_image = new FastBitmap(editedImage);
-                for (int x = 0; x < image.Width; x++)
+                using (var fast_edited = new FastBitmap(editedImage))
                 {
-                    for (int y = 0; y < image.Height; y++)
+                    for (int x = 0; x < image.Width; x++)
                     {
-                        // Получение цвета пикселя
-                        Color pixelColor = fastBitmap[x, y];
-                        Color newColor = Color.White;
-                        switch (color)
+                        for (int y = 0; y < image.Height; y++)
                         {
-                            case "red":
-                                newColor = Color.FromArgb(pixelColor.R, 0, 0);
-                                break;
-                            case "green":
-                                newColor = Color.FromArgb(0, pixelColor.G, 0);
-                                break;
-                            case "blue":
-                                newColor = Color.FromArgb(0, 0, pixelColor.B);
-                                break;
-                        }
+                            // Получение цвета пикселя
+                            Color pixelColor = fastBitmap[x, y];
+                            Color newColor = Color.White;
+                            switch (color)
+                            {
+                                case "red":
+                                    newColor = Color.FromArgb(pixelColor.R, 0, 0);
+                                    break;
+                                case "green":
+                                    newColor = Color.FromArgb(0, pixelColor.G, 0);
+                                    break;
+                                case "blue":
+                                    newColor = Color.FromArgb(0, 0, pixelColor.B);
+                                    break;
+                            }
 
-                        // Установка нового цвета для пикселя в отредактированном изображении
-                        e_image[x,y] = newColor;
+                            // Установка нового цвета для пикселя в отредактированном изображении
+                            fast_edited[x, y] = newColor;
+                        }
                     }
                 }
                 //editedImage = e_image;
@@ -105,35 +107,37 @@ namespace Laba2
         private void GenerateColorHistogram(string color)
         {
             int[] histogram = new int[256]; // 256 possible color values
-
-            for (int x = 0; x < editedImage.Width; x++)
+            using (var fastBitmap = new FastBitmap(editedImage))
             {
-                for (int y = 0; y < editedImage.Height; y++)
+                for (int x = 0; x < editedImage.Width; x++)
                 {
-                    Color pixel = editedImage.GetPixel(x, y);
-
-                    int value = 0;
-
-                    switch (color)
+                    for (int y = 0; y < editedImage.Height; y++)
                     {
-                        case "red":
-                            value = pixel.R;
-                            break;
-                        case "green":
-                            value = pixel.G;
-                            break;
-                        case "blue":
-                            value = pixel.B;
-                            break;
-                    }
+                        Color pixel = fastBitmap[x, y];
 
-                    histogram[value]++;
+                        int value = 0;
+
+                        switch (color)
+                        {
+                            case "red":
+                                value = pixel.R;
+                                break;
+                            case "green":
+                                value = pixel.G;
+                                break;
+                            case "blue":
+                                value = pixel.B;
+                                break;
+                        }
+
+                        histogram[value]++;
+                    }
                 }
             }
             chart.Series[0].Points.Clear();
-            for (int i = 0; i < histogram.Length; i++)
+            for (int i = 0; i < histogram.Length-1; i++)
             {
-                Console.WriteLine(histogram[i]);
+                //Console.WriteLine($"{i} {histogram[i]}");
                 chart.Series[0].Points.Add(histogram[i]);
             }
             switch (color)
