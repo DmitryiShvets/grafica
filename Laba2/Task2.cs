@@ -91,9 +91,59 @@ namespace Laba2
                     editedImage.SetPixel(x, y, newColor);
                 }
             }
-
+            GenerateColorHistogram(color);
             // Отображение отредактированного изображения на PictureBox
             pictureBox.Image = editedImage;
+            pictureBox.Invalidate();
+        }
+
+        private void GenerateColorHistogram(string color)
+        {
+            int[] histogram = new int[256]; // 256 possible color values
+
+            for (int x = 0; x < editedImage.Width; x++)
+            {
+                for (int y = 0; y < editedImage.Height; y++)
+                {
+                    Color pixel = editedImage.GetPixel(x, y);
+
+                    int value = 0;
+
+                    switch (color)
+                    {
+                        case "red":
+                            value = pixel.R;
+                            break;
+                        case "green":
+                            value = pixel.G;
+                            break;
+                        case "blue":
+                            value = pixel.B;
+                            break;
+                    }
+
+                    histogram[value]++;
+                }
+            }
+            chart.Series[0].Points.Clear();
+            for (int i = 0; i < histogram.Length; i++)
+            {
+                Console.WriteLine(histogram[i]);
+                chart.Series[0].Points.Add(histogram[i]);
+            }
+            switch (color)
+            {
+                case "red":
+                    chart.Series[0].Color = Color.Red;
+                    break;
+                case "green":
+                    chart.Series[0].Color = Color.Green;
+                    break;
+                case "blue":
+                    chart.Series[0].Color = Color.Blue;
+                    break;
+            }
+            chart.Series[0].Name = color;
         }
     }
 }
