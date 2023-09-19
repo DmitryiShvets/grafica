@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using FastBitmap;
+using FastBitmap1;
 
 namespace Laba2
 {
     public partial class Task2 : Form
     {
-        private Image image;
+        private Bitmap image;
         private Bitmap editedImage;
 
         public Task2()
@@ -29,7 +29,7 @@ namespace Laba2
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 // Загрузка изображения
-                image = Image.FromFile(openFileDialog.FileName);
+                image = new Bitmap(openFileDialog.FileName);
                 pictureBox.Image = image;
 
                 // Создание Bitmap для редактирования и отображения
@@ -67,29 +67,34 @@ namespace Laba2
         private void ExtractChannel(string color)
         {
             // Проход по каждому пикселю изображения
-            for (int x = 0; x < image.Width; x++)
+            using (var fastBitmap = new FastBitmap(image))
             {
-                for (int y = 0; y < image.Height; y++)
+                var e_image = new FastBitmap(editedImage);
+                for (int x = 0; x < image.Width; x++)
                 {
-                    // Получение цвета пикселя
-                    Color pixelColor = ((Bitmap)image).GetPixel(x, y);
-                    Color newColor = Color.White;
-                    switch (color)
+                    for (int y = 0; y < image.Height; y++)
                     {
-                        case "red":
-                            newColor = Color.FromArgb(pixelColor.R, 0, 0);
-                            break;
-                        case "green":
-                            newColor = Color.FromArgb(0, pixelColor.G, 0);
-                            break;
-                        case "blue":
-                            newColor = Color.FromArgb(0, 0, pixelColor.B);
-                            break;
-                    }
+                        // Получение цвета пикселя
+                        Color pixelColor = fastBitmap[x, y];
+                        Color newColor = Color.White;
+                        switch (color)
+                        {
+                            case "red":
+                                newColor = Color.FromArgb(pixelColor.R, 0, 0);
+                                break;
+                            case "green":
+                                newColor = Color.FromArgb(0, pixelColor.G, 0);
+                                break;
+                            case "blue":
+                                newColor = Color.FromArgb(0, 0, pixelColor.B);
+                                break;
+                        }
 
-                    // Установка нового цвета для пикселя в отредактированном изображении
-                    editedImage.SetPixel(x, y, newColor);
+                        // Установка нового цвета для пикселя в отредактированном изображении
+                        e_image[x,y] = newColor;
+                    }
                 }
+                //editedImage = e_image;
             }
             GenerateColorHistogram(color);
             // Отображение отредактированного изображения на PictureBox

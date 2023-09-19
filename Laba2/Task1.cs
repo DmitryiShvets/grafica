@@ -8,7 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
-//using FastBitmap;
+using FastBitmap1;
+
 namespace Laba2
 {
     public partial class Task1 : Form
@@ -67,14 +68,13 @@ namespace Laba2
 
         private void convert_to_gray_Click(object sender, EventArgs e)
         {
-            using (var fastBitmap = new FastBitmap.FastBitmap(source_image))
+            using (var fastBitmap = new FastBitmap(source_image))
             {
+                var gray_1 = new FastBitmap(gray_image_1);
+                var gray_2 = new FastBitmap(gray_image_2);
                 for (var x = 0; x < fastBitmap.Width; x++)
                     for (var y = 0; y < fastBitmap.Height; y++)
                     {
-                        var gray_1 = new FastBitmap.FastBitmap(gray_image_1);
-                        var gray_2 = new FastBitmap.FastBitmap(gray_image_2);
-
                         int ntsc = Convert.ToInt32(fastBitmap[x, y].R * 0.3 + fastBitmap[x, y].G * 0.59 + fastBitmap[x, y].B * 0.11);
                         int srgb = Convert.ToInt32(fastBitmap[x, y].R * 0.21 + fastBitmap[x, y].G * 0.72 + fastBitmap[x, y].B * 0.07);
                         gray_1[x, y] = Color.FromArgb(
