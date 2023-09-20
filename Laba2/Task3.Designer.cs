@@ -51,6 +51,7 @@ namespace Laba2
             this.pictureBox.Location = new System.Drawing.Point(12, 12);
             this.pictureBox.Name = "pictureBox";
             this.pictureBox.Size = new System.Drawing.Size(612, 523);
+            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox.TabIndex = 2;
             this.pictureBox.TabStop = false;
             // 
@@ -121,6 +122,7 @@ namespace Laba2
             this.hueTrackBar.TabIndex = 7;
             this.hueTrackBar.TickFrequency = 20;
             this.hueTrackBar.Scroll += new System.EventHandler(this.hueTrackBar_Scroll);
+            this.hueTrackBar.MouseCaptureChanged += new System.EventHandler(this.hueTrackBar_MouseCaptureChanged);
             // 
             // saturationTrackBar
             // 
@@ -133,6 +135,7 @@ namespace Laba2
             this.saturationTrackBar.TickFrequency = 5;
             this.saturationTrackBar.Value = 50;
             this.saturationTrackBar.Scroll += new System.EventHandler(this.saturationTrackBar_Scroll);
+            this.saturationTrackBar.MouseCaptureChanged += new System.EventHandler(this.saturationTrackBar_MouseCaptureChanged);
             // 
             // valueTrackBar
             // 
@@ -145,6 +148,7 @@ namespace Laba2
             this.valueTrackBar.TickFrequency = 5;
             this.valueTrackBar.Value = 50;
             this.valueTrackBar.Scroll += new System.EventHandler(this.valueTrackBar_Scroll);
+            this.valueTrackBar.MouseCaptureChanged += new System.EventHandler(this.valueTrackBar_MouseCaptureChanged);
             // 
             // Task3
             // 

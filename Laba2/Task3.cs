@@ -166,22 +166,34 @@ namespace Laba2
         {
             HueLabel.Text = "Оттенок: " + hueTrackBar.Value;
             hue_change = hueTrackBar.Value;
-            if (edited_image != null)
-                ProcessImage();
         }
 
         private void saturationTrackBar_Scroll(object sender, EventArgs e)
         {
             SaturationLabel.Text = "Насыщенность: " + ((saturationTrackBar.Value - 50) / 50f).ToString(); 
             saturation_change = (saturationTrackBar.Value-50)/50f;
-            if (edited_image != null)
-                ProcessImage();
         }
 
         private void valueTrackBar_Scroll(object sender, EventArgs e)
         {
             ValueLabel.Text = "Интенсивность: " + ((valueTrackBar.Value - 50) / 50f).ToString();
             value_change = (valueTrackBar.Value-50)/50f;
+        }
+
+        private void hueTrackBar_MouseCaptureChanged(object sender, EventArgs e)
+        {
+            if (edited_image != null)
+                ProcessImage();
+        }
+
+        private void saturationTrackBar_MouseCaptureChanged(object sender, EventArgs e)
+        {
+            if (edited_image != null)
+                ProcessImage();
+        }
+
+        private void valueTrackBar_MouseCaptureChanged(object sender, EventArgs e)
+        {
             if (edited_image != null)
                 ProcessImage();
         }
