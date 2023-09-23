@@ -4,139 +4,250 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
+using FastBitmaps;
+using static System.Windows.Forms.AxHost;
 
 namespace Laba3
 {
     public partial class Task1 : Form
     {
-        Point[] points = new Point[4];
-        int point = 0;
-        bool isPaint = true;
-        bool isTracking = false;
-        private Graphics g;
-        Pen penLines = new Pen(Color.Black, 1f);
-        Color[] colors = new Color[3];
-        Pen pen = new Pen(Color.Black, 3f);
-        Point point1 = new Point(0, 0);
-        Point point2 = new Point(0, 0);
+        private Bitmap _bitmap;
+        private Graphics _graphics;
+        private PointArray _points = new PointArray(2);
+
+        Pen pen_default = new Pen(Color.Black, 3f);
+        Pen pen_filling = new Pen(Color.Black, 1f);
+        Pen pen_eraser = new Pen(Color.White, 3f);
+
+        private State g_state = State.PEN;
+        private bool is_drawing = false;
         public Task1()
         {
             InitializeComponent();
-            g = pictureBox1.CreateGraphics();
-            g.Clear(Color.White);
-            trackBar1.Value = 3;
-            button_pen_color.BackColor = Color.Black;
-        }
+            _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            _graphics = Graphics.FromImage(_bitmap);
+            _graphics.Clear(Color.White);
+            pictureBox1.Image = _bitmap;
 
-        private void button_drawTriangle_Click(object sender, EventArgs e)
+            pen_default.StartCap = System.Drawing.Drawing2D.LineCap.Round;
+            pen_default.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+            pen_eraser.StartCap = System.Drawing.Drawing2D.LineCap.Round;
+            pen_eraser.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+        }
+        enum State
         {
-            //g.Clear(Color.White);
-            g.DrawLines(penLines, points);
+            NONE,
+            FILLING,
+            PEN,
+            ERASER
         }
 
-        private void button_point_Click(object sender, EventArgs e)
-        {
-            Button button = (sender as Button);
-            point = Convert.ToInt32(button.Name.Substring(button.Name.Length-1))-1;
-            if (colorDialog1.ShowDialog() == DialogResult.Cancel)
-                return;
-            button.BackColor = colorDialog1.Color;
-            colors[point] = colorDialog1.Color;
-            isPaint = false;
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            var mouse = e as MouseEventArgs;
-            if (isPaint)
-            {
-                isTracking = !isTracking;
-                point1 = new Point(mouse.X, mouse.Y);
-            }
-            else
-            {
-                Pen penC = new Pen(colors[point], 3f);
-                g.DrawRectangle(penC, mouse.X, mouse.Y, 3, 3);
-                if (point == 0)
-                {
-                    points[3] = new Point(mouse.X, mouse.Y);
-                }
-                points[point] = new Point(mouse.X, mouse.Y);
-            }
-        }
-
-        private void button_gradient_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button_pen_color_Click(object sender, EventArgs e)
-        {
-            Button button = (sender as Button);
-            if (colorDialog1.ShowDialog() == DialogResult.Cancel)
-                return;
-            pen.Color = colorDialog1.Color;
-            //pen.Width = 3f;
-            button.BackColor = colorDialog1.Color;
-        }
-
-        private void pictureBox1_MouseEnter(object sender, EventArgs e)
-        {
-            pictureBox1.Cursor = Cursors.Hand;
-        }
-
-        private void pictureBox1_MouseLeave(object sender, EventArgs e)
-        {
-            pictureBox1.Cursor = Cursors.Default;
-            isTracking = false;
-        }
-
-        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
-        {
-            point2 = point1;
-            point1 = new Point(e.X, e.Y);
-            if (isTracking)
-            {
-                g.DrawLine(pen, point1.X, point1.Y, point2.X, point2.Y);
-                //Console.WriteLine($"point1: x={point1.X}, y={point1.Y}");
-                //Console.WriteLine($"point2: x={point2.X}, y={point2.Y}\n");
-                //g.DrawRectangle(pen, point1.X, point1.Y, pen.Width, pen.Width);
-                //g.DrawEllipse(pen, point1.X, point1.Y, pen.Width, pen.Width);
-                //g.FillRectangle(new SolidBrush(Color.Blue), point1.X, point1.Y, 1, 1);
-            }
-        }
-
-        private void trackBar1_ValueChanged(object sender, EventArgs e)
-        {
-            pen.Width = (sender as TrackBar).Value;
-        }
-
-        private void button_choose_pen_Click(object sender, EventArgs e)
-        {
-            isPaint = true;
-        }
-
-        private void button_choose_cleaner_Click(object sender, EventArgs e)
-        {
-            isPaint = true;
-            pen.Color = Color.White;
-        }
-
-        private void button_clean_Click(object sender, EventArgs e)
-        {
-            g.Clear(Color.White);
-        }
-
-        private void Task3_FormClosing(object sender, FormClosingEventArgs e)
+        private void Task1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 e.Cancel = true;
                 Hide();
+            }
+        }
 
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            is_drawing = true;
+            pictureBox1.Cursor = Cursors.Cross;
+        }
+
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            is_drawing = false;
+            _points.Clear();
+            pictureBox1.Cursor = Cursors.Arrow;
+        }
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (is_drawing)
+            {
+                switch (g_state)
+                {
+                    case State.NONE:
+                        break;
+                    case State.FILLING:
+
+                        break;
+                    case State.PEN:
+                        Draw(e.X, e.Y, ref pen_default);
+                        break;
+                    case State.ERASER:
+                        Draw(e.X, e.Y, ref pen_eraser);
+                        break;
+                }
+
+            }
+            {
+                label1.Text = _bitmap.GetPixel(e.X, e.Y).ToString();
+            }
+        }
+
+        private class PointArray
+        {
+            private int index = 0;
+            private Point[] points;
+
+            public Point[] Points { get => points; }
+
+            public PointArray(int points_count)
+            {
+                if (points_count <= 0) points_count = 2;
+                points = new Point[points_count];
+            }
+
+            public void SetPoint(int x, int y)
+            {
+                if (index >= points.Length)
+                {
+                    index = 0;
+                }
+                points[index] = new Point(x, y);
+                index++;
+            }
+
+            public void Clear()
+            {
+                index = 0;
+            }
+
+            public int Count()
+            {
+                return index;
+            }
+        }
+
+        private void Draw(int x, int y, ref Pen pen)
+        {
+            _points.SetPoint(x, y);
+
+            if (_points.Count() >= 2)
+            {
+                _graphics.DrawLines(pen, _points.Points);
+                pictureBox1.Image = _bitmap;
+                // pictureBox1.Invalidate();
+                _points.SetPoint(x, y);
+
+            }
+        }
+
+        private void Fill(int x_start, int y_start)
+        {
+            int width = _bitmap.Width;
+            int height = _bitmap.Height;
+
+            Stack<Point> stack = new Stack<Point>();
+            stack.Push(new Point(x_start, y_start));
+
+            while (stack.Count > 0)
+            {
+                Point currentPoint = stack.Pop();
+                int x = currentPoint.X;
+                int y = currentPoint.Y;
+
+                // Проверяем, что текущая точка внутри границ изображения
+                if (x < 0 || x >= width || y < 0 || y >= height)
+                    continue;
+                int leftBoundary = x;
+                int rightBoundary = x;
+
+                using (var fastBitmap = new FastBitmap(_bitmap))
+                {
+
+                    // Получаем цвет текущей точки
+                    Color currentColor = fastBitmap[x, y];
+
+                    // Проверяем, что текущая точка не была уже закрашена и имеет нужный цвет
+                    if (currentColor.Name == "ff000000" || currentColor == pen_filling.Color)
+                        continue;
+
+                    // Находим левую и правую границу
+                    while (leftBoundary >= 0 && fastBitmap[leftBoundary, y].Name != "ff000000")
+                        leftBoundary--;
+
+                    while (rightBoundary < width && fastBitmap[rightBoundary, y].Name != "ff000000")
+                        rightBoundary++;
+                }
+                //Рисуем линию от левой границы до правой границы(не включая границы)
+                _graphics.DrawLine(pen_filling, leftBoundary, y, rightBoundary, y);
+                int size = Convert.ToInt32(pen_filling.Width);
+               // int size = 1;
+                using (var fastBitmap = new FastBitmap(_bitmap))
+                {
+                    // Помещаем соседние точки в стек для последующей обработки
+                    for (int i = leftBoundary + 1; i < rightBoundary; i++)
+                    {
+
+                        if (y < height - size && fastBitmap[i, y + size].Name != "ff000000"
+                            && fastBitmap[i, y + size] != pen_filling.Color)
+                            stack.Push(new Point(i, y + size)); // Ниже текущей точки
+
+                        if (y > 0 + size && fastBitmap[i, y - size].Name != "ff000000"
+                            && fastBitmap[i, y - size] != pen_filling.Color)
+                            stack.Push(new Point(i, y - size)); // Выше текущей точки
+                    }
+                }
+            }
+        }
+
+
+
+        private void btn_pen_Click(object sender, EventArgs e)
+        {
+            g_state = State.PEN;
+        }
+
+        private void btn_eraser_Click(object sender, EventArgs e)
+        {
+            g_state = State.ERASER;
+        }
+
+        private void btn_filling_Click(object sender, EventArgs e)
+        {
+            g_state = State.FILLING;
+        }
+
+        private void btn_clear_Click(object sender, EventArgs e)
+        {
+            g_state = State.PEN;
+            _graphics.Clear(Color.White);
+            pictureBox1.Invalidate();
+        }
+
+        private void with_bar_ValueChanged(object sender, EventArgs e)
+        {
+            pen_default.Width = (sender as TrackBar).Value;
+            pen_eraser.Width = (sender as TrackBar).Value;
+        }
+
+        private void btn_color_Click(object sender, EventArgs e)
+        {
+            Button button = (sender as Button);
+            if (colorDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+            pen_default.Color = colorDialog1.Color;
+            pen_filling.Color = colorDialog1.Color;
+            button.BackColor = colorDialog1.Color;
+        }
+
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (g_state == State.FILLING)
+            {
+                Fill(e.X, e.Y);
+                pictureBox1.Image = _bitmap;
+                //    pictureBox1.Invalidate();
             }
         }
     }

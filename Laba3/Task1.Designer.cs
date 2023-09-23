@@ -28,87 +28,103 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.button_pen_color = new System.Windows.Forms.Button();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.button_choose_pen = new System.Windows.Forms.Button();
-            this.button_choose_cleaner = new System.Windows.Forms.Button();
-            this.button_clean = new System.Windows.Forms.Button();
+            this.with_bar = new System.Windows.Forms.TrackBar();
+            this.btn_color = new System.Windows.Forms.Button();
+            this.btn_clear = new System.Windows.Forms.Button();
+            this.btn_eraser = new System.Windows.Forms.Button();
+            this.btn_filling = new System.Windows.Forms.Button();
+            this.btn_pen = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.with_bar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
+            // 
+            // with_bar
+            // 
+            this.with_bar.Location = new System.Drawing.Point(302, 17);
+            this.with_bar.Minimum = 1;
+            this.with_bar.Name = "with_bar";
+            this.with_bar.Size = new System.Drawing.Size(77, 45);
+            this.with_bar.TabIndex = 44;
+            this.with_bar.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.with_bar.Value = 3;
+            this.with_bar.ValueChanged += new System.EventHandler(this.with_bar_ValueChanged);
+            // 
+            // btn_color
+            // 
+            this.btn_color.BackColor = System.Drawing.Color.Black;
+            this.btn_color.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btn_color.Location = new System.Drawing.Point(385, 17);
+            this.btn_color.Name = "btn_color";
+            this.btn_color.Size = new System.Drawing.Size(40, 40);
+            this.btn_color.TabIndex = 43;
+            this.btn_color.UseVisualStyleBackColor = false;
+            this.btn_color.Click += new System.EventHandler(this.btn_color_Click);
+            // 
+            // btn_clear
+            // 
+            this.btn_clear.Image = global::Laba3.Properties.Resources.icons8_clear;
+            this.btn_clear.Location = new System.Drawing.Point(256, 17);
+            this.btn_clear.Name = "btn_clear";
+            this.btn_clear.Size = new System.Drawing.Size(40, 40);
+            this.btn_clear.TabIndex = 43;
+            this.btn_clear.UseVisualStyleBackColor = true;
+            this.btn_clear.Click += new System.EventHandler(this.btn_clear_Click);
+            // 
+            // btn_eraser
+            // 
+            this.btn_eraser.Image = global::Laba3.Properties.Resources.icons8_eraser;
+            this.btn_eraser.Location = new System.Drawing.Point(164, 17);
+            this.btn_eraser.Name = "btn_eraser";
+            this.btn_eraser.Size = new System.Drawing.Size(40, 40);
+            this.btn_eraser.TabIndex = 43;
+            this.btn_eraser.UseVisualStyleBackColor = true;
+            this.btn_eraser.Click += new System.EventHandler(this.btn_eraser_Click);
+            // 
+            // btn_filling
+            // 
+            this.btn_filling.Image = global::Laba3.Properties.Resources.icons8_filling;
+            this.btn_filling.Location = new System.Drawing.Point(210, 17);
+            this.btn_filling.Name = "btn_filling";
+            this.btn_filling.Size = new System.Drawing.Size(40, 40);
+            this.btn_filling.TabIndex = 43;
+            this.btn_filling.UseVisualStyleBackColor = true;
+            this.btn_filling.Click += new System.EventHandler(this.btn_filling_Click);
+            // 
+            // btn_pen
+            // 
+            this.btn_pen.Image = global::Laba3.Properties.Resources.icons8_pen;
+            this.btn_pen.Location = new System.Drawing.Point(118, 17);
+            this.btn_pen.Name = "btn_pen";
+            this.btn_pen.Size = new System.Drawing.Size(40, 40);
+            this.btn_pen.TabIndex = 43;
+            this.btn_pen.UseVisualStyleBackColor = true;
+            this.btn_pen.Click += new System.EventHandler(this.btn_pen_Click);
             // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.Location = new System.Drawing.Point(214, 141);
+            this.pictureBox1.Location = new System.Drawing.Point(118, 62);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(662, 464);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            this.pictureBox1.MouseEnter += new System.EventHandler(this.pictureBox1_MouseEnter);
-            this.pictureBox1.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
+            this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
-            // button_pen_color
+            // label1
             // 
-            this.button_pen_color.Location = new System.Drawing.Point(94, 236);
-            this.button_pen_color.Margin = new System.Windows.Forms.Padding(2);
-            this.button_pen_color.Name = "button_pen_color";
-            this.button_pen_color.Size = new System.Drawing.Size(22, 24);
-            this.button_pen_color.TabIndex = 36;
-            this.button_pen_color.UseVisualStyleBackColor = true;
-            this.button_pen_color.Click += new System.EventHandler(this.button_pen_color_Click);
-            // 
-            // trackBar1
-            // 
-            this.trackBar1.BackColor = System.Drawing.Color.White;
-            this.trackBar1.Location = new System.Drawing.Point(12, 322);
-            this.trackBar1.Margin = new System.Windows.Forms.Padding(2);
-            this.trackBar1.Maximum = 30;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(179, 45);
-            this.trackBar1.TabIndex = 38;
-            this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
-            // 
-            // button_choose_pen
-            // 
-            this.button_choose_pen.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
-            this.button_choose_pen.Location = new System.Drawing.Point(21, 234);
-            this.button_choose_pen.Margin = new System.Windows.Forms.Padding(2);
-            this.button_choose_pen.Name = "button_choose_pen";
-            this.button_choose_pen.Size = new System.Drawing.Size(69, 24);
-            this.button_choose_pen.TabIndex = 39;
-            this.button_choose_pen.Text = "карандаш";
-            this.button_choose_pen.UseVisualStyleBackColor = true;
-            this.button_choose_pen.Click += new System.EventHandler(this.button_choose_pen_Click);
-            // 
-            // button_choose_cleaner
-            // 
-            this.button_choose_cleaner.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.button_choose_cleaner.Location = new System.Drawing.Point(21, 263);
-            this.button_choose_cleaner.Margin = new System.Windows.Forms.Padding(2);
-            this.button_choose_cleaner.Name = "button_choose_cleaner";
-            this.button_choose_cleaner.Size = new System.Drawing.Size(69, 24);
-            this.button_choose_cleaner.TabIndex = 40;
-            this.button_choose_cleaner.Text = "ластик";
-            this.button_choose_cleaner.UseVisualStyleBackColor = true;
-            this.button_choose_cleaner.Click += new System.EventHandler(this.button_choose_cleaner_Click);
-            // 
-            // button_clean
-            // 
-            this.button_clean.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
-            this.button_clean.Location = new System.Drawing.Point(94, 265);
-            this.button_clean.Margin = new System.Windows.Forms.Padding(2);
-            this.button_clean.Name = "button_clean";
-            this.button_clean.Size = new System.Drawing.Size(97, 23);
-            this.button_clean.TabIndex = 41;
-            this.button_clean.Text = "Очистить все";
-            this.button_clean.UseVisualStyleBackColor = true;
-            this.button_clean.Click += new System.EventHandler(this.button_clean_Click);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(578, 31);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 45;
+            this.label1.Text = "label1";
             // 
             // Task1
             // 
@@ -116,18 +132,20 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.ClientSize = new System.Drawing.Size(885, 614);
-            this.Controls.Add(this.button_clean);
-            this.Controls.Add(this.button_choose_cleaner);
-            this.Controls.Add(this.button_choose_pen);
-            this.Controls.Add(this.trackBar1);
-            this.Controls.Add(this.button_pen_color);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.with_bar);
+            this.Controls.Add(this.btn_color);
+            this.Controls.Add(this.btn_clear);
+            this.Controls.Add(this.btn_eraser);
+            this.Controls.Add(this.btn_filling);
+            this.Controls.Add(this.btn_pen);
             this.Controls.Add(this.pictureBox1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Task1";
             this.Text = "Задание №1";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Task3_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Task1_FormClosing);
+            ((System.ComponentModel.ISupportInitialize)(this.with_bar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -136,11 +154,13 @@
         #endregion
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ColorDialog colorDialog1;
-        private System.Windows.Forms.Button button_pen_color;
-        private System.Windows.Forms.TrackBar trackBar1;
-        private System.Windows.Forms.Button button_choose_pen;
-        private System.Windows.Forms.Button button_choose_cleaner;
-        private System.Windows.Forms.Button button_clean;
+        private System.Windows.Forms.Button btn_pen;
+        private System.Windows.Forms.Button btn_filling;
+        private System.Windows.Forms.Button btn_eraser;
+        private System.Windows.Forms.Button btn_clear;
+        private System.Windows.Forms.TrackBar with_bar;
+        private System.Windows.Forms.Button btn_color;
+        private System.Windows.Forms.Label label1;
     }
 }
 
