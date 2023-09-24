@@ -33,18 +33,18 @@
             this.btn_color = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btn_color_2 = new System.Windows.Forms.Button();
+            this.filling_pix = new System.Windows.Forms.PictureBox();
+            this.btn_filling_border = new System.Windows.Forms.Button();
+            this.btn_filling_image = new System.Windows.Forms.Button();
             this.btn_load_image = new System.Windows.Forms.Button();
             this.btn_clear = new System.Windows.Forms.Button();
             this.btn_eraser = new System.Windows.Forms.Button();
             this.btn_filling = new System.Windows.Forms.Button();
             this.btn_pen = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btn_filling_image = new System.Windows.Forms.Button();
-            this.btn_filling_border = new System.Windows.Forms.Button();
-            this.filling_pix = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.with_bar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.filling_pix)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // with_bar
@@ -55,7 +55,7 @@
             this.with_bar.Size = new System.Drawing.Size(77, 45);
             this.with_bar.TabIndex = 44;
             this.with_bar.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.with_bar.Value = 1;
+            this.with_bar.Value = 3;
             this.with_bar.ValueChanged += new System.EventHandler(this.with_bar_ValueChanged);
             // 
             // btn_color
@@ -88,6 +88,41 @@
             this.btn_color_2.TabIndex = 43;
             this.btn_color_2.UseVisualStyleBackColor = false;
             this.btn_color_2.Click += new System.EventHandler(this.btn_color_2_Click);
+            // 
+            // filling_pix
+            // 
+            this.filling_pix.BackColor = System.Drawing.Color.Transparent;
+            this.filling_pix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.filling_pix.Location = new System.Drawing.Point(773, 62);
+            this.filling_pix.Name = "filling_pix";
+            this.filling_pix.Size = new System.Drawing.Size(72, 73);
+            this.filling_pix.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.filling_pix.TabIndex = 46;
+            this.filling_pix.TabStop = false;
+            // 
+            // btn_filling_border
+            // 
+            this.btn_filling_border.BackColor = System.Drawing.Color.Transparent;
+            this.btn_filling_border.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btn_filling_border.Image = global::Laba3.Properties.Resources.icons8_bord;
+            this.btn_filling_border.Location = new System.Drawing.Point(73, 108);
+            this.btn_filling_border.Name = "btn_filling_border";
+            this.btn_filling_border.Size = new System.Drawing.Size(40, 40);
+            this.btn_filling_border.TabIndex = 43;
+            this.btn_filling_border.UseVisualStyleBackColor = false;
+            this.btn_filling_border.Click += new System.EventHandler(this.btn_filling_border_Click);
+            // 
+            // btn_filling_image
+            // 
+            this.btn_filling_image.BackColor = System.Drawing.Color.Transparent;
+            this.btn_filling_image.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btn_filling_image.Image = global::Laba3.Properties.Resources.icons8_filling_file;
+            this.btn_filling_image.Location = new System.Drawing.Point(73, 62);
+            this.btn_filling_image.Name = "btn_filling_image";
+            this.btn_filling_image.Size = new System.Drawing.Size(40, 40);
+            this.btn_filling_image.TabIndex = 43;
+            this.btn_filling_image.UseVisualStyleBackColor = false;
+            this.btn_filling_image.Click += new System.EventHandler(this.btn_filling_image_Click);
             // 
             // btn_load_image
             // 
@@ -123,7 +158,7 @@
             // 
             // btn_filling
             // 
-            this.btn_filling.Image = global::Laba3.Properties.Resources.icons8_filling;
+            this.btn_filling.Image = global::Laba3.Properties.Resources.icons8_filling_border;
             this.btn_filling.Location = new System.Drawing.Point(73, 154);
             this.btn_filling.Name = "btn_filling";
             this.btn_filling.Size = new System.Drawing.Size(40, 40);
@@ -147,48 +182,13 @@
             this.pictureBox1.Location = new System.Drawing.Point(118, 62);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(662, 464);
+            this.pictureBox1.Size = new System.Drawing.Size(650, 450);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
-            // 
-            // btn_filling_image
-            // 
-            this.btn_filling_image.BackColor = System.Drawing.Color.Transparent;
-            this.btn_filling_image.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_filling_image.Image = global::Laba3.Properties.Resources.icons8_filling_file;
-            this.btn_filling_image.Location = new System.Drawing.Point(73, 62);
-            this.btn_filling_image.Name = "btn_filling_image";
-            this.btn_filling_image.Size = new System.Drawing.Size(40, 40);
-            this.btn_filling_image.TabIndex = 43;
-            this.btn_filling_image.UseVisualStyleBackColor = false;
-            this.btn_filling_image.Click += new System.EventHandler(this.btn_filling_image_Click);
-            // 
-            // btn_filling_border
-            // 
-            this.btn_filling_border.BackColor = System.Drawing.Color.Transparent;
-            this.btn_filling_border.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_filling_border.Image = global::Laba3.Properties.Resources.icons8_filling_border;
-            this.btn_filling_border.Location = new System.Drawing.Point(73, 108);
-            this.btn_filling_border.Name = "btn_filling_border";
-            this.btn_filling_border.Size = new System.Drawing.Size(40, 40);
-            this.btn_filling_border.TabIndex = 43;
-            this.btn_filling_border.UseVisualStyleBackColor = false;
-            this.btn_filling_border.Click += new System.EventHandler(this.btn_filling_border_Click);
-            // 
-            // filling_pix
-            // 
-            this.filling_pix.BackColor = System.Drawing.Color.Transparent;
-            this.filling_pix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.filling_pix.Location = new System.Drawing.Point(785, 62);
-            this.filling_pix.Name = "filling_pix";
-            this.filling_pix.Size = new System.Drawing.Size(72, 73);
-            this.filling_pix.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.filling_pix.TabIndex = 46;
-            this.filling_pix.TabStop = false;
             // 
             // Task1
             // 
@@ -214,8 +214,8 @@
             this.Text = "Задание №1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Task1_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.with_bar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.filling_pix)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

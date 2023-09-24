@@ -63,6 +63,16 @@ namespace Laba3.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_bord {
+            get {
+                object obj = ResourceManager.GetObject("icons8_bord", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_clear {
             get {
                 object obj = ResourceManager.GetObject("icons8_clear", resourceCulture);
@@ -76,16 +86,6 @@ namespace Laba3.Properties {
         internal static System.Drawing.Bitmap icons8_eraser {
             get {
                 object obj = ResourceManager.GetObject("icons8_eraser", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_filling {
-            get {
-                object obj = ResourceManager.GetObject("icons8_filling", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

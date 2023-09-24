@@ -120,9 +120,6 @@
     <None Include="Resources\icons8_pen.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icons8_filling.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\icons8_filling_border.png" />
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +127,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8_load_file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8_bord.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

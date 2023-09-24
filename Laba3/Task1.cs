@@ -21,10 +21,10 @@ namespace Laba3
         private Graphics _graphics;
         private PointArray _points = new PointArray(2);
 
-        private Pen pen_default = new Pen(Color.Black, 1f);
-        private Pen pen_second = new Pen(Color.Yellow, 1f);
+        private Pen pen_default = new Pen(Color.Black, 3f);
+        private Pen pen_second = new Pen(Color.Yellow, 3f);
         private Pen pen_filling = new Pen(Color.Black, 1f);
-        private Pen pen_eraser = new Pen(Color.White, 1f);
+        private Pen pen_eraser = new Pen(Color.White, 3f);
 
         private State g_state = State.PEN;
         private bool is_drawing = false;
@@ -159,10 +159,10 @@ namespace Laba3
                         for (int i = leftBoundary + 1; i < rightBoundary; i++)
                         {
 
-                            int patternX = i  % fbm_pattern.Width;
-                            int patternY = y  % fbm_pattern.Height;
+                            int patternX = i % fbm_pattern.Width;
+                            int patternY = y % fbm_pattern.Height;
                             Color patternColor = fbm_pattern[patternX, patternY];
-                            if(patternColor.Name == "0") patternColor= Color.White;
+                            if (patternColor.Name == "0") patternColor = Color.White;
                             fbm_paint[i, y] = patternColor;
                             visited[i, y] = true;
 
@@ -182,30 +182,184 @@ namespace Laba3
             }
         }
 
-        private Rectangle FindBlackBoundaries(Bitmap image, Color targetColor)
+        private void FillBorder(int x_start, int y_start, Color target)
         {
-            // Реализуйте ваш алгоритм определения границ
-            // Возвращайте прямоугольник, описывающий границы черного цвета
-            // Примерно так:
-            int left = 0, top = 0, right = image.Width, bottom = image.Height;
-            using (var fastBitmap = new FastBitmap(_bitmap))
+            int width = _bitmap.Width;
+            int height = _bitmap.Height;
+
+            List<Point2D> border_outer = new List<Point2D>();
+
+            int r_bound = x_start;
+            int u_bound = y_start;
+            int l_bound = x_start;
+            int d_bound = y_start;
+
+            using (var fbm_paint = new FastBitmap(_bitmap))
             {
-                for (int x = 0; x < image.Width; x++)
+                while (l_bound >= 0 && !is_equal(fbm_paint[l_bound, y_start], Color.Black))
+                    l_bound--;
+                while (u_bound >= 0 && !is_equal(fbm_paint[x_start, u_bound], Color.Black))
+                    u_bound--;
+                while (r_bound < width && !is_equal(fbm_paint[r_bound, y_start], Color.Black))
+                    r_bound++;
+                while (d_bound < height && !is_equal(fbm_paint[x_start, d_bound], Color.Black))
+                    d_bound++;
+            }
+
+            if (l_bound < 0 || u_bound < 0 || r_bound >= width || d_bound >= height) return;
+
+            GetBorderPoints(r_bound - 1, y_start, ref border_outer);
+            List<Point2D> pointsSorted = new List<Point2D>(border_outer.OrderBy(t => t.y).ThenBy(t => t.x).ToList().Distinct().ToList());
+
+            if (pointsSorted.Count > 0)
+            {
+                Point2D prev = border_outer.First();
+                Point2D tmp = border_outer.First();
+                foreach (var point in pointsSorted)
                 {
-                    for (int y = 0; y < image.Height; y++)
+                    Point2D next = point;
+                    if (next.y == prev.y)
                     {
-                        if (image.GetPixel(x, y) == targetColor)
+                        tmp = next;
+                    }
+                    else
+                    {
+                        int r = prev.x;
+                        int y = prev.y;
+                        using (var fbm_paint = new FastBitmap(_bitmap))
                         {
-                            left = Math.Min(left, x);
-                            top = Math.Min(top, y);
-                            right = Math.Max(right, x);
-                            bottom = Math.Max(bottom, y);
+                            while (r < width && !is_equal(fbm_paint[r, y], Color.Black)) r++;
                         }
+
+                        if (r - 1 != tmp.x) GetBorderPoints(r - 1, y, ref border_outer);
+                        prev = next;
+                    }
+
+                }
+
+                using (var fbm_paint = new FastBitmap(_bitmap))
+                {
+                    foreach (var t in border_outer)
+                    {
+                        fbm_paint[t.x, t.y] = target;
                     }
                 }
             }
 
-            return new Rectangle(left, top, right - left + 1, bottom - top + 1);
+        }
+
+        private void GetBorderPoints(int firstX, int firstY, ref List<Point2D> border)
+        {
+            int whereBorder = 0;
+            int x = firstX;
+            int y = firstY;
+            using (var fbm_paint = new FastBitmap(_bitmap))
+            {
+                while (border.Count() < (fbm_paint.Width + fbm_paint.Height) * 10)
+                {
+                    Point2D newt = new Point2D(x, y);
+                    if (!border.Exists(t => t.x == newt.x && t.y == newt.y))
+                        border.Add(newt);
+
+                    if (x > 0 && x < fbm_paint.Width && y > 0 && y < fbm_paint.Height)
+                    {
+
+                        int d = whereBorder;
+                        var point = neighbour(x, y, d);
+                        while (is_equal(Color.Black, fbm_paint[point.x, point.y]))
+                        {
+                            d = (d + 2) % 8;
+                            point = neighbour(x, y, d);
+                        }
+
+                        point = neighbour(x, y, (d + 7) % 8);
+                        if (is_equal(Color.Black, fbm_paint[point.x, point.y]))
+                        {
+                            Point2D t = neighbour(x, y, d);
+                            x = t.x;
+                            y = t.y;
+                            whereBorder = (d + 6) % 8;
+                        }
+                        else
+                        {
+                            Point2D t = neighbour(x, y, (d + 7) % 8);
+                            x = t.x;
+                            y = t.y;
+                            whereBorder = (d + 4) % 8;
+                        }
+
+                        if ((x == firstX) && (y == firstY)) break;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
+            return;
+        }
+
+        private Point2D neighbour(int x, int y, int position)
+        {
+            switch (position)
+            {
+                case 0:
+                    x += 1;
+                    break;
+                case 1:
+                    x += 1;
+                    y -= 1;
+                    break;
+                case 2:
+                    y -= 1;
+                    break;
+                case 3:
+                    x -= 1;
+                    y -= 1;
+                    break;
+                case 4:
+                    x -= 1;
+                    break;
+                case 5:
+                    x -= 1;
+                    y += 1;
+                    break;
+                case 6:
+                    y += 1;
+                    break;
+                case 7:
+                    x += 1;
+                    y += 1;
+                    break;
+            }
+            return new Point2D(x, y);
+        }
+
+        private class Point2D : IComparable<Point2D>, IEquatable<Point2D>
+        {
+            public int x;
+            public int y;
+
+            public Point2D(int x, int y)
+            {
+
+                this.x = x;
+                this.y = y;
+            }
+
+            public int CompareTo(Point2D other)
+            {
+                if (other == null) return 1;
+                if (this.y < other.y) return -1;
+                else if (this.y == other.y && this.x < other.x) return -1;
+                else if (this.y == other.y && this.x > other.x) return 1;
+                else return 1;
+            }
+
+            public bool Equals(Point2D other)
+            {
+                return this.x == other.x && this.y == other.y;
+            }
         }
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
@@ -273,6 +427,16 @@ namespace Laba3
                     pictureBox1.Image = _bitmap;
                     pictureBox1.Invalidate();
                 }
+            }
+            if (g_state == State.FILLING_BORDER)
+            {
+
+                if (e.Button == MouseButtons.Left) FillBorder(e.X, e.Y, pen_default.Color);
+                if (e.Button == MouseButtons.Right) FillBorder(e.X, e.Y, pen_second.Color);
+
+                pictureBox1.Image = _bitmap;
+                pictureBox1.Invalidate();
+
             }
         }
 
