@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.with_bar = new System.Windows.Forms.TrackBar();
             this.btn_color = new System.Windows.Forms.Button();
@@ -42,6 +43,7 @@
             this.btn_filling = new System.Windows.Forms.Button();
             this.btn_pen = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.with_bar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.filling_pix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -55,6 +57,7 @@
             this.with_bar.Size = new System.Drawing.Size(77, 45);
             this.with_bar.TabIndex = 44;
             this.with_bar.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.toolTip1.SetToolTip(this.with_bar, "Толщина кисти");
             this.with_bar.Value = 3;
             this.with_bar.ValueChanged += new System.EventHandler(this.with_bar_ValueChanged);
             // 
@@ -66,6 +69,7 @@
             this.btn_color.Name = "btn_color";
             this.btn_color.Size = new System.Drawing.Size(40, 40);
             this.btn_color.TabIndex = 43;
+            this.toolTip1.SetToolTip(this.btn_color, "Основной цвет (ЛКМ)");
             this.btn_color.UseVisualStyleBackColor = false;
             this.btn_color.Click += new System.EventHandler(this.btn_color_Click);
             // 
@@ -86,6 +90,7 @@
             this.btn_color_2.Name = "btn_color_2";
             this.btn_color_2.Size = new System.Drawing.Size(40, 40);
             this.btn_color_2.TabIndex = 43;
+            this.toolTip1.SetToolTip(this.btn_color_2, "Дополнительный цвет (ПКМ)");
             this.btn_color_2.UseVisualStyleBackColor = false;
             this.btn_color_2.Click += new System.EventHandler(this.btn_color_2_Click);
             // 
@@ -99,6 +104,7 @@
             this.filling_pix.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.filling_pix.TabIndex = 46;
             this.filling_pix.TabStop = false;
+            this.toolTip1.SetToolTip(this.filling_pix, "Паттерн для заливки");
             // 
             // btn_filling_border
             // 
@@ -109,6 +115,7 @@
             this.btn_filling_border.Name = "btn_filling_border";
             this.btn_filling_border.Size = new System.Drawing.Size(40, 40);
             this.btn_filling_border.TabIndex = 43;
+            this.toolTip1.SetToolTip(this.btn_filling_border, "Выделение границы");
             this.btn_filling_border.UseVisualStyleBackColor = false;
             this.btn_filling_border.Click += new System.EventHandler(this.btn_filling_border_Click);
             // 
@@ -121,6 +128,7 @@
             this.btn_filling_image.Name = "btn_filling_image";
             this.btn_filling_image.Size = new System.Drawing.Size(40, 40);
             this.btn_filling_image.TabIndex = 43;
+            this.toolTip1.SetToolTip(this.btn_filling_image, "Заливка изображения");
             this.btn_filling_image.UseVisualStyleBackColor = false;
             this.btn_filling_image.Click += new System.EventHandler(this.btn_filling_image_Click);
             // 
@@ -133,6 +141,7 @@
             this.btn_load_image.Name = "btn_load_image";
             this.btn_load_image.Size = new System.Drawing.Size(40, 40);
             this.btn_load_image.TabIndex = 43;
+            this.toolTip1.SetToolTip(this.btn_load_image, "Выбрать файл");
             this.btn_load_image.UseVisualStyleBackColor = false;
             this.btn_load_image.Click += new System.EventHandler(this.btn_load_image_Click);
             // 
@@ -143,6 +152,7 @@
             this.btn_clear.Name = "btn_clear";
             this.btn_clear.Size = new System.Drawing.Size(40, 40);
             this.btn_clear.TabIndex = 43;
+            this.toolTip1.SetToolTip(this.btn_clear, "Очистить");
             this.btn_clear.UseVisualStyleBackColor = true;
             this.btn_clear.Click += new System.EventHandler(this.btn_clear_Click);
             // 
@@ -153,6 +163,7 @@
             this.btn_eraser.Name = "btn_eraser";
             this.btn_eraser.Size = new System.Drawing.Size(40, 40);
             this.btn_eraser.TabIndex = 43;
+            this.toolTip1.SetToolTip(this.btn_eraser, "Стерка");
             this.btn_eraser.UseVisualStyleBackColor = true;
             this.btn_eraser.Click += new System.EventHandler(this.btn_eraser_Click);
             // 
@@ -163,6 +174,7 @@
             this.btn_filling.Name = "btn_filling";
             this.btn_filling.Size = new System.Drawing.Size(40, 40);
             this.btn_filling.TabIndex = 43;
+            this.toolTip1.SetToolTip(this.btn_filling, "Обычная заливка");
             this.btn_filling.UseVisualStyleBackColor = true;
             this.btn_filling.Click += new System.EventHandler(this.btn_filling_Click);
             // 
@@ -173,6 +185,7 @@
             this.btn_pen.Name = "btn_pen";
             this.btn_pen.Size = new System.Drawing.Size(40, 40);
             this.btn_pen.TabIndex = 43;
+            this.toolTip1.SetToolTip(this.btn_pen, "Кисть");
             this.btn_pen.UseVisualStyleBackColor = true;
             this.btn_pen.Click += new System.EventHandler(this.btn_pen_Click);
             // 
@@ -236,6 +249,7 @@
         private System.Windows.Forms.Button btn_filling_image;
         private System.Windows.Forms.Button btn_filling_border;
         private System.Windows.Forms.PictureBox filling_pix;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 
