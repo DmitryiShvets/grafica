@@ -206,7 +206,7 @@ namespace Laba3
                     d_bound++;
             }
 
-            if (l_bound < 0 || u_bound < 0 || r_bound >= width || d_bound >= height) return;
+            if (l_bound < 0 || u_bound < 0 || r_bound >= width || d_bound >= height || r_bound==x_start) return;
 
             GetBorderPoints(r_bound - 1, y_start, ref border_outer);
             List<Point2D> pointsSorted = new List<Point2D>(border_outer.OrderBy(t => t.y).ThenBy(t => t.x).ToList().Distinct().ToList());
