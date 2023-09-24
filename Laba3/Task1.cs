@@ -20,9 +20,10 @@ namespace Laba3
         private Graphics _graphics;
         private PointArray _points = new PointArray(2);
 
-        Pen pen_default = new Pen(Color.Black, 3f);
+        Pen pen_default = new Pen(Color.Black, 2f);
+        Pen pen_second = new Pen(Color.Yellow, 2f);
         Pen pen_filling = new Pen(Color.Black, 1f);
-        Pen pen_eraser = new Pen(Color.White, 3f);
+        Pen pen_eraser = new Pen(Color.White, 2f);
 
         private State g_state = State.PEN;
         private bool is_drawing = false;
@@ -81,7 +82,8 @@ namespace Laba3
 
                         break;
                     case State.PEN:
-                        Draw(e.X, e.Y, ref pen_default);
+                        if (e.Button == MouseButtons.Left) Draw(e.X, e.Y, ref pen_default);
+                        if (e.Button == MouseButtons.Right) Draw(e.X, e.Y, ref pen_second);
                         break;
                     case State.ERASER:
                         Draw(e.X, e.Y, ref pen_eraser);
@@ -89,8 +91,9 @@ namespace Laba3
                 }
 
             }
+            if (e.X >= 0 && e.X < _bitmap.Width && e.Y >= 0 && e.Y < _bitmap.Height)
             {
-                label1.Text = _bitmap.GetPixel(e.X, e.Y).ToString();
+                label1.Text = _bitmap.GetPixel(e.X, e.Y).Name + _bitmap.GetPixel(e.X, e.Y).ToString();
             }
         }
 
@@ -136,16 +139,19 @@ namespace Laba3
             {
                 _graphics.DrawLines(pen, _points.Points);
                 pictureBox1.Image = _bitmap;
-                // pictureBox1.Invalidate();
+                pictureBox1.Invalidate();
                 _points.SetPoint(x, y);
 
             }
         }
 
-        private void Fill(int x_start, int y_start)
+        private void Fill(int x_start, int y_start, Color target)
         {
             int width = _bitmap.Width;
             int height = _bitmap.Height;
+
+            pen_filling.Color = target;
+            int offset = Convert.ToInt32(pen_filling.Width);
 
             Stack<Point> stack = new Stack<Point>();
             stack.Push(new Point(x_start, y_start));
@@ -156,7 +162,6 @@ namespace Laba3
                 int x = currentPoint.X;
                 int y = currentPoint.Y;
 
-                // Проверяем, что текущая точка внутри границ изображения
                 if (x < 0 || x >= width || y < 0 || y >= height)
                     continue;
                 int leftBoundary = x;
@@ -165,43 +170,39 @@ namespace Laba3
                 using (var fastBitmap = new FastBitmap(_bitmap))
                 {
 
-                    // Получаем цвет текущей точки
                     Color currentColor = fastBitmap[x, y];
 
-                    // Проверяем, что текущая точка не была уже закрашена и имеет нужный цвет
-                    if (currentColor.Name == "ff000000" || currentColor == pen_filling.Color)
+                    if (is_equal(currentColor, target) || is_equal(currentColor, Color.Black))
                         continue;
 
-                    // Находим левую и правую границу
-                    while (leftBoundary >= 0 && fastBitmap[leftBoundary, y].Name != "ff000000")
+                    while (leftBoundary >= 0 && !is_equal(fastBitmap[leftBoundary, y], Color.Black))
                         leftBoundary--;
 
-                    while (rightBoundary < width && fastBitmap[rightBoundary, y].Name != "ff000000")
+                    while (rightBoundary < width && !is_equal(fastBitmap[rightBoundary, y], Color.Black))
                         rightBoundary++;
                 }
-                //Рисуем линию от левой границы до правой границы(не включая границы)
-                _graphics.DrawLine(pen_filling, leftBoundary, y, rightBoundary, y);
-                int size = Convert.ToInt32(pen_filling.Width);
-               // int size = 1;
+                _graphics.DrawLine(pen_filling, leftBoundary + 1, y, rightBoundary - 1, y);
+
                 using (var fastBitmap = new FastBitmap(_bitmap))
                 {
-                    // Помещаем соседние точки в стек для последующей обработки
                     for (int i = leftBoundary + 1; i < rightBoundary; i++)
                     {
+                        if (y < height - offset && !is_equal(fastBitmap[i, y + offset], Color.Black)
+                            && !is_equal(fastBitmap[i, y + offset], target))
+                            stack.Push(new Point(i, y + offset));
 
-                        if (y < height - size && fastBitmap[i, y + size].Name != "ff000000"
-                            && fastBitmap[i, y + size] != pen_filling.Color)
-                            stack.Push(new Point(i, y + size)); // Ниже текущей точки
-
-                        if (y > 0 + size && fastBitmap[i, y - size].Name != "ff000000"
-                            && fastBitmap[i, y - size] != pen_filling.Color)
-                            stack.Push(new Point(i, y - size)); // Выше текущей точки
+                        if (y > 0 + offset && !is_equal(fastBitmap[i, y - offset], Color.Black)
+                            && !is_equal(fastBitmap[i, y - offset], target))
+                            stack.Push(new Point(i, y - offset));
                     }
                 }
             }
         }
 
-
+        private bool is_equal(Color lhs, Color rhs)
+        {
+            return (lhs.R == rhs.R) && (lhs.G == rhs.G) && (lhs.B == rhs.B);
+        }
 
         private void btn_pen_Click(object sender, EventArgs e)
         {
@@ -229,6 +230,26 @@ namespace Laba3
         {
             pen_default.Width = (sender as TrackBar).Value;
             pen_eraser.Width = (sender as TrackBar).Value;
+            pen_second.Width = (sender as TrackBar).Value;
+        }
+
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (g_state == State.FILLING)
+            {
+                if (e.Button == MouseButtons.Left) Fill(e.X, e.Y, pen_default.Color);
+                if (e.Button == MouseButtons.Right) Fill(e.X, e.Y, pen_second.Color);
+
+                pictureBox1.Image = _bitmap;
+                pictureBox1.Invalidate();
+            }
+            if (g_state == State.PEN)
+            {
+
+                if (e.Button == MouseButtons.Left) _graphics.FillRectangle(new SolidBrush(pen_default.Color), e.X, e.Y, with_bar.Value, with_bar.Value);
+                if (e.Button == MouseButtons.Right) _graphics.FillRectangle(new SolidBrush(pen_second.Color), e.X, e.Y, with_bar.Value, with_bar.Value);
+                pictureBox1.Invalidate();
+            }
         }
 
         private void btn_color_Click(object sender, EventArgs e)
@@ -237,18 +258,16 @@ namespace Laba3
             if (colorDialog1.ShowDialog() == DialogResult.Cancel)
                 return;
             pen_default.Color = colorDialog1.Color;
-            pen_filling.Color = colorDialog1.Color;
             button.BackColor = colorDialog1.Color;
         }
 
-        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        private void btn_color_2_Click(object sender, EventArgs e)
         {
-            if (g_state == State.FILLING)
-            {
-                Fill(e.X, e.Y);
-                pictureBox1.Image = _bitmap;
-                //    pictureBox1.Invalidate();
-            }
+            Button button = (sender as Button);
+            if (colorDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+            pen_second.Color = colorDialog1.Color;
+            button.BackColor = colorDialog1.Color;
         }
     }
 }

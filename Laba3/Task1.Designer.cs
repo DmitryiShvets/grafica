@@ -37,6 +37,7 @@
             this.btn_pen = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btn_color_2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.with_bar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -126,6 +127,17 @@
             this.label1.TabIndex = 45;
             this.label1.Text = "label1";
             // 
+            // btn_color_2
+            // 
+            this.btn_color_2.BackColor = System.Drawing.Color.Yellow;
+            this.btn_color_2.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btn_color_2.Location = new System.Drawing.Point(431, 17);
+            this.btn_color_2.Name = "btn_color_2";
+            this.btn_color_2.Size = new System.Drawing.Size(40, 40);
+            this.btn_color_2.TabIndex = 43;
+            this.btn_color_2.UseVisualStyleBackColor = false;
+            this.btn_color_2.Click += new System.EventHandler(this.btn_color_2_Click);
+            // 
             // Task1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -134,6 +146,7 @@
             this.ClientSize = new System.Drawing.Size(885, 614);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.with_bar);
+            this.Controls.Add(this.btn_color_2);
             this.Controls.Add(this.btn_color);
             this.Controls.Add(this.btn_clear);
             this.Controls.Add(this.btn_eraser);
@@ -161,6 +174,7 @@
         private System.Windows.Forms.TrackBar with_bar;
         private System.Windows.Forms.Button btn_color;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btn_color_2;
     }
 }
 
