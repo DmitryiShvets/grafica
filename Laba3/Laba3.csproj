@@ -122,5 +122,14 @@
   <ItemGroup>
     <None Include="Resources\icons8_filling.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8_filling_border.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8_filling_file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8_load_file.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
