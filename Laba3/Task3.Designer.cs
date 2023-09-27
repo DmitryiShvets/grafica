@@ -28,221 +28,99 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button_drawTriangle = new System.Windows.Forms.Button();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.with_bar = new System.Windows.Forms.TrackBar();
+            this.btn_clear = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button_alg1 = new System.Windows.Forms.Button();
+            this.button_alg2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.button_point1 = new System.Windows.Forms.Button();
-            this.button_point2 = new System.Windows.Forms.Button();
-            this.button_point3 = new System.Windows.Forms.Button();
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.button_gradient = new System.Windows.Forms.Button();
-            this.button_pen_color = new System.Windows.Forms.Button();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.button_choose_pen = new System.Windows.Forms.Button();
-            this.button_choose_cleaner = new System.Windows.Forms.Button();
-            this.button_clean = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.with_bar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
-            // button_drawTriangle
+            // with_bar
             // 
-            this.button_drawTriangle.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            this.button_drawTriangle.Location = new System.Drawing.Point(21, 465);
-            this.button_drawTriangle.Margin = new System.Windows.Forms.Padding(2);
-            this.button_drawTriangle.Name = "button_drawTriangle";
-            this.button_drawTriangle.Size = new System.Drawing.Size(154, 67);
-            this.button_drawTriangle.TabIndex = 0;
-            this.button_drawTriangle.Text = "Нарисовать треугольник";
-            this.button_drawTriangle.UseVisualStyleBackColor = true;
-            this.button_drawTriangle.Click += new System.EventHandler(this.button_drawTriangle_Click);
+            this.with_bar.LargeChange = 1;
+            this.with_bar.Location = new System.Drawing.Point(327, 12);
+            this.with_bar.Maximum = 20;
+            this.with_bar.Minimum = 1;
+            this.with_bar.Name = "with_bar";
+            this.with_bar.Size = new System.Drawing.Size(147, 45);
+            this.with_bar.TabIndex = 57;
+            this.with_bar.Value = 10;
+            this.with_bar.Scroll += new System.EventHandler(this.with_bar_Scroll);
+            // 
+            // btn_clear
+            // 
+            this.btn_clear.BackColor = System.Drawing.Color.LightCyan;
+            this.btn_clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btn_clear.Location = new System.Drawing.Point(606, 515);
+            this.btn_clear.Name = "btn_clear";
+            this.btn_clear.Size = new System.Drawing.Size(160, 46);
+            this.btn_clear.TabIndex = 53;
+            this.btn_clear.Text = "Очистить все";
+            this.btn_clear.UseVisualStyleBackColor = false;
+            this.btn_clear.Click += new System.EventHandler(this.btn_clear_Click);
             // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.Location = new System.Drawing.Point(214, 141);
+            this.pictureBox1.Location = new System.Drawing.Point(116, 60);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(662, 464);
-            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.Size = new System.Drawing.Size(650, 450);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 47;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            this.pictureBox1.MouseEnter += new System.EventHandler(this.pictureBox1_MouseEnter);
-            this.pictureBox1.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
-            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
+            this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
+            // 
+            // button_alg1
+            // 
+            this.button_alg1.BackColor = System.Drawing.Color.LightCyan;
+            this.button_alg1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button_alg1.Location = new System.Drawing.Point(116, 515);
+            this.button_alg1.Name = "button_alg1";
+            this.button_alg1.Size = new System.Drawing.Size(239, 46);
+            this.button_alg1.TabIndex = 58;
+            this.button_alg1.Text = "Алгоритм Брезенхема";
+            this.button_alg1.UseVisualStyleBackColor = false;
+            this.button_alg1.Click += new System.EventHandler(this.button_alg1_Click);
+            // 
+            // button_alg2
+            // 
+            this.button_alg2.BackColor = System.Drawing.Color.LightCyan;
+            this.button_alg2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button_alg2.Location = new System.Drawing.Point(361, 515);
+            this.button_alg2.Name = "button_alg2";
+            this.button_alg2.Size = new System.Drawing.Size(239, 46);
+            this.button_alg2.TabIndex = 58;
+            this.button_alg2.Text = "Алгоритм ВУ";
+            this.button_alg2.UseVisualStyleBackColor = false;
+            this.button_alg2.Click += new System.EventHandler(this.button_alg2_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            this.label1.Location = new System.Drawing.Point(162, 28);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(504, 24);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(117, 26);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Задание 1";
+            this.label1.Size = new System.Drawing.Size(179, 20);
+            this.label1.TabIndex = 59;
+            this.label1.Text = "Выберите алгоритм";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            this.label2.Location = new System.Drawing.Point(628, 28);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.Location = new System.Drawing.Point(112, 24);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(117, 26);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Задание 2";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            this.label3.Location = new System.Drawing.Point(48, 370);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(117, 26);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Задание 3";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label13.Location = new System.Drawing.Point(9, 406);
-            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(64, 17);
-            this.label13.TabIndex = 29;
-            this.label13.Text = "Точка 1:";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label14.Location = new System.Drawing.Point(71, 406);
-            this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(64, 17);
-            this.label14.TabIndex = 30;
-            this.label14.Text = "Точка 2:";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label15.Location = new System.Drawing.Point(134, 406);
-            this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(64, 17);
-            this.label15.TabIndex = 31;
-            this.label15.Text = "Точка 3:";
-            // 
-            // button_point1
-            // 
-            this.button_point1.BackColor = System.Drawing.SystemColors.ControlText;
-            this.button_point1.Location = new System.Drawing.Point(21, 425);
-            this.button_point1.Margin = new System.Windows.Forms.Padding(2);
-            this.button_point1.Name = "button_point1";
-            this.button_point1.Size = new System.Drawing.Size(32, 35);
-            this.button_point1.TabIndex = 32;
-            this.button_point1.UseVisualStyleBackColor = false;
-            this.button_point1.Click += new System.EventHandler(this.button_point_Click);
-            // 
-            // button_point2
-            // 
-            this.button_point2.BackColor = System.Drawing.SystemColors.ControlText;
-            this.button_point2.Location = new System.Drawing.Point(82, 425);
-            this.button_point2.Margin = new System.Windows.Forms.Padding(2);
-            this.button_point2.Name = "button_point2";
-            this.button_point2.Size = new System.Drawing.Size(32, 35);
-            this.button_point2.TabIndex = 33;
-            this.button_point2.UseVisualStyleBackColor = false;
-            this.button_point2.Click += new System.EventHandler(this.button_point_Click);
-            // 
-            // button_point3
-            // 
-            this.button_point3.BackColor = System.Drawing.SystemColors.ControlText;
-            this.button_point3.Location = new System.Drawing.Point(144, 425);
-            this.button_point3.Margin = new System.Windows.Forms.Padding(2);
-            this.button_point3.Name = "button_point3";
-            this.button_point3.Size = new System.Drawing.Size(32, 35);
-            this.button_point3.TabIndex = 34;
-            this.button_point3.UseVisualStyleBackColor = false;
-            this.button_point3.Click += new System.EventHandler(this.button_point_Click);
-            // 
-            // button_gradient
-            // 
-            this.button_gradient.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            this.button_gradient.Location = new System.Drawing.Point(21, 537);
-            this.button_gradient.Margin = new System.Windows.Forms.Padding(2);
-            this.button_gradient.Name = "button_gradient";
-            this.button_gradient.Size = new System.Drawing.Size(154, 67);
-            this.button_gradient.TabIndex = 35;
-            this.button_gradient.Text = "Градиент";
-            this.button_gradient.UseVisualStyleBackColor = true;
-            this.button_gradient.Click += new System.EventHandler(this.button_gradient_Click);
-            // 
-            // button_pen_color
-            // 
-            this.button_pen_color.Location = new System.Drawing.Point(94, 236);
-            this.button_pen_color.Margin = new System.Windows.Forms.Padding(2);
-            this.button_pen_color.Name = "button_pen_color";
-            this.button_pen_color.Size = new System.Drawing.Size(22, 24);
-            this.button_pen_color.TabIndex = 36;
-            this.button_pen_color.UseVisualStyleBackColor = true;
-            this.button_pen_color.Click += new System.EventHandler(this.button_pen_color_Click);
-            // 
-            // trackBar1
-            // 
-            this.trackBar1.BackColor = System.Drawing.Color.White;
-            this.trackBar1.Location = new System.Drawing.Point(12, 322);
-            this.trackBar1.Margin = new System.Windows.Forms.Padding(2);
-            this.trackBar1.Maximum = 30;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(179, 45);
-            this.trackBar1.TabIndex = 38;
-            this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
-            // 
-            // button_choose_pen
-            // 
-            this.button_choose_pen.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
-            this.button_choose_pen.Location = new System.Drawing.Point(21, 234);
-            this.button_choose_pen.Margin = new System.Windows.Forms.Padding(2);
-            this.button_choose_pen.Name = "button_choose_pen";
-            this.button_choose_pen.Size = new System.Drawing.Size(69, 24);
-            this.button_choose_pen.TabIndex = 39;
-            this.button_choose_pen.Text = "карандаш";
-            this.button_choose_pen.UseVisualStyleBackColor = true;
-            this.button_choose_pen.Click += new System.EventHandler(this.button_choose_pen_Click);
-            // 
-            // button_choose_cleaner
-            // 
-            this.button_choose_cleaner.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.button_choose_cleaner.Location = new System.Drawing.Point(21, 263);
-            this.button_choose_cleaner.Margin = new System.Windows.Forms.Padding(2);
-            this.button_choose_cleaner.Name = "button_choose_cleaner";
-            this.button_choose_cleaner.Size = new System.Drawing.Size(69, 24);
-            this.button_choose_cleaner.TabIndex = 40;
-            this.button_choose_cleaner.Text = "ластик";
-            this.button_choose_cleaner.UseVisualStyleBackColor = true;
-            this.button_choose_cleaner.Click += new System.EventHandler(this.button_choose_cleaner_Click);
-            // 
-            // button_clean
-            // 
-            this.button_clean.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
-            this.button_clean.Location = new System.Drawing.Point(94, 265);
-            this.button_clean.Margin = new System.Windows.Forms.Padding(2);
-            this.button_clean.Name = "button_clean";
-            this.button_clean.Size = new System.Drawing.Size(97, 23);
-            this.button_clean.TabIndex = 41;
-            this.button_clean.Text = "Очистить все";
-            this.button_clean.UseVisualStyleBackColor = true;
-            this.button_clean.Click += new System.EventHandler(this.button_clean_Click);
+            this.label2.Size = new System.Drawing.Size(209, 20);
+            this.label2.TabIndex = 59;
+            this.label2.Text = "Увеличение изображения:";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Task3
             // 
@@ -250,29 +128,20 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.ClientSize = new System.Drawing.Size(885, 614);
-            this.Controls.Add(this.button_clean);
-            this.Controls.Add(this.button_choose_cleaner);
-            this.Controls.Add(this.button_choose_pen);
-            this.Controls.Add(this.trackBar1);
-            this.Controls.Add(this.button_pen_color);
-            this.Controls.Add(this.button_gradient);
-            this.Controls.Add(this.button_point3);
-            this.Controls.Add(this.button_point2);
-            this.Controls.Add(this.button_point1);
-            this.Controls.Add(this.label15);
-            this.Controls.Add(this.label14);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.button_alg2);
+            this.Controls.Add(this.button_alg1);
+            this.Controls.Add(this.with_bar);
+            this.Controls.Add(this.btn_clear);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.button_drawTriangle);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Task3";
             this.Text = "Задание №3";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Task3_FormClosing);
+            this.Load += new System.EventHandler(this.Task3_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.with_bar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -280,24 +149,14 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button_drawTriangle;
+        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.TrackBar with_bar;
+        private System.Windows.Forms.Button btn_clear;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button button_alg1;
+        private System.Windows.Forms.Button button_alg2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Button button_point1;
-        private System.Windows.Forms.Button button_point2;
-        private System.Windows.Forms.Button button_point3;
-        private System.Windows.Forms.ColorDialog colorDialog1;
-        private System.Windows.Forms.Button button_gradient;
-        private System.Windows.Forms.Button button_pen_color;
-        private System.Windows.Forms.TrackBar trackBar1;
-        private System.Windows.Forms.Button button_choose_pen;
-        private System.Windows.Forms.Button button_choose_cleaner;
-        private System.Windows.Forms.Button button_clean;
     }
 }
 
