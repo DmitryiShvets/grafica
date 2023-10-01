@@ -28,13 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.vecPaintD1 = new blank.VecPaintD();
             this.SuspendLayout();
+            // 
+            // vecPaintD1
+            // 
+            this.vecPaintD1.BackColor = System.Drawing.SystemColors.Control;
+            this.vecPaintD1.Location = new System.Drawing.Point(1, 24);
+            this.vecPaintD1.Name = "vecPaintD1";
+            this.vecPaintD1.Size = new System.Drawing.Size(800, 530);
+            this.vecPaintD1.TabIndex = 0;
             // 
             // Task3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 581);
+            this.Controls.Add(this.vecPaintD1);
             this.Name = "Task3";
             this.Text = "Task3";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Task3_FormClosing);
@@ -43,5 +53,7 @@
         }
 
         #endregion
+
+        private VecPaintD vecPaintD1;
     }
 }

@@ -85,6 +85,18 @@
     <Compile Include="Task3.Designer.cs">
       <DependentUpon>Task3.cs</DependentUpon>
     </Compile>
+    <Compile Include="VecPaintD.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VecPaintD.Designer.cs">
+      <DependentUpon>VecPaintD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VecPaintV.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VecPaintV.Designer.cs">
+      <DependentUpon>VecPaintV.cs</DependentUpon>
+    </Compile>
     <Compile Include="VectorPaint.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -116,6 +128,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Task3.resx">
       <DependentUpon>Task3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VecPaintD.resx">
+      <DependentUpon>VecPaintD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VecPaintV.resx">
+      <DependentUpon>VecPaintV.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VectorPaint.resx">
       <DependentUpon>VectorPaint.cs</DependentUpon>

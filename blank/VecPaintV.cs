@@ -1,12 +1,17 @@
-﻿
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
 
 namespace blank
 {
-    public partial class VectorPaint : UserControl
+    public partial class VecPaintV : UserControl
     {
         private List<Polygon> _polygons = new List<Polygon>();  //общее кол-во полигонов на холсте
         private Polygon cur_edit_polygon = null;                //текущий полигон с котором выполнятется поворот, масштабировани
@@ -14,10 +19,10 @@ namespace blank
         private Bitmap _bitmap;
         private Graphics _graphics;
 
-        private Pen pen_edge = new Pen(Color.LawnGreen, 3f);
+        private Pen pen_edge = new Pen(Color.Black, 3f);
         private Brush brush_vertes = new SolidBrush(Color.DarkMagenta);
         private STATE g_state = STATE.NONE;
-        public VectorPaint()
+        public VecPaintV()
         {
             InitializeComponent();
             _bitmap = new Bitmap(canvas.Width, canvas.Height);
@@ -27,7 +32,6 @@ namespace blank
 
             UpdateUI();
         }
-
         private void btn_add_polygon_Click(object sender, System.EventArgs e)
         {
             if (g_state == STATE.NONE)
@@ -203,3 +207,4 @@ namespace blank
         }
     }
 }
+
