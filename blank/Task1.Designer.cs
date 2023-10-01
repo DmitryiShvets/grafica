@@ -33,9 +33,9 @@
             // 
             // vectorPaint1
             // 
-            this.vectorPaint1.Location = new System.Drawing.Point(72, 52);
+            this.vectorPaint1.Location = new System.Drawing.Point(12, 12);
             this.vectorPaint1.Name = "vectorPaint1";
-            this.vectorPaint1.Size = new System.Drawing.Size(662, 505);
+            this.vectorPaint1.Size = new System.Drawing.Size(776, 530);
             this.vectorPaint1.TabIndex = 0;
             // 
             // Task1

@@ -151,5 +151,29 @@
   <ItemGroup>
     <None Include="Resources\icons8_clear2.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8_move.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8_rotate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8_scale.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8_classify.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8_rotate_edge.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8_сross.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8_line.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8_line_rotate.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

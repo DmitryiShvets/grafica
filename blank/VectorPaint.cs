@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using static System.Windows.Forms.AxHost;
 
 namespace blank
 {
@@ -15,7 +14,7 @@ namespace blank
         private Bitmap _bitmap;
         private Graphics _graphics;
 
-        private Pen pen_edge = new Pen(Color.Black, 3f);
+        private Pen pen_edge = new Pen(Color.LawnGreen, 3f);
         private Brush brush_vertes = new SolidBrush(Color.DarkMagenta);
         private STATE g_state = STATE.NONE;
         public VectorPaint()
