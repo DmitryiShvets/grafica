@@ -63,9 +63,39 @@ namespace blank.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_add_point {
+            get {
+                object obj = ResourceManager.GetObject("icons8_add_point", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_apply {
+            get {
+                object obj = ResourceManager.GetObject("icons8_apply", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_clear {
             get {
                 object obj = ResourceManager.GetObject("icons8_clear", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_clear1 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_clear1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

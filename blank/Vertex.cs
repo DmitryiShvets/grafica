@@ -1,4 +1,6 @@
 ﻿
+using System.Drawing;
+
 namespace blank
 {
     public class Vertex : Point2D
@@ -11,7 +13,7 @@ namespace blank
             _next = this;
             _prev = this;
         }
-        public Vertex(double x, double y) : base(x, y)
+        public Vertex(float x, float y) : base(x, y)
         {
             _next = this;
             _prev = this;
@@ -73,7 +75,6 @@ namespace blank
             Splise(vp);
             return vp;
         }
-
         public enum ROTATION
         {
             CLOCKWISE,

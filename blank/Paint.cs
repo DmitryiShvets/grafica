@@ -63,7 +63,7 @@ namespace blank
 
             if (_points.Count() >= 2)
             {
-                _graphics.DrawLines(pen, _points.Points);
+                _graphics.DrawLines(pen, _points.ToPoints());
                 canvas.Image = _bitmap;
                 canvas.Invalidate();
                 _points.SetPoint(x, y);

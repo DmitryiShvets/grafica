@@ -1,20 +1,21 @@
 ﻿using System;
+using System.Drawing;
 
 namespace blank
 {
     public class Point2D : IComparable
     {
 
-        public double x;
-        public double y;
+        public float x;
+        public float y;
 
         public Point2D()
         {
-            this.x = 0.0d;
-            this.y = 0.0d;
+            this.x = 0.0f;
+            this.y = 0.0f;
         }
 
-        public Point2D(double x, double y)
+        public Point2D(float x, float y)
         {
             this.x = x;
             this.y = y;
@@ -28,15 +29,15 @@ namespace blank
         {
             return new Point2D(lhs.x - rhs.x, lhs.y - rhs.y);
         }
-        public static double DotProduct(Point2D lhs, Point2D rhs)
+        public static float DotProduct(Point2D lhs, Point2D rhs)
         {
             return lhs.x * rhs.x + lhs.y * rhs.y;
         }
-        public static Point2D operator *(Point2D lhs, double rhs)
+        public static Point2D operator *(Point2D lhs, float rhs)
         {
             return new Point2D(lhs.x * rhs, lhs.y * rhs);
         }
-        public static Point2D operator *(double lhs, Point2D rhs)
+        public static Point2D operator *(float lhs, Point2D rhs)
         {
             return new Point2D(lhs * rhs.x, lhs * rhs.y);
         }
@@ -112,6 +113,11 @@ namespace blank
         public virtual double distance(Edge edge)
         {
             throw new NotImplementedException();
+        }
+
+        public PointF ToPointF()
+        {
+            return new PointF(x, y);
         }
 
         public int CompareTo(object o)

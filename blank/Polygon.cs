@@ -52,7 +52,7 @@ namespace blank
         {
             get { return _size; }
         }
-        public Vertex V
+        public Vertex Front
         {
             get { return _v; }
         }
@@ -86,7 +86,7 @@ namespace blank
         }
         public Vertex Insert(Point2D p)
         {
-            if (_size == 0) _v = new Vertex(p);
+            if (_size++ == 0) _v = new Vertex(p);
             else _v = _v.Insert(new Vertex(p));
             return _v;
         }

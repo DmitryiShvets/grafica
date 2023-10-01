@@ -14,8 +14,8 @@ namespace blank
         }
         public Edge()
         {
-            this.origin = new Point2D(0.0, 0.0);
-            this.dest = new Point2D(1.0, 0.0);
+            this.origin = new Point2D(0.0f, 0.0f);
+            this.dest = new Point2D(1.0f, 0.0f);
         }
 
         public virtual Edge Rotation(double angle)

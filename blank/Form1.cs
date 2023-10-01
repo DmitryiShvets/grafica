@@ -28,15 +28,14 @@ namespace blank
         {
             task1.Show();
         }
-
-        private void button_Task3_Click(object sender, EventArgs e)
+        private void button_Task2_Click(object sender, EventArgs e)
         {
             task2.Show();
         }
-
-        private void button_Task2_Click(object sender, EventArgs e)
+        private void button_Task3_Click(object sender, EventArgs e)
         {
             task3.Show();
         }
+
     }
 }

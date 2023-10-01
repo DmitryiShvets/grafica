@@ -10,14 +10,24 @@ namespace blank
     public class PointArray
     {
         private int index = 0;
-        private Point[] points;
+        private Point2D[] points;
 
-        public Point[] Points { get => points; }
+        public Point2D[] Points { get => points; }
+
+        public PointF[] ToPoints()
+        {
+            PointF[] p = new PointF[Points.Length];
+            for (int i = 0;i< Points.Length; i++)
+            {
+                p[i] = points[i].ToPointF();
+            }
+            return p;
+        }
 
         public PointArray(int points_count)
         {
             if (points_count <= 0) points_count = 2;
-            points = new Point[points_count];
+            points = new Point2D[points_count];
         }
 
         public void SetPoint(int x, int y)
@@ -26,7 +36,7 @@ namespace blank
             {
                 index = 0;
             }
-            points[index] = new Point(x, y);
+            points[index] = new Point2D(x, y);
             index++;
         }
 
