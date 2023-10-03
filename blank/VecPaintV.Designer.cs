@@ -40,12 +40,12 @@
             this.btn_apply = new System.Windows.Forms.Button();
             this.btn_scale = new System.Windows.Forms.Button();
             this.btn_rotate_arround_dot = new System.Windows.Forms.Button();
-            this.btn_rotate_edge = new System.Windows.Forms.Button();
             this.btn_cross = new System.Windows.Forms.Button();
             this.btn_rotate_center = new System.Windows.Forms.Button();
             this.btn_dot_classify = new System.Windows.Forms.Button();
             this.btn_move = new System.Windows.Forms.Button();
             this.btn_add_polygon = new System.Windows.Forms.Button();
+            this.btn_rotate_edge = new System.Windows.Forms.Button();
             this.canvas = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.with_bar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
@@ -147,15 +147,6 @@
             this.toolTip1.SetToolTip(this.btn_rotate_arround_dot, "Поворот вокруг произвольной точки");
             this.btn_rotate_arround_dot.UseVisualStyleBackColor = true;
             // 
-            // btn_rotate_edge
-            // 
-            this.btn_rotate_edge.Image = global::blank.Properties.Resources.icons8_line_rotate;
-            this.btn_rotate_edge.Location = new System.Drawing.Point(668, 453);
-            this.btn_rotate_edge.Name = "btn_rotate_edge";
-            this.btn_rotate_edge.Size = new System.Drawing.Size(50, 50);
-            this.btn_rotate_edge.TabIndex = 80;
-            this.btn_rotate_edge.UseVisualStyleBackColor = true;
-            // 
             // btn_cross
             // 
             this.btn_cross.Image = global::blank.Properties.Resources.icons8_сross;
@@ -196,6 +187,7 @@
             this.btn_move.TabIndex = 76;
             this.toolTip1.SetToolTip(this.btn_move, "Смещение на dx, dy;");
             this.btn_move.UseVisualStyleBackColor = true;
+            this.btn_move.Click += new System.EventHandler(this.btn_move_Click);
             // 
             // btn_add_polygon
             // 
@@ -207,6 +199,15 @@
             this.toolTip1.SetToolTip(this.btn_add_polygon, "Добавить полигон");
             this.btn_add_polygon.UseVisualStyleBackColor = true;
             this.btn_add_polygon.Click += new System.EventHandler(this.btn_add_polygon_Click);
+            // 
+            // btn_rotate_edge
+            // 
+            this.btn_rotate_edge.Image = global::blank.Properties.Resources.icons8_line_rotate;
+            this.btn_rotate_edge.Location = new System.Drawing.Point(668, 453);
+            this.btn_rotate_edge.Name = "btn_rotate_edge";
+            this.btn_rotate_edge.Size = new System.Drawing.Size(50, 50);
+            this.btn_rotate_edge.TabIndex = 80;
+            this.btn_rotate_edge.UseVisualStyleBackColor = true;
             // 
             // canvas
             // 

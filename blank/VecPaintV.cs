@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,6 +23,10 @@ namespace blank
         private Pen pen_edge = new Pen(Color.Black, 3f);
         private Brush brush_vertes = new SolidBrush(Color.DarkMagenta);
         private STATE g_state = STATE.NONE;
+
+        //Движение полигона на dx, dy
+        private Point mouse_start_position;
+        private bool mouse_is_down = false;
         public VecPaintV()
         {
             InitializeComponent();
@@ -37,7 +42,8 @@ namespace blank
             if (g_state == STATE.NONE)
             {
                 g_state = STATE.ADDING_POLYGON;
-                _polygons.Add(new Polygon());
+                cur_edit_polygon = new Polygon();
+                _polygons.Add(cur_edit_polygon);
                 UpdateUI();
             }
             else status.Text = "Ошибка добавления полигона";
@@ -184,17 +190,49 @@ namespace blank
 
         private void canvas_MouseDown(object sender, MouseEventArgs e)
         {
-
+            mouse_is_down = true;
+            if (g_state == STATE.MOVE_POLYGON)
+            {
+                mouse_start_position = e.Location;
+            }
         }
 
         private void canvas_MouseUp(object sender, MouseEventArgs e)
         {
+            mouse_is_down = false;
+        }
 
+        //Смещение полигона по dx и dy
+        public void Translate(float dx, float dy)
+        {
+            Matrix3x2 translationMatrix = Matrix3x2.CreateTranslation(dx, dy);
+            Vertex start = cur_edit_polygon.Front;
+
+            var point = Vector2.Transform(new Vector2(cur_edit_polygon.Point.x, cur_edit_polygon.Point.y), translationMatrix);
+            cur_edit_polygon.Front.Point.x = point.X;
+            cur_edit_polygon.Front.Point.y = point.Y;
+            cur_edit_polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+
+            while (cur_edit_polygon.Front != start)
+            {
+                point = Vector2.Transform(new Vector2(cur_edit_polygon.Point.x, cur_edit_polygon.Point.y), translationMatrix);
+                cur_edit_polygon.Front.Point.x = point.X;
+                cur_edit_polygon.Front.Point.y = point.Y;
+                cur_edit_polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+            }
+            ReCount();
+            UpdateUI();
         }
 
         private void canvas_MouseMove(object sender, MouseEventArgs e)
         {
-
+            if (g_state == STATE.MOVE_POLYGON && mouse_is_down && cur_edit_polygon != null)
+            {
+                float dx = e.Location.X - mouse_start_position.X;
+                float dy = e.Location.Y - mouse_start_position.Y;
+                Translate(dx, dy);
+                mouse_start_position = e.Location;
+            }
         }
 
         private void ReCount()
@@ -204,6 +242,11 @@ namespace blank
             {
                 count_vertex += item.Size;
             }
+        }
+
+        private void btn_move_Click(object sender, EventArgs e)
+        {
+            g_state = STATE.MOVE_POLYGON;
         }
     }
 }
