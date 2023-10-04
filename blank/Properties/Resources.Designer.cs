@@ -123,6 +123,16 @@ namespace blank.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_fit_to_width_48 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-fit-to-width-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_line {
             get {
                 object obj = ResourceManager.GetObject("icons8_line", resourceCulture);
@@ -176,6 +186,16 @@ namespace blank.Properties {
         internal static System.Drawing.Bitmap icons8_rotate_edge {
             get {
                 object obj = ResourceManager.GetObject("icons8_rotate_edge", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_rotation_48 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-rotation-48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

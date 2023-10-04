@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
@@ -27,6 +29,7 @@ namespace blank
         //Движение полигона на dx, dy
         private Point mouse_start_position;
         private bool mouse_is_down = false;
+        Vector2 center;
         public VecPaintV()
         {
             InitializeComponent();
@@ -75,8 +78,21 @@ namespace blank
             EDITING_POLYGON,        // состояние изменения полигона
             MOVE_POLYGON,           // состояние перемещение полигона
             ROTATE_POLYGON,         // состояние вращение полигона
+            ROTATE_POLYGON_CENTER,  // состояние вращение полигона в центре
             SCALE_POLYGON,          // состояние масштабирование полигона
+            SCALE_POLYGON_CENTER,   // состояние масштабирования полигона в центре
         }
+
+        Dictionary<STATE, string> state_names = new Dictionary<STATE, string> {
+            {STATE.NONE,"" },
+            {STATE.ADDING_POLYGON,"Создание полигона" },
+            {STATE.EDITING_POLYGON,"Редактирование полигона" },
+            {STATE.MOVE_POLYGON,"Смещение по dx, dy" },
+            {STATE.ROTATE_POLYGON,"Вращение относительно точки" },
+            {STATE.ROTATE_POLYGON_CENTER,"Вращение относительно центра" },
+            {STATE.SCALE_POLYGON,"Масштабирование относительно точки" },
+            {STATE.SCALE_POLYGON_CENTER,"Масштабирование относительно центра" },
+        };
 
         private void UpdateUI()
         {
@@ -191,9 +207,14 @@ namespace blank
         private void canvas_MouseDown(object sender, MouseEventArgs e)
         {
             mouse_is_down = true;
-            if (g_state == STATE.MOVE_POLYGON)
+            mouse_start_position = e.Location;
+            if (g_state == STATE.ROTATE_POLYGON_CENTER || g_state == STATE.SCALE_POLYGON_CENTER)
             {
-                mouse_start_position = e.Location;
+                center = CalculateCenter();
+            }
+            else if (g_state == STATE.ROTATE_POLYGON || g_state == STATE.SCALE_POLYGON)
+            {
+                center = new Vector2(e.X, e.Y);
             }
         }
 
@@ -203,34 +224,161 @@ namespace blank
         }
 
         //Смещение полигона по dx и dy
-        public void Translate(float dx, float dy)
+        public void Translate(Polygon polygon, float dx, float dy)
         {
-            Matrix3x2 translationMatrix = Matrix3x2.CreateTranslation(dx, dy);
-            Vertex start = cur_edit_polygon.Front;
+            var translationMatrix = AffineTransformations.TranslationMatrix(dx, dy);
 
-            var point = Vector2.Transform(new Vector2(cur_edit_polygon.Point.x, cur_edit_polygon.Point.y), translationMatrix);
-            cur_edit_polygon.Front.Point.x = point.X;
-            cur_edit_polygon.Front.Point.y = point.Y;
-            cur_edit_polygon.Advance(Vertex.ROTATION.CLOCKWISE);
 
-            while (cur_edit_polygon.Front != start)
+            Vertex start = polygon.Front;
+
+            Matrix2D pointMatrix = new Matrix2D(new double[,]
             {
-                point = Vector2.Transform(new Vector2(cur_edit_polygon.Point.x, cur_edit_polygon.Point.y), translationMatrix);
-                cur_edit_polygon.Front.Point.x = point.X;
-                cur_edit_polygon.Front.Point.y = point.Y;
-                cur_edit_polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+                { polygon.Point.x },
+                { polygon.Point.y },
+                { 1 }
+            });
+
+            Matrix2D result = Matrix2D.Multiply(translationMatrix, pointMatrix);
+            polygon.Front.Point.x = (float)result.Values[0, 0];
+            polygon.Front.Point.y = (float)result.Values[1, 0];
+
+            polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+
+            while (polygon.Front != start)
+            {
+                pointMatrix = new Matrix2D(new double[,]
+                {
+                    { polygon.Point.x },
+                    { polygon.Point.y },
+                    { 1 }
+                });
+
+                result = Matrix2D.Multiply(translationMatrix, pointMatrix);
+                polygon.Front.Point.x = (float)result.Values[0, 0];
+                polygon.Front.Point.y = (float)result.Values[1, 0];
+
+                polygon.Advance(Vertex.ROTATION.CLOCKWISE);
             }
             ReCount();
             UpdateUI();
         }
 
+        //Вычисление центра полигона
+        private Vector2 CalculateCenter()
+        {
+            float sumX = 0;
+            float sumY = 0;
+
+            Vertex start = cur_edit_polygon.Front;
+            sumX += cur_edit_polygon.Front.Point.x;
+            sumY += cur_edit_polygon.Front.Point.y;
+            cur_edit_polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+
+            while (cur_edit_polygon.Front != start)
+            {
+                sumX += cur_edit_polygon.Front.Point.x;
+                sumY += cur_edit_polygon.Front.Point.y;
+
+                cur_edit_polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+            }
+
+            return new Vector2(sumX / cur_edit_polygon.Size, sumY / cur_edit_polygon.Size);
+        }
+        //Вращение полигона
+        public void Rotate(Polygon polygon, float angle, Vector2 center)
+        {
+            var rotationMatrix = AffineTransformations.RotationMatrix(angle, new Point2D(center.X, center.Y));
+            
+            Vertex start = polygon.Front;
+
+            Matrix2D pointMatrix = new Matrix2D(new double[,]
+            {
+                { polygon.Point.x },
+                { polygon.Point.y },
+                { 1 }
+            });
+
+            Matrix2D result = Matrix2D.Multiply(rotationMatrix, pointMatrix);
+            polygon.Front.Point.x = (float)result.Values[0, 0];
+            polygon.Front.Point.y = (float)result.Values[1, 0];
+
+            polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+
+            while (cur_edit_polygon.Front != start)
+            {
+                pointMatrix = new Matrix2D(new double[,]
+                {
+                    { polygon.Point.x },
+                    { polygon.Point.y },
+                    { 1 }
+                });
+
+                result = Matrix2D.Multiply(rotationMatrix, pointMatrix);
+                polygon.Front.Point.x = (float)result.Values[0, 0];
+                polygon.Front.Point.y = (float)result.Values[1, 0];
+
+                polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+            }
+            ReCount();
+            UpdateUI();
+        }
+        //Масштабирование полигона
+        public void Scale(Polygon polygon, float sx, float sy, Vector2 center)
+        {
+            var scaleMatrix = AffineTransformations.ScaleMatrix(sx, sy, new Point2D(center.X, center.Y));
+
+            Vertex start = polygon.Front;
+
+            Matrix2D pointMatrix = new Matrix2D(new double[,]
+            {
+                { polygon.Point.x },
+                { polygon.Point.y },
+                { 1 }
+            });
+
+            Matrix2D result = Matrix2D.Multiply(scaleMatrix, pointMatrix);
+            polygon.Front.Point.x = (float)result.Values[0, 0];
+            polygon.Front.Point.y = (float)result.Values[1, 0];
+
+            polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+
+            while (cur_edit_polygon.Front != start)
+            {
+                pointMatrix = new Matrix2D(new double[,]
+                {
+                    { polygon.Point.x },
+                    { polygon.Point.y },
+                    { 1 }
+                });
+
+                result = Matrix2D.Multiply(scaleMatrix, pointMatrix);
+                polygon.Front.Point.x = (float)result.Values[0, 0];
+                polygon.Front.Point.y = (float)result.Values[1, 0];
+
+                polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+            }
+            ReCount();
+            UpdateUI();
+        }
         private void canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (g_state == STATE.MOVE_POLYGON && mouse_is_down && cur_edit_polygon != null)
+            if (mouse_is_down && cur_edit_polygon != null)
             {
                 float dx = e.Location.X - mouse_start_position.X;
                 float dy = e.Location.Y - mouse_start_position.Y;
-                Translate(dx, dy);
+                if (g_state == STATE.MOVE_POLYGON)
+                {
+                    Translate(cur_edit_polygon,dx, dy);
+                }
+                else if (g_state == STATE.ROTATE_POLYGON_CENTER || g_state == STATE.ROTATE_POLYGON)
+                {
+                    float rotationAngleRadians = (float)Math.PI / 64 * Math.Sign(dx);
+                    Rotate(cur_edit_polygon, rotationAngleRadians, center);
+                }
+                else if (g_state == STATE.SCALE_POLYGON_CENTER || g_state == STATE.SCALE_POLYGON)
+                {
+                    Scale(cur_edit_polygon, 1 + dx / 100, 1 - dy / 100, center);
+                }
                 mouse_start_position = e.Location;
             }
         }
@@ -244,9 +392,47 @@ namespace blank
             }
         }
 
+        private void ChangeState(STATE state)
+        {
+            if (g_state != state)
+                g_state = state;
+            else
+                g_state = STATE.NONE;
+            label_state.Text = state_names[g_state];
+        }
         private void btn_move_Click(object sender, EventArgs e)
         {
-            g_state = STATE.MOVE_POLYGON;
+            ChangeState(STATE.MOVE_POLYGON);
+        }
+
+        private void btn_rotate_center_Click(object sender, EventArgs e)
+        {
+            ChangeState(STATE.ROTATE_POLYGON_CENTER);
+        }
+
+        private void btn_rotate_arround_dot_Click(object sender, EventArgs e)
+        {
+            ChangeState(STATE.ROTATE_POLYGON);
+        }
+
+        private void btn_scale_center_Click(object sender, EventArgs e)
+        {
+            ChangeState(STATE.SCALE_POLYGON_CENTER);
+        }
+
+        private void btn_scale_Click(object sender, EventArgs e)
+        {
+            ChangeState(STATE.SCALE_POLYGON);
+        }
+
+        private void btn_edge_rot_Click(object sender, EventArgs e)
+        {
+            if (cur_edit_polygon != null)
+            {
+                var editet_edge = cur_edit_polygon.RotateEdge();
+                ReCount();
+                UpdateUI();
+            }
         }
     }
 }

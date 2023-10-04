@@ -1,4 +1,5 @@
 ﻿
+using System.Security.Cryptography;
 using static blank.Vertex;
 
 namespace blank
@@ -99,6 +100,18 @@ namespace blank
             Vertex vp = _v.Split(v);
             Resize();
             return new Polygon(vp);
+        }
+        public Polygon RotateEdge()
+        {
+            if (_size >= 2)
+            {
+                var edited_edge = Edge().Rotation90();
+                Point.x = edited_edge.origin.x;
+                Point.y = edited_edge.origin.y;
+                Next.Point.x = edited_edge.dest.x;
+                Next.Point.y = edited_edge.dest.y;
+            }
+            return this;
         }
     }
 }

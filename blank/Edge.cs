@@ -1,5 +1,7 @@
 ﻿
 using System;
+using System.Diagnostics;
+
 namespace blank
 {
     public class Edge
@@ -21,6 +23,15 @@ namespace blank
         public virtual Edge Rotation(double angle)
         {
             throw new NotImplementedException();
+        }
+        public virtual Edge Rotation90()
+        {
+            Point2D m = 0.5f * (origin + dest);
+            Point2D v = dest - origin;
+            Point2D n = new Point2D(v.y, -v.x);
+            origin = m - 0.5f * n;
+            dest = m + 0.5f * n;
+            return this;
         }
         public virtual Edge Flip()
         {
