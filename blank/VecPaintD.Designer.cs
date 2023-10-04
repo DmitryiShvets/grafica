@@ -186,6 +186,7 @@
             this.btn_dot_classify.TabIndex = 77;
             this.toolTip1.SetToolTip(this.btn_dot_classify, "Принадлежит ли точка выпуклому");
             this.btn_dot_classify.UseVisualStyleBackColor = true;
+            this.btn_dot_classify.Click += new System.EventHandler(this.btn_dot_classify_Click);
             // 
             // btn_move
             // 

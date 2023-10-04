@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
+using System.Numerics;
 
 namespace blank
 {
@@ -70,6 +71,7 @@ namespace blank
             MOVE_POLYGON,           // состояние перемещение полигона
             ROTATE_POLYGON,         // состояние вращение полигона
             SCALE_POLYGON,          // состояние масштабирование полигона
+            POINT_IN_POLYGON        // состояние выбора точки для проверки
         }
 
         private void UpdateUI()
@@ -180,6 +182,13 @@ namespace blank
                 _graphics.FillEllipse(brush_vertes, e.X - with_bar.Value / 2, e.Y - with_bar.Value / 2, with_bar.Value, with_bar.Value);
                 canvas.Invalidate();
             }
+            else if(g_state == STATE.POINT_IN_POLYGON)
+            {
+                Point2D point = new Point2D(e.X, e.Y);
+                Console.WriteLine($"Выбрана точка: {point.x}, {point.y}");
+                bool f = IsPointInPolygon(point);
+                Console.WriteLine($"Принадлежит многоугольнику: {f}");
+            }
         }
 
         private void canvas_MouseDown(object sender, MouseEventArgs e)
@@ -205,6 +214,38 @@ namespace blank
                 count_vertex += item.Size;
             }
         }
+
+        private void btn_dot_classify_Click(object sender, EventArgs e)
+        {
+            g_state = STATE.POINT_IN_POLYGON;
+        }
+
+        // 4) Поиск точки пересечения двух ребер 107 стр
+
+        private bool IsPointInPolygon(Point2D point) // 5) Принадлежит ли точка выпуклому многоугольнику
+        {
+            foreach (var polygon in _polygons)
+            {
+                Vertex start = polygon.Front;
+                for (int i = 0; i < polygon.Size; i++, polygon.Advance(Vertex.ROTATION.CLOCKWISE))
+                {
+                    if (point.Classify(polygon.Edge()) == Point2D.ORIENTATION.LEFT)
+                    {
+                        polygon.SetV(start);
+                        return false;
+                    }
+                }
+                cur_edit_polygon = polygon;
+                return true;
+            }
+            return false;
+        }
+
+        // 6) Принадлежит ли точка невыпуклому многоугольнику 135 стр
+
+        // 7) Классифицировать положение точки относительно ребра кнопка->ребро->точка 96 стр
+
+        // прочитать 90-120
     }
 }
 
