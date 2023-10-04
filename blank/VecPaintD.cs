@@ -50,6 +50,8 @@ namespace blank
             if (g_state == STATE.ADDING_POLYGON)
             {
                 g_state = STATE.NONE;
+                if (_polygons.Last().Size == 0) _polygons.Remove(_polygons.Last());
+
                 ReCount();
                 UpdateUI();
             }
