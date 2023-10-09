@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using FastBitmaps;
 using System.IO;
 
-namespace blank
+namespace Laba5
 {
     public partial class Task1 : Form
     {
@@ -134,7 +134,6 @@ namespace blank
         private void button1_Click(object sender, EventArgs e)
         {
             string filePath = "..\\..\\..\\L-systems\\КриваяКоха.txt";
-
             // Создание объекта LSystemParameters с параметрами из файла
             LSystemParameters parameters = new LSystemParameters(filePath);
 

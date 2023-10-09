@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
 
-namespace blank
+namespace Laba5
 {
     public partial class Paint : UserControl
     {

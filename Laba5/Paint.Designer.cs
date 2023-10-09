@@ -1,4 +1,4 @@
-﻿namespace blank
+﻿namespace Laba5
 {
     partial class Paint
     {
@@ -86,7 +86,7 @@
             // 
             // btn_clear
             // 
-            this.btn_clear.Image = global::blank.Properties.Resources.icons8_clear;
+            this.btn_clear.Image = global::Laba5.Properties.Resources.icons8_clear;
             this.btn_clear.Location = new System.Drawing.Point(100, 4);
             this.btn_clear.Name = "btn_clear";
             this.btn_clear.Size = new System.Drawing.Size(40, 40);
@@ -96,7 +96,7 @@
             // 
             // btn_eraser
             // 
-            this.btn_eraser.Image = global::blank.Properties.Resources.icons8_eraser;
+            this.btn_eraser.Image = global::Laba5.Properties.Resources.icons8_eraser;
             this.btn_eraser.Location = new System.Drawing.Point(54, 4);
             this.btn_eraser.Name = "btn_eraser";
             this.btn_eraser.Size = new System.Drawing.Size(40, 40);
@@ -106,7 +106,7 @@
             // 
             // btn_pen
             // 
-            this.btn_pen.Image = global::blank.Properties.Resources.icons8_pen;
+            this.btn_pen.Image = global::Laba5.Properties.Resources.icons8_pen;
             this.btn_pen.Location = new System.Drawing.Point(8, 4);
             this.btn_pen.Name = "btn_pen";
             this.btn_pen.Size = new System.Drawing.Size(40, 40);

@@ -1,6 +1,6 @@
-﻿namespace blank
+﻿namespace Laba5
 {
-    partial class Task2
+    partial class Task1
     {
         /// <summary>
         /// Required designer variable.
@@ -28,20 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // Task2
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(71, 88);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // Task1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Name = "Task2";
-            this.Text = "Task2";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Task2_FormClosing);
+            this.ClientSize = new System.Drawing.Size(800, 588);
+            this.Controls.Add(this.button1);
+            this.Name = "Task1";
+            this.Text = "Task1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Task1_FormClosing);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Button button1;
     }
 }

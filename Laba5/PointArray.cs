@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace blank
+namespace Laba5
 {
     public class PointArray
     {
