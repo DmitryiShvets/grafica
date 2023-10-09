@@ -130,5 +130,17 @@
   <ItemGroup>
     <None Include="Resources\icons8_clear1.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="L-systems\ВысокоеДерево.txt" />
+    <Content Include="L-systems\КоверСерпинского.txt" />
+    <Content Include="L-systems\КриваяГильберта.txt" />
+    <Content Include="L-systems\КриваяДракона.txt" />
+    <Content Include="L-systems\КриваяКоха.txt" />
+    <Content Include="L-systems\Куст.txt" />
+    <Content Include="L-systems\СнежинкаКоха.txt" />
+    <Content Include="L-systems\ТреугольникСерпинского.txt" />
+    <Content Include="L-systems\ШестиугольнаяКриваяГоспера.txt" />
+    <Content Include="L-systems\ШирокоеДерево.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
