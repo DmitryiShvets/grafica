@@ -15,6 +15,7 @@ namespace Laba5
 {
     public partial class Task1 : Form
     {
+        private string WorkDir = "../../";
         public Task1()
         {
             InitializeComponent();
@@ -54,13 +55,13 @@ namespace Laba5
 
                     if (lines.Length >= 2)
                     {
-                        Axiom = lines[0].Trim();
-                        RAngle = float.Parse(lines[1].Split(' ')[0], CultureInfo.InvariantCulture);
-                        RDirection = GetRotationDirection(lines[1].Split(' ')[1]);
+                        Axiom = lines[0].Split(' ')[0];
+                        RAngle = float.Parse(lines[0].Split(' ')[1], CultureInfo.InvariantCulture);
+                        RDirection = GetRotationDirection(lines[0].Split(' ')[2]);
                         Rules = new List<string>();
                         RuleDictionary = new Dictionary<char, string>();
 
-                        for (int i = 2; i < lines.Length; i++)
+                        for (int i = 1; i < lines.Length; i++)
                         {
                             Rules.Add(lines[i].Trim());
                             InitializeRules(lines[i].Trim());
@@ -133,7 +134,7 @@ namespace Laba5
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string filePath = "..\\..\\..\\L-systems\\КриваяКоха.txt";
+            string filePath = WorkDir+"L-systems/КриваяКоха.txt";
             // Создание объекта LSystemParameters с параметрами из файла
             LSystemParameters parameters = new LSystemParameters(filePath);
 
