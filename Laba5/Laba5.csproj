@@ -73,6 +73,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Content Include="L-systems\КвадратныйОстровКоха.txt" />
     <Compile Include="Paint.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -150,14 +151,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="L-systems\ВысокоеДерево.txt" />
-    <Content Include="L-systems\КоверСерпинского.txt" />
     <Content Include="L-systems\КриваяГильберта.txt" />
     <Content Include="L-systems\КриваяДракона.txt" />
     <Content Include="L-systems\КриваяКоха.txt" />
-    <Content Include="L-systems\Куст.txt" />
+    <Content Include="L-systems\Куст1.txt" />
+    <Content Include="L-systems\Куст3.txt" />
+    <Content Include="L-systems\Куст2.txt" />
+    <Content Include="L-systems\НаконечникСерпинского.txt" />
+    <Content Include="L-systems\СлучайноеДерево.txt" />
     <Content Include="L-systems\СнежинкаКоха.txt" />
     <Content Include="L-systems\ТреугольникСерпинского.txt" />
     <Content Include="L-systems\ШестиугольнаяКриваяГоспера.txt" />
+    <Content Include="L-systems\ШестиугольнаяМозаика.txt" />
     <Content Include="L-systems\ШирокоеДерево.txt" />
   </ItemGroup>
   <ItemGroup>

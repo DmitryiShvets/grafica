@@ -1,3 +1,0 @@
-X 22 up
-F FF
-X F-[[X]+X]+F[+FX]-X
