@@ -20,7 +20,7 @@ namespace Laba5
         private static string l_system_dir = "../../L-systems/";
         private Graphics _graphics;
         private Bitmap _bitmap;
-        private string _cur_fractal = l_system_dir + "КриваяКоха.txt" + '\n';
+        private string _cur_fractal = l_system_dir + "КриваяКоха.txt";
         public Task1()
         {
             InitializeComponent();
