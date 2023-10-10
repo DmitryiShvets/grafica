@@ -73,6 +73,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="VectorD.cs" />
     <Content Include="L-systems\КвадратныйОстровКоха.txt" />
     <Compile Include="Paint.cs">
       <SubType>UserControl</SubType>
@@ -102,6 +103,8 @@
     <Compile Include="Task3.Designer.cs">
       <DependentUpon>Task3.cs</DependentUpon>
     </Compile>
+    <Content Include="Resources\icons8_add_point.png" />
+    <None Include="Resources\icons8_move.png" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
