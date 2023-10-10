@@ -34,9 +34,15 @@
             this.with_bar = new System.Windows.Forms.TrackBar();
             this.btn_color_2 = new System.Windows.Forms.Button();
             this.btn_color = new System.Windows.Forms.Button();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.listBox_polygons = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label_count = new System.Windows.Forms.Label();
+            this.btn_dot_classify2 = new System.Windows.Forms.Button();
             this.btn_clear = new System.Windows.Forms.Button();
             this.btn_apply = new System.Windows.Forms.Button();
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.btn_scale = new System.Windows.Forms.Button();
             this.btn_rotate_arround_dot = new System.Windows.Forms.Button();
             this.btn_rotate_edge = new System.Windows.Forms.Button();
@@ -45,7 +51,6 @@
             this.btn_dot_classify = new System.Windows.Forms.Button();
             this.btn_move = new System.Windows.Forms.Button();
             this.btn_add_polygon = new System.Windows.Forms.Button();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.canvas = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.with_bar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
@@ -105,6 +110,58 @@
             this.btn_color.UseVisualStyleBackColor = false;
             this.btn_color.Click += new System.EventHandler(this.btn_color_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.textBox1.Location = new System.Drawing.Point(724, 337);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(330, 177);
+            this.textBox1.TabIndex = 86;
+            // 
+            // listBox_polygons
+            // 
+            this.listBox_polygons.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
+            this.listBox_polygons.FormattingEnabled = true;
+            this.listBox_polygons.ItemHeight = 25;
+            this.listBox_polygons.Location = new System.Drawing.Point(740, 64);
+            this.listBox_polygons.Name = "listBox_polygons";
+            this.listBox_polygons.Size = new System.Drawing.Size(314, 179);
+            this.listBox_polygons.TabIndex = 87;
+            this.listBox_polygons.SelectedIndexChanged += new System.EventHandler(this.listBox_polygons_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
+            this.label1.Location = new System.Drawing.Point(718, 303);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(104, 31);
+            this.label1.TabIndex = 88;
+            this.label1.Text = "Вывод:";
+            // 
+            // label_count
+            // 
+            this.label_count.AutoSize = true;
+            this.label_count.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.label_count.Location = new System.Drawing.Point(1034, 310);
+            this.label_count.Name = "label_count";
+            this.label_count.Size = new System.Drawing.Size(20, 24);
+            this.label_count.TabIndex = 89;
+            this.label_count.Text = "0";
+            // 
+            // btn_dot_classify2
+            // 
+            this.btn_dot_classify2.Image = global::blank.Properties.Resources.icons8_classify2;
+            this.btn_dot_classify2.Location = new System.Drawing.Point(668, 400);
+            this.btn_dot_classify2.Name = "btn_dot_classify2";
+            this.btn_dot_classify2.Size = new System.Drawing.Size(50, 50);
+            this.btn_dot_classify2.TabIndex = 90;
+            this.toolTip1.SetToolTip(this.btn_dot_classify2, "Принадлежит ли точка невыпуклому");
+            this.btn_dot_classify2.UseVisualStyleBackColor = true;
+            this.btn_dot_classify2.Click += new System.EventHandler(this.btn_dot_classify2_Click);
+            // 
             // btn_clear
             // 
             this.btn_clear.Image = global::blank.Properties.Resources.icons8_clear1;
@@ -154,18 +211,21 @@
             this.btn_rotate_edge.Name = "btn_rotate_edge";
             this.btn_rotate_edge.Size = new System.Drawing.Size(50, 50);
             this.btn_rotate_edge.TabIndex = 80;
+            this.toolTip1.SetToolTip(this.btn_rotate_edge, "Классификация точки");
             this.btn_rotate_edge.UseVisualStyleBackColor = true;
+            this.btn_rotate_edge.Click += new System.EventHandler(this.btn_rotate_edge_Click);
             // 
             // btn_cross
             // 
             this.btn_cross.Image = global::blank.Properties.Resources.icons8_сross;
-            this.btn_cross.Location = new System.Drawing.Point(668, 344);
+            this.btn_cross.Location = new System.Drawing.Point(668, 288);
             this.btn_cross.Name = "btn_cross";
             this.btn_cross.Size = new System.Drawing.Size(50, 50);
             this.btn_cross.TabIndex = 82;
             this.toolTip1.SetToolTip(this.btn_cross, "Поиск точки пересечения двух ребер (добавление второго ребра мышкой, динамически)" +
         ".");
             this.btn_cross.UseVisualStyleBackColor = true;
+            this.btn_cross.Click += new System.EventHandler(this.btn_cross_Click);
             // 
             // btn_rotate_center
             // 
@@ -180,7 +240,7 @@
             // btn_dot_classify
             // 
             this.btn_dot_classify.Image = global::blank.Properties.Resources.icons8_classify;
-            this.btn_dot_classify.Location = new System.Drawing.Point(668, 400);
+            this.btn_dot_classify.Location = new System.Drawing.Point(668, 344);
             this.btn_dot_classify.Name = "btn_dot_classify";
             this.btn_dot_classify.Size = new System.Drawing.Size(50, 50);
             this.btn_dot_classify.TabIndex = 77;
@@ -219,15 +279,17 @@
             this.canvas.TabIndex = 70;
             this.canvas.TabStop = false;
             this.canvas.MouseClick += new System.Windows.Forms.MouseEventHandler(this.canvas_MouseClick);
-            this.canvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.canvas_MouseDown);
-            this.canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.canvas_MouseMove);
-            this.canvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.canvas_MouseUp);
             // 
             // VecPaintD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.Controls.Add(this.btn_dot_classify2);
+            this.Controls.Add(this.label_count);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.listBox_polygons);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.cur_info);
             this.Controls.Add(this.status);
             this.Controls.Add(this.with_bar);
@@ -245,7 +307,7 @@
             this.Controls.Add(this.btn_add_polygon);
             this.Controls.Add(this.canvas);
             this.Name = "VecPaintD";
-            this.Size = new System.Drawing.Size(800, 530);
+            this.Size = new System.Drawing.Size(1067, 530);
             ((System.ComponentModel.ISupportInitialize)(this.with_bar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).EndInit();
             this.ResumeLayout(false);
@@ -273,5 +335,10 @@
         private System.Windows.Forms.Button btn_move;
         private System.Windows.Forms.Button btn_add_polygon;
         private System.Windows.Forms.PictureBox canvas;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ListBox listBox_polygons;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label_count;
+        private System.Windows.Forms.Button btn_dot_classify2;
     }
 }
