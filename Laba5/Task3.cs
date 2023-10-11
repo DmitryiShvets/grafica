@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Numerics;
 
 namespace Laba5
 {
@@ -40,30 +41,43 @@ namespace Laba5
                 Hide();
             }
         }
+
         public VectorD GetPoint(float t)
         {
             int n = points.Count - 1;
             VectorD point = VectorD.Zero;
             for (int i = 0; i <= n; i++)
             {
-                float blend = BinomialCoefficient(n, i) * (float)Math.Pow(t, i) * (float)Math.Pow(1 - t, n - i);
+                float blend = (float)BinomialCoefficient(n, i) * (float)Math.Pow(t, i) * (float)Math.Pow(1 - t, n - i);
                 point += blend * points[i];
             }
             return point;
         }
-        private long BinomialCoefficient(int n, int k)
+
+        private decimal BinomialCoefficient(int n, int k)
         {
-            return Factorial(n) / (Factorial(k) * Factorial(n - k));
-        }
-        private long Factorial(int n)
-        {
-            long result = 1;
-            for (int i = 1; i <= n; i++)
+            if (k == 0 || k == n)
             {
-                result *= i;
+                return 1;
             }
+
+            decimal result = 1;
+            for (int i = 1; i <= k; i++)
+            {
+                try
+                {
+                    result *= n - i + 1;
+                    result /= i;
+                }
+                catch
+                {
+                    Console.WriteLine("Слишком много точек");
+                }
+            }
+
             return result;
         }
+        
         private void pictureBox_MouseClick(object sender, MouseEventArgs e)
         {
             if (g_state == STATE.ADDING_POINT)
@@ -77,7 +91,7 @@ namespace Laba5
                 {
                     graphics.Clear(Color.White);
                     DrawPoints();
-                    DrawCurve();
+                    DrawCurve2();
                 }
             }
         }
@@ -88,7 +102,7 @@ namespace Laba5
             canvas.Invalidate();
             points.Clear();
             textBox1.Text += "Точки очищены" + Environment.NewLine;
-            label_count.Text = "0";
+            label_count.Text = points.Count().ToString();
             ChangeState(STATE.NONE);
         }
 
@@ -155,7 +169,7 @@ namespace Laba5
         {
             textBox1.Text += "Визуализация составной кубической кривой Безье\n";
             isButton = true;
-            DrawCurve();
+            DrawCurve2();
         }
 
         private void DrawPoints()
@@ -164,16 +178,90 @@ namespace Laba5
             {
                 graphics.DrawEllipse(pen, p.X, p.Y, 2, 2);
             }
+            canvas.Invalidate();
         }
 
-        private void DrawCurve()
+        private Point B(double t, VectorD point1, VectorD point2, VectorD point3, VectorD point4)
+        {
+            double x = (1 - t) * (1 - t) * (1 - t) * point1.X + (1 - t) * (1 - t) * 3 * t * point2.X + (1 - t) * t * 3 * t * point3.X + t * t * t * point4.X;
+            double y = (1 - t) * (1 - t) * (1 - t) * point1.Y + (1 - t) * (1 - t) * 3 * t * point2.Y + (1 - t) * t * 3 * t * point3.Y + t * t * t * point4.Y;
+            return new Point((int)x, (int)y);
+        }
+
+        private void DrawCurve2()
+        {
+            graphics.Clear(Color.White);
+
+            if (points.Count() < 4)
+            {
+                DrawPoints();
+                return;
+            }
+
+            List<VectorD> newPoints = new List<VectorD>();
+            newPoints.Add(points[0]);
+            newPoints.Add(points[1]);
+            newPoints.Add(points[2]);
+
+            for (int i = 3; i < points.Count; i++)
+            {
+                if (i != points.Count - 1)
+                {
+                    if (i % 2 == 0)
+                        newPoints.Add(points[i]);
+                    if (i % 2 != 0)
+                    {
+                        newPoints.Add(new VectorD(points[i - 1].X + (points[i].X - points[i - 1].X) / 2, points[i - 1].Y + (points[i].Y - points[i - 1].Y) / 2));
+                        newPoints.Add(points[i]);
+                    }
+                }
+                else
+                {
+                    if (i % 2 == 0)
+                    {
+                        newPoints.Add(points[i]);
+                        newPoints.Add(points[i]);
+                    }
+                    if (i % 2 != 0)
+                        newPoints.Add(points[i]);
+                }
+            }
+
+            List<Point> drawingPoints = new List<Point>();
+
+            VectorD point1, point2, point3, point4;
+
+            for (int i = 0; i < newPoints.Count - 3; i += 3)
+            {
+                point1 = newPoints[i];
+                point2 = newPoints[i + 1];
+                point3 = newPoints[i + 2];
+                point4 = newPoints[i + 3];
+
+                for (float t = 0; t <= 1; t += 0.01f)
+                {
+                    drawingPoints.Add(B(t, point1, point2, point3, point4));
+                }
+
+            }
+            graphics.DrawLines(pen, drawingPoints.ToArray());
+            for (int i = 0; i < newPoints.Count; i++)
+            {
+                if (points.Contains(newPoints[i]))
+                    graphics.FillEllipse(Brushes.Red, newPoints[i].X - 2, newPoints[i].Y - 2, 7, 7);
+            }
+            canvas.Invalidate();
+        }
+
+        
+        private void DrawCurve1()
         {
             List<PointF> p = new List<PointF>();
             for (float t = 0; t <= 1; t += 0.01f)
             {
                 VectorD point = GetPoint(t);
                 p.Add(new PointF(point.X, point.Y));
-                Console.WriteLine($"Point at t = {t}: ({point.X}, {point.Y})");
+                //Console.WriteLine($"Point at t = {t}: ({point.X}, {point.Y})");
             }
             graphics.DrawLines(pen, p.ToArray());
             canvas.Invalidate();
@@ -189,9 +277,8 @@ namespace Laba5
                     if (bounds.Contains(e.Location))
                     {
                         points.Remove(points[i]);
-                        graphics.Clear(Color.White);
-                        DrawPoints();
-                        DrawCurve();
+                        label_count.Text = points.Count().ToString();
+                        DrawCurve2();
                         break;
                     }
                 }
@@ -227,9 +314,7 @@ namespace Laba5
                 if (selectedPoint != -1)
                 {
                     points[selectedPoint] = new VectorD(e.Location.X, e.Location.Y);
-                    graphics.Clear(Color.White);
-                    DrawPoints();
-                    DrawCurve();
+                    DrawCurve2();
                 }
             }    
         }
@@ -240,7 +325,7 @@ namespace Laba5
             {
                 textBox1.Text += "Визуализация составной кубической кривой Безье\n";
                 isButton = true;
-                DrawCurve();
+                DrawCurve2();
             }
             else
             {
