@@ -33,7 +33,6 @@ namespace blank
             if (g_state == STATE.NONE)
             {
                 g_state = STATE.ADDING_POLYGON;
-                _polygons.Add(new Polygon());
                 UpdateUI();
             }
             else status.Text = "Ошибка добавления полигона";
@@ -45,7 +44,6 @@ namespace blank
             if (g_state == STATE.ADDING_POLYGON)
             {
                 g_state = STATE.NONE;
-                if (_polygons.Last().Size == 0) _polygons.Remove(_polygons.Last());
                 ReCount();
                 UpdateUI();
             }
@@ -63,22 +61,24 @@ namespace blank
         {
             NONE,                   // IDLE
             ADDING_POLYGON,         // состояние добавления полигона
-            EDITING_POLYGON,        // состояние изменения полигона
-            MOVE_POLYGON,           // состояние перемещение полигона
-            ROTATE_POLYGON,         // состояние вращение полигона
-            SCALE_POLYGON,          // состояние масштабирование полигона
         }
 
         private void UpdateUI()
         {
             ClearCanvas();
+            status.Text = "статус";
+
             switch (g_state)
             {
                 case STATE.NONE: btn_clear.Select(); break;
-                case STATE.ADDING_POLYGON: btn_add_polygon.Select(); break;
+                case STATE.ADDING_POLYGON:
+                    {
+                        btn_add_polygon.Select();
+                        status.Text = "Добавление полигонов";
+                        break;
+                    }
             }
             cur_info.Text = "полигонов: " + _polygons.Count + " вершин: " + count_vertex;
-
             if (_polygons.Count > 0) DrawAll();
         }
 
@@ -173,6 +173,7 @@ namespace blank
         {
             if (g_state == STATE.ADDING_POLYGON)
             {
+                _polygons.Add(new Polygon());
                 _polygons.Last().Insert(new Point2D(e.X, e.Y));
                 _graphics.FillEllipse(brush_vertes, e.X - with_bar.Value / 2, e.Y - with_bar.Value / 2, with_bar.Value, with_bar.Value);
                 canvas.Invalidate();
