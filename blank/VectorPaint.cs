@@ -203,5 +203,73 @@ namespace blank
                 count_vertex += item.Size;
             }
         }
+
+        private Polygon GiftWrapHull(Point2D[] s, int n)
+        {
+
+            int a=0;
+            for (int i = 1; i < n; i++)
+            {
+                if (s[i] < s[a]) a = i;  //Находим самую левую
+            }
+
+            s[n] = s[a]; //Запоминаем начальную точку
+
+            Polygon result = new Polygon();
+
+            for (int m = 0; m < n; m++)
+            {
+                SwapPoints(ref s[a], ref s[m]); 
+                result.Insert(s[m]);
+                a = m + 1;
+                for (int i = m + 2; i <= n; i++)
+                {
+                    Point2D.ORIENTATION c = s[i].Classify(s[m], s[a]);
+                    if (c == Point2D.ORIENTATION.LEFT || c == Point2D.ORIENTATION.BEYOND) a = i;
+                }
+                if (a == n) return result;
+            }
+            return new Polygon();
+        }
+
+        private void SwapPoints(ref Point2D a, ref Point2D b)
+        {
+            Point2D tmp = a;
+            a = b;
+            b = tmp;
+        }
+
+        private void btn_wrap_hull_Click(object sender, System.EventArgs e)
+        {
+            if (g_state == STATE.NONE)
+            {
+                Point2D[] points = new Point2D[_polygons.Count + 1];
+                int i = 0;
+                foreach (var item in _polygons)
+                {
+                    points[i] = item.Point;
+                    i++;
+                }
+                points[i] = new Point2D();
+                Polygon polygon = GiftWrapHull(points, _polygons.Count);
+
+                if (polygon.Size == 1)
+                {
+                    DrawVertexes(polygon);
+                }
+                if (polygon.Size > 1)
+                {
+                    DrawEdges(polygon);
+                    DrawVertexes(polygon);
+                }
+
+                canvas.Image = _bitmap;
+                canvas.Invalidate();
+            }
+            else
+            {
+                status.Text = "Ошибка! Сначала сохраните полигоны";
+            }
+        }
     }
 }

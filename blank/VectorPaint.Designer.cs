@@ -37,7 +37,7 @@
             this.btn_color = new System.Windows.Forms.Button();
             this.btn_clear = new System.Windows.Forms.Button();
             this.btn_apply = new System.Windows.Forms.Button();
-            this.btn_dot_classify = new System.Windows.Forms.Button();
+            this.btn_wrap_hull = new System.Windows.Forms.Button();
             this.btn_add_polygon = new System.Windows.Forms.Button();
             this.cur_info = new System.Windows.Forms.Label();
             this.canvas = new System.Windows.Forms.PictureBox();
@@ -112,15 +112,16 @@
             this.btn_apply.UseVisualStyleBackColor = true;
             this.btn_apply.Click += new System.EventHandler(this.btn_apply_Click);
             // 
-            // btn_dot_classify
+            // btn_wrap_hull
             // 
-            this.btn_dot_classify.Image = global::blank.Properties.Resources.icons8_classify;
-            this.btn_dot_classify.Location = new System.Drawing.Point(667, 60);
-            this.btn_dot_classify.Name = "btn_dot_classify";
-            this.btn_dot_classify.Size = new System.Drawing.Size(50, 50);
-            this.btn_dot_classify.TabIndex = 67;
-            this.toolTip1.SetToolTip(this.btn_dot_classify, "Принадлежит ли точка выпуклому");
-            this.btn_dot_classify.UseVisualStyleBackColor = true;
+            this.btn_wrap_hull.Image = global::blank.Properties.Resources.icons8_classify;
+            this.btn_wrap_hull.Location = new System.Drawing.Point(667, 60);
+            this.btn_wrap_hull.Name = "btn_wrap_hull";
+            this.btn_wrap_hull.Size = new System.Drawing.Size(50, 50);
+            this.btn_wrap_hull.TabIndex = 67;
+            this.toolTip1.SetToolTip(this.btn_wrap_hull, "Принадлежит ли точка выпуклому");
+            this.btn_wrap_hull.UseVisualStyleBackColor = true;
+            this.btn_wrap_hull.Click += new System.EventHandler(this.btn_wrap_hull_Click);
             // 
             // btn_add_polygon
             // 
@@ -167,7 +168,7 @@
             this.Controls.Add(this.btn_color);
             this.Controls.Add(this.btn_clear);
             this.Controls.Add(this.btn_apply);
-            this.Controls.Add(this.btn_dot_classify);
+            this.Controls.Add(this.btn_wrap_hull);
             this.Controls.Add(this.btn_add_polygon);
             this.Controls.Add(this.canvas);
             this.Name = "VectorPaint";
@@ -192,6 +193,6 @@
         private System.Windows.Forms.Button btn_apply;
         private System.Windows.Forms.Button btn_add_polygon;
         private System.Windows.Forms.Label cur_info;
-        private System.Windows.Forms.Button btn_dot_classify;
+        private System.Windows.Forms.Button btn_wrap_hull;
     }
 }
