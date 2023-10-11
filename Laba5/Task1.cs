@@ -236,6 +236,7 @@ namespace Laba5
 
             public string GenerateFractal(int iterations)
             {
+                if (iterations > _parameters.GMax) iterations = _parameters.GMax;
                 for (int i = 0; i < iterations; i++)
                 {
                     _currentString = ProcessString(_currentString);
@@ -269,6 +270,7 @@ namespace Laba5
             public string Axiom { get; set; }
             public float RAngle { get; set; }
             public float RDirection { get; set; }
+            public int GMax { get; set; }
             public string Name { get; set; }
             public Dictionary<char, string> RuleDictionary { get; set; }
 
@@ -291,6 +293,7 @@ namespace Laba5
                         Axiom = lines[0].Split(' ')[0];
                         RAngle = float.Parse(lines[0].Split(' ')[1], CultureInfo.InvariantCulture) * (float)Math.PI / 180;
                         RDirection = GetRotationDirection(lines[0].Split(' ')[2]);
+                        GMax = Int32.Parse(lines[0].Split(' ')[3]);
                         RuleDictionary = new Dictionary<char, string>();
                         Name = filePath;
                         for (int i = 1; i < lines.Length; i++)

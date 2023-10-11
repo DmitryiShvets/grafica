@@ -86,7 +86,7 @@
             "Случайное Дерево"});
             this.list_fractals.Location = new System.Drawing.Point(831, 52);
             this.list_fractals.Name = "list_fractals";
-            this.list_fractals.Size = new System.Drawing.Size(179, 28);
+            this.list_fractals.Size = new System.Drawing.Size(225, 28);
             this.list_fractals.TabIndex = 2;
             this.list_fractals.Text = "Кривая Коха";
             this.list_fractals.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
@@ -200,7 +200,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1056, 627);
+            this.ClientSize = new System.Drawing.Size(1100, 627);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label6);
