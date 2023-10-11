@@ -1,4 +1,4 @@
-﻿namespace blank
+﻿namespace Laba5
 {
     partial class Form1
     {

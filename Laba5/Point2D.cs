@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace blank
+namespace Laba5
 {
     public class Point2D : IComparable<Point2D>, IEquatable<Point2D>
     {

@@ -121,10 +121,16 @@
   <data name="icons8_pen" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8_pen1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="icons8_add_point" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8_add_point.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="icons8_eraser" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8_eraser1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icons8_clear" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8_clear1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icons8_move" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8_move.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
