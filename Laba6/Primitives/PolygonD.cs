@@ -25,7 +25,7 @@ namespace blank
 
         public PolygonD() : base() { }
 
-        public PolygonD(Vertex v) : base(v) { }
+        public PolygonD(Vertex2D v) : base(v) { }
 
         public PolygonD(Polygon p) : base(p) { }
 
@@ -52,10 +52,10 @@ namespace blank
 
         public bool IsPointInPolygon(Point2D point) // 5) Принадлежит ли точка выпуклому многоугольнику
         {
-            Vertex start = this.Front;
+            Vertex2D start = this.Front;
             PolygonD polygon = this;
             Point2D.ORIENTATION orient = point.Classify(polygon.Edge());
-            for (int i = 0; i < polygon.Size; i++, polygon.Advance(Vertex.ROTATION.CLOCKWISE))
+            for (int i = 0; i < polygon.Size; i++, polygon.Advance(Vertex2D.ROTATION.CLOCKWISE))
             {
                 if (point.Classify(polygon.Edge()) != orient)
                 {
@@ -70,7 +70,7 @@ namespace blank
         {
             bool res = false;
             PolygonD polygon = this;
-            for (int i = 0; i < polygon.Size; i++, polygon.Advance(Vertex.ROTATION.CLOCKWISE))
+            for (int i = 0; i < polygon.Size; i++, polygon.Advance(Vertex2D.ROTATION.CLOCKWISE))
             {
                 Edge e = polygon.Edge();
                 Point2D minPoint = e.origin;

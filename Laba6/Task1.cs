@@ -12,9 +12,14 @@ namespace blank
 {
     public partial class Task1 : Form
     {
+        private Bitmap _bitmap;
+        private Graphics _graphics;
+
         public Task1()
         {
             InitializeComponent();
+
+
         }
 
         private void Task1_FormClosing(object sender, FormClosingEventArgs e)
@@ -26,5 +31,6 @@ namespace blank
 
             }
         }
+
     }
 }

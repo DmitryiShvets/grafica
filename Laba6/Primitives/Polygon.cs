@@ -1,19 +1,19 @@
 ﻿
 using System.Security.Cryptography;
-using static blank.Vertex;
+using static blank.Vertex2D;
 
 namespace blank
 {
     public class Polygon
     {
-        private Vertex _v;
+        private Vertex2D _v;
         private int _size;
         private void Resize()
         {
             if (_v == null) _size = 0;
             else
             {
-                Vertex v = _v.Next;
+                Vertex2D v = _v.Next;
                 for (_size = 1; v != _v; v = v.Next, _size++) ;
             }
         }
@@ -23,7 +23,7 @@ namespace blank
             _v = null;
             _size = 0;
         }
-        public Polygon(Vertex v)
+        public Polygon(Vertex2D v)
         {
             _v = v;
             Resize();
@@ -34,11 +34,11 @@ namespace blank
             if (_size == 0) _v = null;
             else
             {
-                _v = new Vertex(p.Point);
+                _v = new Vertex2D(p.Point);
                 for (int i = 1; i < _size; i++)
                 {
                     p.Advance(ROTATION.CLOCKWISE);
-                    _v = _v.Insert(new Vertex(p.Point));
+                    _v = _v.Insert(new Vertex2D(p.Point));
                 }
             }
             p.Advance(ROTATION.CLOCKWISE);
@@ -53,7 +53,7 @@ namespace blank
         {
             get { return _size; }
         }
-        public Vertex Front
+        public Vertex2D Front
         {
             get { return _v; }
         }
@@ -62,42 +62,42 @@ namespace blank
             return new Edge(Point, _v.Next.Point);
         }
 
-        public Vertex Next
+        public Vertex2D Next
         {
             get { return _v.Next; }
         }
-        public Vertex Prev
+        public Vertex2D Prev
         {
             get { return _v.Next; }
         }
-        public Vertex Neighbor(ROTATION r)
+        public Vertex2D Neighbor(ROTATION r)
         {
             return _v.Neighbor(r);
         }
 
-        public Vertex Advance(ROTATION r)
+        public Vertex2D Advance(ROTATION r)
         {
             _v = _v.Neighbor(r);
             return _v;
         }
-        public Vertex SetV(Vertex v)
+        public Vertex2D SetV(Vertex2D v)
         {
             _v = v;
             return _v;
         }
-        public Vertex Insert(Point2D p)
+        public Vertex2D Insert(Point2D p)
         {
-            if (_size++ == 0) _v = new Vertex(p);
-            else _v = _v.Insert(new Vertex(p));
+            if (_size++ == 0) _v = new Vertex2D(p);
+            else _v = _v.Insert(new Vertex2D(p));
             return _v;
         }
         public void Remove()
         {
             _v = (--_size == 0) ? null : _v.Prev;
         }
-        public Polygon Split(Vertex v)
+        public Polygon Split(Vertex2D v)
         {
-            Vertex vp = _v.Split(v);
+            Vertex2D vp = _v.Split(v);
             Resize();
             return new Polygon(vp);
         }

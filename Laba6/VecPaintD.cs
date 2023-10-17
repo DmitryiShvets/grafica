@@ -139,29 +139,29 @@ namespace blank
 
         private void DrawVertexes(Polygon polygon)
         {
-            Vertex start = polygon.Front;
+            Vertex2D start = polygon.Front;
 
             _graphics.FillEllipse(brush_vertes, polygon.Front.x - with_bar.Value / 2, polygon.Front.y - with_bar.Value / 2, with_bar.Value, with_bar.Value);
-            polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+            polygon.Advance(Vertex2D.ROTATION.CLOCKWISE);
 
             while (polygon.Front != start)
             {
                 _graphics.FillEllipse(brush_vertes, polygon.Front.x - with_bar.Value / 2, polygon.Front.y - with_bar.Value / 2, with_bar.Value, with_bar.Value);
-                polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+                polygon.Advance(Vertex2D.ROTATION.CLOCKWISE);
             }
         }
 
         private void DrawEdges(Polygon polygon, Pen pen)
         {
-            Vertex start = polygon.Front;
+            Vertex2D start = polygon.Front;
 
             _graphics.DrawLine(pen, start.x, start.y, start.Next.x, start.Next.y);
-            polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+            polygon.Advance(Vertex2D.ROTATION.CLOCKWISE);
 
             while (polygon.Front != start)
             {
                 _graphics.DrawLine(pen, polygon.Front.x, polygon.Front.y, polygon.Front.Next.x, polygon.Front.Next.y);
-                polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+                polygon.Advance(Vertex2D.ROTATION.CLOCKWISE);
             }
         }
 

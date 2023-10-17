@@ -141,29 +141,29 @@ namespace blank
 
         private void DrawVertexes(Polygon polygon)
         {
-            Vertex start = polygon.Front;
+            Vertex2D start = polygon.Front;
 
             _graphics.FillEllipse(brush_vertes, polygon.Front.x - with_bar.Value / 2, polygon.Front.y - with_bar.Value / 2, with_bar.Value, with_bar.Value);
-            polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+            polygon.Advance(Vertex2D.ROTATION.CLOCKWISE);
 
             while (polygon.Front != start)
             {
                 _graphics.FillEllipse(brush_vertes, polygon.Front.x - with_bar.Value / 2, polygon.Front.y - with_bar.Value / 2, with_bar.Value, with_bar.Value);
-                polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+                polygon.Advance(Vertex2D.ROTATION.CLOCKWISE);
             }
         }
 
         private void DrawEdges(Polygon polygon)
         {
-            Vertex start = polygon.Front;
+            Vertex2D start = polygon.Front;
 
             _graphics.DrawLine(pen_edge, start.x, start.y, start.Next.x, start.Next.y);
-            polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+            polygon.Advance(Vertex2D.ROTATION.CLOCKWISE);
 
             while (polygon.Front != start)
             {
                 _graphics.DrawLine(pen_edge, polygon.Front.x, polygon.Front.y, polygon.Front.Next.x, polygon.Front.Next.y);
-                polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+                polygon.Advance(Vertex2D.ROTATION.CLOCKWISE);
             }
         }
 
@@ -231,7 +231,7 @@ namespace blank
             var translationMatrix = AffineTransformations.TranslationMatrix(dx, dy);
 
 
-            Vertex start = polygon.Front;
+            Vertex2D start = polygon.Front;
 
             Matrix2D pointMatrix = new Matrix2D(new double[,]
             {
@@ -244,7 +244,7 @@ namespace blank
             polygon.Front.Point.x = (float)result.Values[0, 0];
             polygon.Front.Point.y = (float)result.Values[1, 0];
 
-            polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+            polygon.Advance(Vertex2D.ROTATION.CLOCKWISE);
 
             while (polygon.Front != start)
             {
@@ -259,7 +259,7 @@ namespace blank
                 polygon.Front.Point.x = (float)result.Values[0, 0];
                 polygon.Front.Point.y = (float)result.Values[1, 0];
 
-                polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+                polygon.Advance(Vertex2D.ROTATION.CLOCKWISE);
             }
             ReCount();
             UpdateUI();
@@ -271,17 +271,17 @@ namespace blank
             float sumX = 0;
             float sumY = 0;
 
-            Vertex start = cur_edit_polygon.Front;
+            Vertex2D start = cur_edit_polygon.Front;
             sumX += cur_edit_polygon.Front.Point.x;
             sumY += cur_edit_polygon.Front.Point.y;
-            cur_edit_polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+            cur_edit_polygon.Advance(Vertex2D.ROTATION.CLOCKWISE);
 
             while (cur_edit_polygon.Front != start)
             {
                 sumX += cur_edit_polygon.Front.Point.x;
                 sumY += cur_edit_polygon.Front.Point.y;
 
-                cur_edit_polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+                cur_edit_polygon.Advance(Vertex2D.ROTATION.CLOCKWISE);
             }
 
             return new Vector2(sumX / cur_edit_polygon.Size, sumY / cur_edit_polygon.Size);
@@ -291,7 +291,7 @@ namespace blank
         {
             var rotationMatrix = AffineTransformations.RotationMatrix(angle, new Point2D(center.X, center.Y));
             
-            Vertex start = polygon.Front;
+            Vertex2D start = polygon.Front;
 
             Matrix2D pointMatrix = new Matrix2D(new double[,]
             {
@@ -304,7 +304,7 @@ namespace blank
             polygon.Front.Point.x = (float)result.Values[0, 0];
             polygon.Front.Point.y = (float)result.Values[1, 0];
 
-            polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+            polygon.Advance(Vertex2D.ROTATION.CLOCKWISE);
 
             while (cur_edit_polygon.Front != start)
             {
@@ -319,7 +319,7 @@ namespace blank
                 polygon.Front.Point.x = (float)result.Values[0, 0];
                 polygon.Front.Point.y = (float)result.Values[1, 0];
 
-                polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+                polygon.Advance(Vertex2D.ROTATION.CLOCKWISE);
             }
             ReCount();
             UpdateUI();
@@ -329,7 +329,7 @@ namespace blank
         {
             var scaleMatrix = AffineTransformations.ScaleMatrix(sx, sy, new Point2D(center.X, center.Y));
 
-            Vertex start = polygon.Front;
+            Vertex2D start = polygon.Front;
 
             Matrix2D pointMatrix = new Matrix2D(new double[,]
             {
@@ -342,7 +342,7 @@ namespace blank
             polygon.Front.Point.x = (float)result.Values[0, 0];
             polygon.Front.Point.y = (float)result.Values[1, 0];
 
-            polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+            polygon.Advance(Vertex2D.ROTATION.CLOCKWISE);
 
             while (cur_edit_polygon.Front != start)
             {
@@ -357,7 +357,7 @@ namespace blank
                 polygon.Front.Point.x = (float)result.Values[0, 0];
                 polygon.Front.Point.y = (float)result.Values[1, 0];
 
-                polygon.Advance(Vertex.ROTATION.CLOCKWISE);
+                polygon.Advance(Vertex2D.ROTATION.CLOCKWISE);
             }
             ReCount();
             UpdateUI();

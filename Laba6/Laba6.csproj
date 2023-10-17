@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B9DCB945-3A54-4D27-9FFA-544852659C1F}</ProjectGuid>
+    <ProjectGuid>{CBD0B5B2-3302-4AEF-A3D1-1DFA5B6E8589}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>blank</RootNamespace>
-    <AssemblyName>blank</AssemblyName>
+    <AssemblyName>Laba6</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -53,7 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AffineTransformations.cs" />
+    <Compile Include="Primitives\Triangle3D.cs" />
+    <Compile Include="Utility\AffineTransformations.cs" />
+    <Compile Include="Primitives\Point3D.cs" />
     <Compile Include="Primitives\Edge.cs" />
     <Compile Include="Primitives\EdgeD.cs" />
     <Compile Include="Utility\FastBitmap.cs" />
@@ -112,7 +114,7 @@
     <Compile Include="VectorPaint.Designer.cs">
       <DependentUpon>VectorPaint.cs</DependentUpon>
     </Compile>
-    <Compile Include="Primitives\Vertex.cs" />
+    <Compile Include="Primitives\Vertex2D.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

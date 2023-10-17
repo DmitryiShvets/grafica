@@ -28,22 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.vectorPaint1 = new blank.VectorPaint();
             this.SuspendLayout();
-            // 
-            // vectorPaint1
-            // 
-            this.vectorPaint1.Location = new System.Drawing.Point(12, 12);
-            this.vectorPaint1.Name = "vectorPaint1";
-            this.vectorPaint1.Size = new System.Drawing.Size(776, 530);
-            this.vectorPaint1.TabIndex = 0;
             // 
             // Task1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 588);
-            this.Controls.Add(this.vectorPaint1);
             this.Name = "Task1";
             this.Text = "Task1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Task1_FormClosing);
@@ -52,7 +43,5 @@
         }
 
         #endregion
-
-        private VectorPaint vectorPaint1;
     }
 }
