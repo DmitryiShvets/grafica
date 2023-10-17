@@ -25,7 +25,7 @@ namespace blank.Utility
 
             if (rows == 4)
             {
-                return new Vector4(Values[0, 0], Values[1, 0], Values[2, 0]);
+                return new Vector4(Values[0, 0], Values[1, 0], Values[2, 0], Values[3, 0]);
             }
             else {
                 return new Vector4();
@@ -42,13 +42,13 @@ namespace blank.Utility
             if (colsA != rowsB)
                 throw new ArgumentException("Недопустимые размеры матрицы для умножения");
 
-            double[,] result = new double[rowsA, colsB];
+            float[,] result = new float[rowsA, colsB];
 
             for (int i = 0; i < rowsA; i++)
             {
                 for (int j = 0; j < colsB; j++)
                 {
-                    double sum = 0.0;
+                    float sum = 0.0f;
                     for (int k = 0; k < colsA; k++)
                     {
                         sum += a.Values[i, k] + b.Values[k, j];
@@ -70,13 +70,13 @@ namespace blank.Utility
             if (colsA != rowsB)
                 throw new ArgumentException("Недопустимые размеры матрицы для умножения");
 
-            double[,] result = new double[rowsA, colsB];
+            float[,] result = new float[rowsA, colsB];
 
             for (int i = 0; i < rowsA; i++)
             {
                 for (int j = 0; j < colsB; j++)
                 {
-                    double sum = 0.0;
+                    float sum = 0.0f;
                     for (int k = 0; k < colsA; k++)
                     {
                         sum += a.Values[i, k] * b.Values[k, j];
@@ -90,12 +90,12 @@ namespace blank.Utility
 
         public static Matrix3D GetVector4(Vector4 point)
         {
-            return new Matrix3D(new double[,] { { point.x }, { point.y }, { point.z }, { 1 } });
+            return new Matrix3D(new float[,] { { point.x }, { point.y }, { point.z }, { 1 } });
         }
 
         public static Matrix3D GetTranslationMatrix(Vector4 offset)
         {
-            return new Matrix3D(new double[,]
+            return new Matrix3D(new float[,]
             {
                 { 1, 0, 0, offset.x },
                 { 0, 1, 0, offset.y },
@@ -114,14 +114,14 @@ namespace blank.Utility
 
         private static Matrix3D GetRotationMatrixAxis(float angle, AXIS_TYPE axis)
         {
-            double cos_theta = Math.Cos(degreesToRadians(angle));
-            double sin_theta = Math.Sin(degreesToRadians(angle));
+            float cos_theta = (float)Math.Cos(degreesToRadians(angle));
+            float sin_theta = (float)Math.Sin(degreesToRadians(angle));
 
             switch (axis)
             {
                 case AXIS_TYPE.X:
                     {
-                        double[,] rotationMatrix = new double[,]
+                        float[,] rotationMatrix = new float[,]
                            {
                                 { 1, 0, 0, 0 },
                                 { 0, cos_theta, -sin_theta, 0 },
@@ -132,7 +132,7 @@ namespace blank.Utility
                     }
                 case AXIS_TYPE.Y:
                     {
-                        double[,] rotationMatrix = new double[,]
+                        float[,] rotationMatrix = new float[,]
                            {
                                 { cos_theta, 0, sin_theta, 0 },
                                 { 0, 1, 0, 0 },
@@ -143,7 +143,7 @@ namespace blank.Utility
                     }
                 case AXIS_TYPE.Z:
                     {
-                        double[,] rotationMatrix = new double[,]
+                        float[,] rotationMatrix = new float[,]
                            {
                                 { cos_theta, -sin_theta, 0, 0 },
                                 { sin_theta, cos_theta, 0, 0 },
@@ -158,7 +158,7 @@ namespace blank.Utility
 
         public static Matrix3D GetScaleMatrix(Vector4 scale)
         {
-            double[,] scaleMatrix = new double[,]
+            float[,] scaleMatrix = new float[,]
             {
                 { scale.x, 0, 0, 0 },
                 { 0, scale.y, 0, 0 },
@@ -171,7 +171,7 @@ namespace blank.Utility
 
         public static Matrix3D GetIdentityMatrix()
         {
-            double[,] identity_matrix = new double[,]
+            float[,] identity_matrix = new float[,]
                            {
                                 { 1, 0, 0, 0 },
                                 { 0, 1, 0, 0 },
@@ -182,9 +182,9 @@ namespace blank.Utility
             return new Matrix3D(identity_matrix);
         }
 
-        public static double degreesToRadians(double angle)
+        public static float degreesToRadians(double angle)
         {
-            return Math.PI * angle / 180.0;
+            return (float)(Math.PI * angle / 180.0);
         }
 
         public enum AXIS_TYPE
