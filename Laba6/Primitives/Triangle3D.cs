@@ -8,24 +8,24 @@ namespace blank.Primitives
 {
     internal class Triangle3D
     {
-        private Point3D[] vertexes;
-        private Point3D normal;
+        private Vector4[] vertexes;
+        private Vector4 normal;
 
-        public Triangle3D(Point3D v1, Point3D v2, Point3D v3)
+        public Triangle3D(Vector4 v1, Vector4 v2, Vector4 v3)
         {
-            this.vertexes = new Point3D[3];
+            this.vertexes = new Vector4[3];
             this.vertexes[0] = v1;
             this.vertexes[1] = v2;
             this.vertexes[2] = v3;
-            this.normal = Point3D.CrossProduct(v2 - v1, v3 - v1);
+            this.normal = Vector4.CrossProduct(v2 - v1, v3 - v1);
             this.normal = normal * (float)(1.0 / normal.Length());
         }
 
-        public Point3D this[int key]
+        public Vector4 this[int key]
         {
             get => vertexes[key];
         }
 
-        internal Point3D Normal { get => normal; }
+        internal Vector4 Normal { get => normal; }
     }
 }

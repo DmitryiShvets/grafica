@@ -4,65 +4,76 @@ using System.Drawing;
 
 namespace blank.Primitives
 {
-    internal class Point3D
+    internal class Vector4
     {
         public float x;
         public float y;
         public float z;
+        public float w;
 
-        public Point3D()
+        public Vector4()
         {
             this.x = 0.0f;
             this.y = 0.0f;
             this.z = 0.0f;
+            this.w = 1.0f;
         }
 
-        public Point3D(float x, float y, float z)
+        public Vector4(float x, float y, float z)
         {
             this.x = x;
             this.y = y;
             this.z = z;
+            this.w = 1.0f;
         }
 
-        public static Point3D operator +(Point3D lhs, Point3D rhs)
+        public Vector4(float x, float y, float z, float w)
         {
-            return new Point3D(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z);
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.w = w;
         }
-        public static Point3D operator -(Point3D lhs, Point3D rhs)
+
+        public static Vector4 operator +(Vector4 lhs, Vector4 rhs)
         {
-            return new Point3D(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z);
+            return new Vector4(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z);
         }
-        public static float DotProduct(Point3D lhs, Point3D rhs)
+        public static Vector4 operator -(Vector4 lhs, Vector4 rhs)
+        {
+            return new Vector4(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z);
+        }
+        public static float DotProduct(Vector4 lhs, Vector4 rhs)
         {
             return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
         }
-        public static Point3D CrossProduct(Point3D a, Point3D b)
+        public static Vector4 CrossProduct(Vector4 a, Vector4 b)
         {
-            return new Point3D(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+            return new Vector4(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
         }
-        public static Point3D operator *(Point3D lhs, float rhs)
+        public static Vector4 operator *(Vector4 lhs, float rhs)
         {
-            return new Point3D(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs);
+            return new Vector4(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs);
         }
-        public static Point3D operator *(float lhs, Point3D rhs)
+        public static Vector4 operator *(float lhs, Vector4 rhs)
         {
-            return new Point3D(lhs * rhs.x, lhs * rhs.y, lhs * rhs.z);
+            return new Vector4(lhs * rhs.x, lhs * rhs.y, lhs * rhs.z);
         }
-        public static bool operator <(Point3D lhs, Point3D rhs)
+        public static bool operator <(Vector4 lhs, Vector4 rhs)
         {
             return (lhs.x < rhs.x) || ((lhs.x == rhs.x) && (lhs.y < rhs.y))
                 || ((lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.z < rhs.z));
         }
-        public static bool operator >(Point3D lhs, Point3D rhs)
+        public static bool operator >(Vector4 lhs, Vector4 rhs)
         {
             return (lhs.x > rhs.x) || ((lhs.x == rhs.x) && (lhs.y > rhs.y))
                 || ((lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.z > rhs.z));
         }
-        public static bool operator ==(Point3D lhs, Point3D rhs)
+        public static bool operator ==(Vector4 lhs, Vector4 rhs)
         {
             return (lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.z == rhs.z);
         }
-        public static bool operator !=(Point3D lhs, Point3D rhs)
+        public static bool operator !=(Vector4 lhs, Vector4 rhs)
         {
             return !(lhs == rhs);
         }
@@ -79,7 +90,7 @@ namespace blank.Primitives
 
         public override bool Equals(object obj)
         {
-            return obj is Point3D d &&
+            return obj is Vector4 d &&
                    x == d.x &&
                    y == d.y &&
                    z == d.z;

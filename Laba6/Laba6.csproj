@@ -53,9 +53,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utility\Matrix3D.cs" />
+    <Compile Include="Utility\Transform.cs" />
     <Compile Include="Primitives\Triangle3D.cs" />
     <Compile Include="Utility\AffineTransformations.cs" />
-    <Compile Include="Primitives\Point3D.cs" />
+    <Compile Include="Primitives\Vector4.cs" />
     <Compile Include="Primitives\Edge.cs" />
     <Compile Include="Primitives\EdgeD.cs" />
     <Compile Include="Utility\FastBitmap.cs" />
