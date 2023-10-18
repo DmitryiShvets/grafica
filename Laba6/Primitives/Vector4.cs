@@ -34,7 +34,17 @@ namespace blank.Primitives
             this.z = z;
             this.w = w;
         }
+        public static Vector4 Normalize(Vector4 v)
+        {
+            float len = Length(v);
+            return new Vector4(v.x / len, v.y / len, v.z /len);
+        }
+        public Vector4 Normalize()
+        {
+            if(Length() == 0)return this;
 
+            return this * (float)(1.0f / Length());
+        }
         public static Vector4 operator +(Vector4 lhs, Vector4 rhs)
         {
             return new Vector4(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z);
@@ -82,10 +92,14 @@ namespace blank.Primitives
         {
             return new PointF(x, y);
         }
-
-        public double Length()
+        public static float Length(Vector4 v)
         {
-            return Math.Sqrt(x * x + y * y + z * z);
+            return (float)Math.Sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+        }
+
+        public float Length()
+        {
+            return (float)Math.Sqrt(x * x + y * y + z * z);
         }
 
         public override bool Equals(object obj)

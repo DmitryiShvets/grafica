@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static blank.Utility.Matrix3D;
 using static blank.Vertex2D;
+using static System.Windows.Forms.AxHost;
 
 namespace blank.Utility
 {
@@ -27,7 +28,8 @@ namespace blank.Utility
             {
                 return new Vector4(Values[0, 0], Values[1, 0], Values[2, 0], Values[3, 0]);
             }
-            else {
+            else
+            {
                 return new Vector4();
             }
         }
@@ -54,6 +56,60 @@ namespace blank.Utility
                         sum += a.Values[i, k] + b.Values[k, j];
                     }
                     result[i, j] = sum;
+                }
+            }
+
+            return new Matrix3D(result);
+        }
+
+        public static Matrix3D operator /(Matrix3D a, float b)
+        {
+            int rowsA = a.Values.GetLength(0);
+            int colsA = a.Values.GetLength(1);
+
+            float[,] result = new float[rowsA, colsA];
+
+            for (int i = 0; i < rowsA; i++)
+            {
+                for (int j = 0; j < colsA; j++)
+                {
+                    result[i, j] = a.Values[i, j] / b;
+                }
+            }
+
+            return new Matrix3D(result);
+        }
+
+        public static Matrix3D operator *(float a, Matrix3D b)
+        {
+            int rows = b.Values.GetLength(0);
+            int cols = b.Values.GetLength(1);
+
+            float[,] result = new float[rows, cols];
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    result[i, j] = b.Values[i, j] * a;
+                }
+            }
+
+            return new Matrix3D(result);
+        }
+
+        public static Matrix3D operator *(Matrix3D a,float b)
+        {
+            int rowsA = a.Values.GetLength(0);
+            int colsA = a.Values.GetLength(1);
+
+            float[,] result = new float[rowsA, colsA];
+
+            for (int i = 0; i < rowsA; i++)
+            {
+                for (int j = 0; j < colsA; j++)
+                {
+                    result[i, j] = a.Values[i,j]*b;
                 }
             }
 
@@ -112,10 +168,11 @@ namespace blank.Utility
             return x * y * z;
         }
 
-        private static Matrix3D GetRotationMatrixAxis(float angle, AXIS_TYPE axis)
+        public static Matrix3D GetRotationMatrixAxis(float angle, AXIS_TYPE axis)
         {
-            float cos_theta = (float)Math.Cos(degreesToRadians(angle));
-            float sin_theta = (float)Math.Sin(degreesToRadians(angle));
+            float radians = ToRadians(angle);
+            float cos_theta = (float)Math.Cos(radians);
+            float sin_theta = (float)Math.Sin(radians);
 
             switch (axis)
             {
@@ -169,6 +226,102 @@ namespace blank.Utility
             return new Matrix3D(scaleMatrix);
         }
 
+        public static Matrix3D GetOrtho() {
+            float[,] identity_matrix = new float[,]
+                          {
+                                { 0, 0, 0, 0 },
+                                { 0, 1, 0, 0 },
+                                { 0, 0, 1, 0 },
+                                { 0, 0, 0, 1 }
+                          };
+
+            return new Matrix3D(identity_matrix);
+        }
+
+        public static Matrix3D GetProjectionMatrix(float fovy, float aspect, float n, float f)
+        {
+            float radians_fov = ToRadians(fovy);
+            float ctg_fov = (float)(1.0 / Math.Tan(radians_fov / 2));
+            float a = ctg_fov / aspect;
+            float b = ctg_fov;
+            float c = f + n / f - n;
+            float d = (-2 * f * n) / (f - n);
+
+            float[,] projection_matrix = new float[,]
+         {
+                { a, 0, 0, 0 },
+                { 0, b, 0, 0 },
+                { 0, 0, c, 1 },
+                { 0, 0, d, 0 }
+         };
+            return new Matrix3D(projection_matrix);
+        }
+
+        public static Matrix3D LookAt(Vector4 position, Vector4 target, Vector4 world_up)
+        {
+            Vector4 x_axis, y_axis, z_axis;
+            z_axis = Vector4.Normalize(position - target);
+            x_axis = Vector4.Normalize(Vector4.CrossProduct(Vector4.Normalize(world_up), z_axis));
+            y_axis = Vector4.CrossProduct(z_axis, x_axis);
+
+            Matrix3D translation = GetIdentityMatrix();
+            translation[3,0] = -position.x; 
+            translation[3, 1] = -position.y;
+            translation[3, 2] = -position.z;
+
+            Matrix3D rotation = GetIdentityMatrix();
+            rotation[0, 0] = x_axis.x; // First column, first row
+            rotation[1, 0] = x_axis.y;
+            rotation[2, 0] = x_axis.z;
+            rotation[0, 1] = y_axis.x; // First column, second row
+            rotation[1, 1] = y_axis.y;
+            rotation[2, 1] = y_axis.z;
+            rotation[0, 2] = z_axis.x; // First column, third row
+            rotation[1, 2] = z_axis.y;
+            rotation[2, 2] = z_axis.z;
+
+            return rotation * translation;
+        }
+
+        public static Matrix3D LookAt1(Vector4 Eye, Vector4 Center, Vector4 Up)
+        {
+            Vector4 X, Y, Z;
+            Z = Eye - Center;
+            Z.Normalize();
+            Y = Up;
+            X = Vector4.CrossProduct(Y, Z);
+            Y = Vector4.CrossProduct(Z, X);
+            X.Normalize();
+            Y.Normalize();
+
+            float x_dot = Vector4.DotProduct(X, Eye);
+            float y_dot = Vector4.DotProduct(Y, Eye);
+            float z_dot = Vector4.DotProduct(Z, Eye);
+
+            float[,] look_matrix = new float[,]
+           {
+                { X.x, Y.x, Z.x, 0 },
+                { X.y, Y.y, Z.y, 0 },
+                { X.z, Y.z, Z.z, 0 },
+                { -x_dot, -y_dot, -z_dot, 1 }
+           };
+            return new Matrix3D(look_matrix);
+
+        }
+
+        public static Matrix3D GetViewPortMatrix(int w,int h , int x, int y)
+        {
+            float[,] identity_matrix = new float[,]
+                          {
+                                { w/4, 0, 0, x },
+                                { 0, h/4, 0, y },
+                                { 0, 0, 1, 0 },
+                                { 0, 0, 0, 1 }
+                          };
+
+            return new Matrix3D(identity_matrix);
+        }
+
         public static Matrix3D GetIdentityMatrix()
         {
             float[,] identity_matrix = new float[,]
@@ -182,9 +335,31 @@ namespace blank.Utility
             return new Matrix3D(identity_matrix);
         }
 
-        public static float degreesToRadians(double angle)
+        public static float ToRadians(double angle)
         {
             return (float)(Math.PI * angle / 180.0);
+        }
+
+        public override string ToString()
+        {
+            int rows = Values.GetLength(0);
+            int cols = Values.GetLength(1);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    sb.Append(Values[i, j] + " ");
+                }
+                sb.Append('\n');
+            }
+            return sb.ToString();
+        }
+
+        public float this[int i, int j]
+        {
+            get { return Values[i, j]; }
+            set { Values[i, j] = value; }
         }
 
         public enum AXIS_TYPE

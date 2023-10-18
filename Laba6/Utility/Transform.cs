@@ -28,18 +28,17 @@ namespace blank.Primitives
             this.scale = scale;
         }
 
-        public Vector4 ApplyTransform(Vector4 point3D)
+        //Возвращает model matrix для конкретной модели
+        public Matrix3D ApplyTransform(Vector4 point3D)
         {
             Matrix3D result = Matrix3D.GetVector4(point3D);
             Matrix3D scale_matrix = Matrix3D.GetScaleMatrix(scale);
             Matrix3D rotation_matrix = Matrix3D.GetRotationMatrix(rotation);
             Matrix3D transform_matrix = Matrix3D.GetTranslationMatrix(position);
 
-            result = scale_matrix * result;
-            result = rotation_matrix * result;
-            result = transform_matrix * result;
-
-            return result.ToVector4();
+            result = transform_matrix * rotation_matrix * scale_matrix * result;
+     
+            return result;
         }
 
         //Смещение позиции по dx,dy,dz
