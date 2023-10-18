@@ -106,6 +106,12 @@
     <Compile Include="VecPaintV.Designer.cs">
       <DependentUpon>VecPaintV.cs</DependentUpon>
     </Compile>
+    <Compile Include="VectorPaintD.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VectorPaintD.Designer.cs">
+      <DependentUpon>VectorPaintD.cs</DependentUpon>
+    </Compile>
     <Compile Include="VectorPaint.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -143,6 +149,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VecPaintV.resx">
       <DependentUpon>VecPaintV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VectorPaintD.resx">
+      <DependentUpon>VectorPaintD.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VectorPaint.resx">
       <DependentUpon>VectorPaint.cs</DependentUpon>

@@ -19,7 +19,7 @@ namespace blank
         private int count_vertex = 0;                           //кол-во вершин
         private Bitmap _bitmap;
         private Graphics _graphics;
-
+        
         private Pen pen_edge = new Pen(Color.LimeGreen, 3f);
         private Pen pen_selected_edge = new Pen(Color.Red, 3f);
         private Pen pen_point = new Pen(Color.Blue, 3f);
