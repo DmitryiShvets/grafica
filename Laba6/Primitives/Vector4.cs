@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Text;
 
 namespace blank.Primitives
 {
@@ -37,11 +38,11 @@ namespace blank.Primitives
         public static Vector4 Normalize(Vector4 v)
         {
             float len = Length(v);
-            return new Vector4(v.x / len, v.y / len, v.z /len);
+            return new Vector4(v.x / len, v.y / len, v.z / len);
         }
         public Vector4 Normalize()
         {
-            if(Length() == 0)return this;
+            if (Length() == 0) return this;
 
             return this * (float)(1.0f / Length());
         }
@@ -117,6 +118,20 @@ namespace blank.Primitives
             hashCode = hashCode * -1521134295 + y.GetHashCode();
             hashCode = hashCode * -1521134295 + z.GetHashCode();
             return hashCode;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append(x + " ");
+            sb.Append(y + " ");
+            sb.Append(z + " ");
+            sb.Append(w + " ");
+            sb.Append('\n');
+
+
+            return sb.ToString();
         }
     }
 }

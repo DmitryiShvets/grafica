@@ -31,7 +31,7 @@ namespace blank.Primitives
         //Возвращает model matrix для конкретной модели
         public Matrix3D ApplyTransform(Vector4 point3D)
         {
-            Matrix3D result = Matrix3D.GetVector4(point3D);
+            Matrix3D result = Matrix3D.FromVector4(point3D);
             Matrix3D scale_matrix = Matrix3D.GetScaleMatrix(scale);
             Matrix3D rotation_matrix = Matrix3D.GetRotationMatrix(rotation);
             Matrix3D transform_matrix = Matrix3D.GetTranslationMatrix(position);

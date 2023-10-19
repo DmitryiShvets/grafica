@@ -98,7 +98,7 @@ namespace blank.Utility
             return new Matrix3D(result);
         }
 
-        public static Matrix3D operator *(Matrix3D a,float b)
+        public static Matrix3D operator *(Matrix3D a, float b)
         {
             int rowsA = a.Values.GetLength(0);
             int colsA = a.Values.GetLength(1);
@@ -109,7 +109,7 @@ namespace blank.Utility
             {
                 for (int j = 0; j < colsA; j++)
                 {
-                    result[i, j] = a.Values[i,j]*b;
+                    result[i, j] = a.Values[i, j] * b;
                 }
             }
 
@@ -143,8 +143,67 @@ namespace blank.Utility
 
             return new Matrix3D(result);
         }
+        public Matrix3D ToVector3(PROJECTION_TYPE axis)
+        {
+            float[,] matrix = new float[3, 1];
+            switch (axis)
+            {
+                case PROJECTION_TYPE.ORTHO_X_PLUS:
+                case PROJECTION_TYPE.ORTHO_X_MINUS:
+                    {
+                        matrix = new float[,]
+                        {
+                                { Values[2,0] },
+                                { Values[1,0] },
+                                { Values[3,0] },
+                                { 1, }
+                        };
 
-        public static Matrix3D GetVector4(Vector4 point)
+                        return new Matrix3D(matrix);
+                    }
+                case PROJECTION_TYPE.ORTHO_Y_PLUS:
+                case PROJECTION_TYPE.ORTHO_Y_MINUS:
+                    {
+                        matrix = new float[,]
+                        {
+                                { Values[0,0] },
+                                { Values[2,0] },
+                                { Values[3,0] },
+                                { 1,  }
+                        };
+
+                        return new Matrix3D(matrix);
+                    }
+                case PROJECTION_TYPE.ORTHO_Z_PLUS:
+                case PROJECTION_TYPE.ORTHO_Z_MINUS:
+                    {
+                        matrix = new float[,]
+                        {
+                                { Values[0,0] },
+                                { Values[1,0] },
+                                { Values[3,0] },
+                                { 1,  }
+                        };
+
+                        return new Matrix3D(matrix);
+                    }
+
+                default:
+                    {
+                        matrix = new float[,]
+                       {
+                                { Values[0,0] },
+                                { Values[1,0] },
+                                { Values[3,0] },
+                                { 1,  }
+                       };
+
+                        return new Matrix3D(matrix);
+                    }
+            }
+        }
+
+        public static Matrix3D FromVector4(Vector4 point)
         {
             return new Matrix3D(new float[,] { { point.x }, { point.y }, { point.z }, { 1 } });
         }
@@ -226,16 +285,98 @@ namespace blank.Utility
             return new Matrix3D(scaleMatrix);
         }
 
-        public static Matrix3D GetOrtho() {
-            float[,] identity_matrix = new float[,]
-                          {
-                                { 0, 0, 0, 0 },
-                                { 0, 1, 0, 0 },
-                                { 0, 0, 1, 0 },
-                                { 0, 0, 0, 1 }
-                          };
+        public static Matrix3D GetOrtho(PROJECTION_TYPE axis)
+        {
+            float[,] ortho_matrix;
 
-            return new Matrix3D(identity_matrix);
+            switch (axis)
+            {
+                case PROJECTION_TYPE.ORTHO_X_PLUS:
+                    {
+                        ortho_matrix = new float[,]
+                        {
+                                { 0, 0, 0, 0 },
+                                { 0, -1, 0, 0 },
+                                { 0, 0, 1, 0 },
+                                { 0, 0, 1, 1 }
+                        };
+
+                        return new Matrix3D(ortho_matrix);
+                    }
+                case PROJECTION_TYPE.ORTHO_X_MINUS:
+                    {
+                        ortho_matrix = new float[,]
+                        {
+                                { 0, 0, 0, 0 },
+                                { 0, -1, 0, 0 },
+                                { 0, 0, -1, 0 },
+                                { 0, 0, 1, 1 }
+                        };
+
+                        return new Matrix3D(ortho_matrix);
+                    }
+                case PROJECTION_TYPE.ORTHO_Y_PLUS:
+                    {
+                        ortho_matrix = new float[,]
+                        {
+                                { -1, 0, 0, 0 },
+                                { 0, 0, 0, 0 },
+                                { 0, 0, -1, 0 },
+                                { 0, 0, 1, 1 }
+                        };
+
+                        return new Matrix3D(ortho_matrix);
+                    }
+                case PROJECTION_TYPE.ORTHO_Y_MINUS:
+                    {
+                        ortho_matrix = new float[,]
+                        {
+                                { 1, 0, 0, 0 },
+                                { 0, 0, 0, 0 },
+                                { 0, 0, -1, 0 },
+                                { 0, 0, 1, 1 }
+                        };
+
+                        return new Matrix3D(ortho_matrix);
+                    }
+                case PROJECTION_TYPE.ORTHO_Z_PLUS:
+                    {
+                        ortho_matrix = new float[,]
+                        {
+                                { 1, 0, 0, 0 },
+                                { 0, -1, 0, 0 },
+                                { 0, 0, 0, 0 },
+                                { 0, 0, 1, 1 }
+                        };
+
+                        return new Matrix3D(ortho_matrix);
+                    }
+                case PROJECTION_TYPE.ORTHO_Z_MINUS:
+                    {
+                        ortho_matrix = new float[,]
+                        {
+                                { -1, 0, 0, 0 },
+                                { 0, -1, 0, 0 },
+                                { 0, 0, 0, 0 },
+                                { 0, 0, 1, 1 }
+                        };
+
+                        return new Matrix3D(ortho_matrix);
+                    }
+                default:
+                    {
+                        ortho_matrix = new float[,]
+                        {
+                                { 1, 0, 0, 0 },
+                                { 0, -1, 0, 0 },
+                                { 0, 0, 0, 0 },
+                                { 0, 0, 1, 1 }
+                        };
+
+                        return new Matrix3D(ortho_matrix);
+                    }
+            }
+           
         }
 
         public static Matrix3D GetProjectionMatrix(float fovy, float aspect, float n, float f)
@@ -265,7 +406,7 @@ namespace blank.Utility
             y_axis = Vector4.CrossProduct(z_axis, x_axis);
 
             Matrix3D translation = GetIdentityMatrix();
-            translation[3,0] = -position.x; 
+            translation[3, 0] = -position.x;
             translation[3, 1] = -position.y;
             translation[3, 2] = -position.z;
 
@@ -309,12 +450,12 @@ namespace blank.Utility
 
         }
 
-        public static Matrix3D GetViewPortMatrix(int w,int h , int x, int y)
+        public static Matrix3D GetViewPortMatrix(int zoom_x, int zoom_y, int x_center, int y_center)
         {
             float[,] identity_matrix = new float[,]
                           {
-                                { w/4, 0, 0, x },
-                                { 0, h/4, 0, y },
+                                { zoom_x, 0, 0, x_center },
+                                { 0, zoom_y, 0, y_center },
                                 { 0, 0, 1, 0 },
                                 { 0, 0, 0, 1 }
                           };
@@ -345,6 +486,19 @@ namespace blank.Utility
             int rows = Values.GetLength(0);
             int cols = Values.GetLength(1);
             StringBuilder sb = new StringBuilder();
+
+            if (cols == 1)
+            {
+                for (int i = 0; i < rows; i++)
+                {
+                    for (int j = 0; j < cols; j++)
+                    {
+                        sb.Append(Values[i, j] + " ");
+                    }
+                }
+                sb.Append('\n');
+            }
+            else
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
@@ -365,6 +519,15 @@ namespace blank.Utility
         public enum AXIS_TYPE
         {
             X, Y, Z
+        }
+        public enum PROJECTION_TYPE
+        {
+            ORTHO_X_PLUS,
+            ORTHO_Y_PLUS,
+            ORTHO_Z_PLUS,
+            ORTHO_X_MINUS,
+            ORTHO_Y_MINUS,
+            ORTHO_Z_MINUS,
         }
     }
 }
