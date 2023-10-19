@@ -187,7 +187,18 @@ namespace blank.Utility
 
                         return new Matrix3D(matrix);
                     }
+                case PROJECTION_TYPE.PERSPECTIVE:
+                    {
+                        matrix = new float[,]
+                        {
+                                { Values[0,0] },
+                                { Values[1,0] },
+                                { Values[3,0] },
+                                { 1,  }
+                        };
 
+                        return new Matrix3D(matrix);
+                    }
                 default:
                     {
                         matrix = new float[,]
@@ -379,6 +390,20 @@ namespace blank.Utility
            
         }
 
+        public static Matrix3D GetProjectionMatrix1()
+        {
+            float V = (float)Math.Abs(1.0 / 500);
+
+            float[,] projection_matrix = new float[,]
+         {
+                { 1, 0, 0, 0 },
+                { 0, 1, 0, 0 },
+                { 0, 0, 1, V },
+                { 0, 0, 0, 1 }
+         };
+            return new Matrix3D(projection_matrix);
+        }
+
         public static Matrix3D GetProjectionMatrix(float fovy, float aspect, float n, float f)
         {
             float radians_fov = ToRadians(fovy);
@@ -528,6 +553,7 @@ namespace blank.Utility
             ORTHO_X_MINUS,
             ORTHO_Y_MINUS,
             ORTHO_Z_MINUS,
+            PERSPECTIVE,
         }
     }
 }

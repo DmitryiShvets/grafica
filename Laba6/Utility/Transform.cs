@@ -44,17 +44,17 @@ namespace blank.Primitives
         //Смещение позиции по dx,dy,dz
         public void Translate(Vector4 delta)
         {
-            this.position = delta;
+            this.position += delta;
         }
         //Поворот угла по осям x,y,z 
-        public void Rotation(Vector4 rotation)
+        public void Rotate(Vector4 rotation)
         {
-            this.rotation = rotation;
+            this.rotation += rotation;
         }
         //Увеличение размена на dx,dy,dz
         public void Scale(Vector4 scale)
         {
-            this.scale = scale;
+            this.scale += scale;
         }
 
     }
