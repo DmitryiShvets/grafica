@@ -392,5 +392,15 @@ namespace blank
             zoom = track_zoom.Value;
             DrawAll();
         }
+
+        private void btn_scale_apply_Click(object sender, EventArgs e)
+        {
+            Vector4 offset = new Vector4();
+            if (t_scale_dx.Text != "") offset.x = Int32.Parse(t_scale_dx.Text);
+            if (t_scale_dy.Text != "") offset.y = Int32.Parse(t_scale_dy.Text);
+            if (t_scale_dz.Text != "") offset.z = Int32.Parse(t_scale_dz.Text);
+            _objects.Last().transform.Scale(offset);
+            DrawAll();
+        }
     }
 }
