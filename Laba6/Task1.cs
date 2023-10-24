@@ -33,12 +33,17 @@ namespace blank
             _bitmap = new Bitmap(canvas.Width, canvas.Height);
             _graphics = Graphics.FromImage(_bitmap);
             _graphics.Clear(Color.White);
+            AddAllObjects();
+            comboBox1.SelectedIndex = 0;
             canvas.Image = _bitmap;
+        }
 
-            _objects = new List<Object3D>
-            {
-                new Cube(GetTransform())
-            };
+        private void AddAllObjects()
+        {
+            comboBox1.Items.Add("Cube");
+            comboBox1.Items.Add("Tetrahedron");
+            comboBox1.Items.Add("Octahedron");
+            comboBox1.Items.Add("Icosahedron");
         }
 
         private Transform GetTransform()
@@ -375,15 +380,40 @@ namespace blank
             DrawAll();
         }
 
+        Object3D GetObject(int v)
+        {
+            switch (v)
+            {
+                case 0:
+                    return new Cube(GetTransform());
+                case 1:
+                    return new Tetrahedron(GetTransform());
+                case 2:
+                    return new Octahedron(GetTransform());
+                case 3:
+                    return new Icosahedron(GetTransform());
+            }
+            return new Cube(GetTransform());
+        }
+
         private void btn_draw_Click(object sender, EventArgs e)
         {
+            int variant = comboBox1.SelectedIndex;
+            _objects = new List<Object3D>
+            {
+                GetObject(variant)
+            };
             DrawAll();
         }
 
         private void btn_clear_Click(object sender, EventArgs e)
         {
             _objects.Clear();
-            _objects.Add(new Cube(GetTransform()));
+            int variant = comboBox1.SelectedIndex;
+            _objects = new List<Object3D>
+            {
+                GetObject(variant)
+            };
             DrawAll();
         }
 
