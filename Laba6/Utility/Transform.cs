@@ -12,20 +12,22 @@ namespace blank.Primitives
         public Vector4 position;
         public Vector4 rotation;
         public Vector4 scale;
-
+        public Vector4 reflection;
 
         public Transform()
         {
             this.position = new Vector4();
             this.rotation = new Vector4();
             this.scale = new Vector4(1, 1, 1);
+            this.reflection = new Vector4(1, 1, 1);
         }
 
-        public Transform(Vector4 position, Vector4 rotation, Vector4 scale)
+        public Transform(Vector4 position, Vector4 rotation, Vector4 scale, Vector4 reflection)
         {
             this.position = position;
             this.rotation = rotation;
             this.scale = scale;
+            this.reflection = reflection;
         }
 
         //Возвращает model matrix для конкретной модели
@@ -35,8 +37,9 @@ namespace blank.Primitives
             Matrix3D scale_matrix = Matrix3D.GetScaleMatrix(scale);
             Matrix3D rotation_matrix = Matrix3D.GetRotationMatrix(rotation);
             Matrix3D transform_matrix = Matrix3D.GetTranslationMatrix(position);
+            Matrix3D reflection_matrix = Matrix3D.GetReflectionMatrix(reflection);
 
-            result = transform_matrix * rotation_matrix * scale_matrix * result;
+            result = reflection_matrix*transform_matrix * rotation_matrix * scale_matrix * result;
      
             return result;
         }
@@ -56,6 +59,12 @@ namespace blank.Primitives
         {
             this.scale += scale;
         }
-
+        //Отражение относительно координатной плоскости
+        public void Reflection(Vector4 reflection)
+        {
+            this.reflection.x *= reflection.x;
+            this.reflection.y *= reflection.y;
+            this.reflection.z *= reflection.z;
+        }
     }
 }

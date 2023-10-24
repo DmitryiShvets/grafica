@@ -69,12 +69,19 @@
             this.t_scale_dx = new System.Windows.Forms.TextBox();
             this.btn_clear = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.t_reflection_yz = new System.Windows.Forms.RadioButton();
+            this.t_reflection_xz = new System.Windows.Forms.RadioButton();
+            this.t_reflection_xy = new System.Windows.Forms.RadioButton();
+            this.btn_reflection_apply = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.track_zoom)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // canvas
@@ -498,11 +505,80 @@
             this.label10.TabIndex = 2;
             this.label10.Text = "zoom";
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.radioButton1);
+            this.groupBox5.Controls.Add(this.t_reflection_yz);
+            this.groupBox5.Controls.Add(this.t_reflection_xz);
+            this.groupBox5.Controls.Add(this.t_reflection_xy);
+            this.groupBox5.Controls.Add(this.btn_reflection_apply);
+            this.groupBox5.Location = new System.Drawing.Point(2, 453);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(101, 131);
+            this.groupBox5.TabIndex = 6;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Отражение";
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Checked = true;
+            this.radioButton1.Location = new System.Drawing.Point(50, 20);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(44, 17);
+            this.radioButton1.TabIndex = 4;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "Нет";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // t_reflection_yz
+            // 
+            this.t_reflection_yz.AutoSize = true;
+            this.t_reflection_yz.Location = new System.Drawing.Point(7, 66);
+            this.t_reflection_yz.Name = "t_reflection_yz";
+            this.t_reflection_yz.Size = new System.Drawing.Size(39, 17);
+            this.t_reflection_yz.TabIndex = 3;
+            this.t_reflection_yz.TabStop = true;
+            this.t_reflection_yz.Text = "YZ";
+            this.t_reflection_yz.UseVisualStyleBackColor = true;
+            // 
+            // t_reflection_xz
+            // 
+            this.t_reflection_xz.AutoSize = true;
+            this.t_reflection_xz.Location = new System.Drawing.Point(7, 43);
+            this.t_reflection_xz.Name = "t_reflection_xz";
+            this.t_reflection_xz.Size = new System.Drawing.Size(39, 17);
+            this.t_reflection_xz.TabIndex = 3;
+            this.t_reflection_xz.TabStop = true;
+            this.t_reflection_xz.Text = "XZ";
+            this.t_reflection_xz.UseVisualStyleBackColor = true;
+            // 
+            // t_reflection_xy
+            // 
+            this.t_reflection_xy.AutoSize = true;
+            this.t_reflection_xy.Location = new System.Drawing.Point(7, 20);
+            this.t_reflection_xy.Name = "t_reflection_xy";
+            this.t_reflection_xy.Size = new System.Drawing.Size(39, 17);
+            this.t_reflection_xy.TabIndex = 3;
+            this.t_reflection_xy.Text = "XY";
+            this.t_reflection_xy.UseVisualStyleBackColor = true;
+            // 
+            // btn_reflection_apply
+            // 
+            this.btn_reflection_apply.Location = new System.Drawing.Point(7, 89);
+            this.btn_reflection_apply.Name = "btn_reflection_apply";
+            this.btn_reflection_apply.Size = new System.Drawing.Size(75, 23);
+            this.btn_reflection_apply.TabIndex = 2;
+            this.btn_reflection_apply.Text = "Применить";
+            this.btn_reflection_apply.UseVisualStyleBackColor = true;
+            this.btn_reflection_apply.Click += new System.EventHandler(this.btn_reflection_apply_Click);
+            // 
             // Task1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(873, 574);
+            this.ClientSize = new System.Drawing.Size(873, 618);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -529,6 +605,8 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -577,5 +655,11 @@
         private System.Windows.Forms.TextBox t_scale_dx;
         private System.Windows.Forms.Button btn_clear;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.RadioButton t_reflection_yz;
+        private System.Windows.Forms.RadioButton t_reflection_xz;
+        private System.Windows.Forms.RadioButton t_reflection_xy;
+        private System.Windows.Forms.Button btn_reflection_apply;
+        private System.Windows.Forms.RadioButton radioButton1;
     }
 }

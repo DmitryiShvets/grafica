@@ -1,6 +1,7 @@
 ﻿using blank.Primitives;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
@@ -295,6 +296,23 @@ namespace blank.Utility
 
             return new Matrix3D(scaleMatrix);
         }
+
+        public static Matrix3D GetReflectionMatrix(Vector4 reflection)
+        {
+            Debug.WriteLine(reflection.x);
+            Debug.WriteLine(reflection.y);
+            Debug.WriteLine(reflection.z);
+            float[,] reflectionMatrix = new float[,]
+                
+                {
+                            { reflection.x, 0, 0, 0 },
+                            { 0, reflection.y, 0, 0 },
+                            { 0, 0, reflection.z, 0 },
+                            { 0, 0, 0, 1 }
+                };
+            return new Matrix3D(reflectionMatrix);
+        }
+
 
         public static Matrix3D GetOrtho(PROJECTION_TYPE axis)
         {

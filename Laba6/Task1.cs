@@ -43,7 +43,7 @@ namespace blank
 
         private Transform GetTransform()
         {
-            return new Transform(new Vector4(0, 0, 3), new Vector4(0, 0, 0), new Vector4(1, 1, 1));
+            return new Transform(new Vector4(0, 0, 3), new Vector4(0, 0, 0), new Vector4(1, 1, 1), new Vector4(1, 1, 1));
         }
 
         Matrix3D view_matrix = Matrix3D.LookAt(new Vector4(0, 0, 1), new Vector4(0, 0, 0), new Vector4(0, 1, 0));
@@ -400,6 +400,16 @@ namespace blank
             if (t_scale_dy.Text != "") offset.y = Int32.Parse(t_scale_dy.Text);
             if (t_scale_dz.Text != "") offset.z = Int32.Parse(t_scale_dz.Text);
             _objects.Last().transform.Scale(offset);
+            DrawAll();
+        }
+
+        private void btn_reflection_apply_Click(object sender, EventArgs e)
+        {
+            Vector4 offset = new Vector4(1, 1, 1);
+            if (t_reflection_xy.Checked) offset.z *= -1;
+            if (t_reflection_xz.Checked) offset.y *= -1;
+            if (t_reflection_yz.Checked) offset.x *= -1;
+            _objects.Last().transform.Reflection(offset);
             DrawAll();
         }
     }
