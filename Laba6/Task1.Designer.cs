@@ -30,10 +30,6 @@
         {
             this.canvas = new System.Windows.Forms.PictureBox();
             this.btn_draw = new System.Windows.Forms.Button();
-            this.cur_info = new System.Windows.Forms.Label();
-            this.vertex_a = new System.Windows.Forms.Label();
-            this.vertex_b = new System.Windows.Forms.Label();
-            this.vertex_c = new System.Windows.Forms.Label();
             this.ortho_x_plus = new System.Windows.Forms.RadioButton();
             this.ortho_x_minus = new System.Windows.Forms.RadioButton();
             this.ortho_y_plus = new System.Windows.Forms.RadioButton();
@@ -77,6 +73,10 @@
             this.btn_reflection_apply = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.vertex_a = new System.Windows.Forms.Label();
+            this.vertex_b = new System.Windows.Forms.Label();
+            this.vertex_c = new System.Windows.Forms.Label();
+            this.cur_info = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.track_zoom)).BeginInit();
@@ -89,7 +89,7 @@
             // canvas
             // 
             this.canvas.Location = new System.Drawing.Point(145, 167);
-            this.canvas.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.canvas.Margin = new System.Windows.Forms.Padding(4);
             this.canvas.Name = "canvas";
             this.canvas.Size = new System.Drawing.Size(667, 492);
             this.canvas.TabIndex = 0;
@@ -97,8 +97,8 @@
             // 
             // btn_draw
             // 
-            this.btn_draw.Location = new System.Drawing.Point(16, 36);
-            this.btn_draw.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_draw.Location = new System.Drawing.Point(16, 57);
+            this.btn_draw.Margin = new System.Windows.Forms.Padding(4);
             this.btn_draw.Name = "btn_draw";
             this.btn_draw.Size = new System.Drawing.Size(100, 28);
             this.btn_draw.TabIndex = 1;
@@ -106,55 +106,11 @@
             this.btn_draw.UseVisualStyleBackColor = true;
             this.btn_draw.Click += new System.EventHandler(this.btn_draw_Click);
             // 
-            // cur_info
-            // 
-            this.cur_info.AutoSize = true;
-            this.cur_info.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cur_info.Location = new System.Drawing.Point(833, 87);
-            this.cur_info.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.cur_info.Name = "cur_info";
-            this.cur_info.Size = new System.Drawing.Size(90, 28);
-            this.cur_info.TabIndex = 2;
-            this.cur_info.Text = "label1";
-            // 
-            // vertex_a
-            // 
-            this.vertex_a.AutoSize = true;
-            this.vertex_a.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.vertex_a.Location = new System.Drawing.Point(833, 550);
-            this.vertex_a.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.vertex_a.Name = "vertex_a";
-            this.vertex_a.Size = new System.Drawing.Size(25, 28);
-            this.vertex_a.TabIndex = 2;
-            this.vertex_a.Text = "a";
-            // 
-            // vertex_b
-            // 
-            this.vertex_b.AutoSize = true;
-            this.vertex_b.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.vertex_b.Location = new System.Drawing.Point(833, 594);
-            this.vertex_b.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.vertex_b.Name = "vertex_b";
-            this.vertex_b.Size = new System.Drawing.Size(25, 28);
-            this.vertex_b.TabIndex = 2;
-            this.vertex_b.Text = "a";
-            // 
-            // vertex_c
-            // 
-            this.vertex_c.AutoSize = true;
-            this.vertex_c.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.vertex_c.Location = new System.Drawing.Point(833, 633);
-            this.vertex_c.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.vertex_c.Name = "vertex_c";
-            this.vertex_c.Size = new System.Drawing.Size(25, 28);
-            this.vertex_c.TabIndex = 2;
-            this.vertex_c.Text = "a";
-            // 
             // ortho_x_plus
             // 
             this.ortho_x_plus.AutoSize = true;
             this.ortho_x_plus.Location = new System.Drawing.Point(23, 46);
-            this.ortho_x_plus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ortho_x_plus.Margin = new System.Windows.Forms.Padding(4);
             this.ortho_x_plus.Name = "ortho_x_plus";
             this.ortho_x_plus.Size = new System.Drawing.Size(43, 20);
             this.ortho_x_plus.TabIndex = 3;
@@ -167,7 +123,7 @@
             // 
             this.ortho_x_minus.AutoSize = true;
             this.ortho_x_minus.Location = new System.Drawing.Point(23, 68);
-            this.ortho_x_minus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ortho_x_minus.Margin = new System.Windows.Forms.Padding(4);
             this.ortho_x_minus.Name = "ortho_x_minus";
             this.ortho_x_minus.Size = new System.Drawing.Size(40, 20);
             this.ortho_x_minus.TabIndex = 3;
@@ -180,7 +136,7 @@
             // 
             this.ortho_y_plus.AutoSize = true;
             this.ortho_y_plus.Location = new System.Drawing.Point(77, 46);
-            this.ortho_y_plus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ortho_y_plus.Margin = new System.Windows.Forms.Padding(4);
             this.ortho_y_plus.Name = "ortho_y_plus";
             this.ortho_y_plus.Size = new System.Drawing.Size(44, 20);
             this.ortho_y_plus.TabIndex = 3;
@@ -193,7 +149,7 @@
             // 
             this.ortho_y_minus.AutoSize = true;
             this.ortho_y_minus.Location = new System.Drawing.Point(77, 68);
-            this.ortho_y_minus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ortho_y_minus.Margin = new System.Windows.Forms.Padding(4);
             this.ortho_y_minus.Name = "ortho_y_minus";
             this.ortho_y_minus.Size = new System.Drawing.Size(41, 20);
             this.ortho_y_minus.TabIndex = 3;
@@ -206,7 +162,7 @@
             // 
             this.ortho_z_plus.AutoSize = true;
             this.ortho_z_plus.Location = new System.Drawing.Point(132, 46);
-            this.ortho_z_plus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ortho_z_plus.Margin = new System.Windows.Forms.Padding(4);
             this.ortho_z_plus.Name = "ortho_z_plus";
             this.ortho_z_plus.Size = new System.Drawing.Size(43, 20);
             this.ortho_z_plus.TabIndex = 3;
@@ -219,7 +175,7 @@
             // 
             this.ortho_z_minus.AutoSize = true;
             this.ortho_z_minus.Location = new System.Drawing.Point(132, 68);
-            this.ortho_z_minus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ortho_z_minus.Margin = new System.Windows.Forms.Padding(4);
             this.ortho_z_minus.Name = "ortho_z_minus";
             this.ortho_z_minus.Size = new System.Drawing.Size(40, 20);
             this.ortho_z_minus.TabIndex = 3;
@@ -238,9 +194,9 @@
             this.groupBox1.Controls.Add(this.ortho_x_minus);
             this.groupBox1.Controls.Add(this.ortho_y_plus);
             this.groupBox1.Location = new System.Drawing.Point(145, 26);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(365, 123);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
@@ -250,7 +206,7 @@
             // 
             this.perstective.AutoSize = true;
             this.perstective.Location = new System.Drawing.Point(192, 46);
-            this.perstective.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.perstective.Margin = new System.Windows.Forms.Padding(4);
             this.perstective.Name = "perstective";
             this.perstective.Size = new System.Drawing.Size(122, 20);
             this.perstective.TabIndex = 4;
@@ -262,7 +218,7 @@
             // track_zoom
             // 
             this.track_zoom.Location = new System.Drawing.Point(519, 87);
-            this.track_zoom.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.track_zoom.Margin = new System.Windows.Forms.Padding(4);
             this.track_zoom.Maximum = 100;
             this.track_zoom.Minimum = 1;
             this.track_zoom.Name = "track_zoom";
@@ -282,9 +238,9 @@
             this.groupBox2.Controls.Add(this.t_transform_dy);
             this.groupBox2.Controls.Add(this.t_transform_dx);
             this.groupBox2.Location = new System.Drawing.Point(3, 118);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(135, 139);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
@@ -293,7 +249,7 @@
             // btn_transform_apply
             // 
             this.btn_transform_apply.Location = new System.Drawing.Point(9, 87);
-            this.btn_transform_apply.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_transform_apply.Margin = new System.Windows.Forms.Padding(4);
             this.btn_transform_apply.Name = "btn_transform_apply";
             this.btn_transform_apply.Size = new System.Drawing.Size(100, 28);
             this.btn_transform_apply.TabIndex = 2;
@@ -334,7 +290,7 @@
             // t_transform_dz
             // 
             this.t_transform_dz.Location = new System.Drawing.Point(96, 55);
-            this.t_transform_dz.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.t_transform_dz.Margin = new System.Windows.Forms.Padding(4);
             this.t_transform_dz.Name = "t_transform_dz";
             this.t_transform_dz.Size = new System.Drawing.Size(29, 22);
             this.t_transform_dz.TabIndex = 0;
@@ -343,7 +299,7 @@
             // t_transform_dy
             // 
             this.t_transform_dy.Location = new System.Drawing.Point(52, 55);
-            this.t_transform_dy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.t_transform_dy.Margin = new System.Windows.Forms.Padding(4);
             this.t_transform_dy.Name = "t_transform_dy";
             this.t_transform_dy.Size = new System.Drawing.Size(29, 22);
             this.t_transform_dy.TabIndex = 0;
@@ -352,7 +308,7 @@
             // t_transform_dx
             // 
             this.t_transform_dx.Location = new System.Drawing.Point(9, 55);
-            this.t_transform_dx.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.t_transform_dx.Margin = new System.Windows.Forms.Padding(4);
             this.t_transform_dx.Name = "t_transform_dx";
             this.t_transform_dx.Size = new System.Drawing.Size(29, 22);
             this.t_transform_dx.TabIndex = 0;
@@ -368,9 +324,9 @@
             this.groupBox3.Controls.Add(this.t_rotation_dy);
             this.groupBox3.Controls.Add(this.t_rotation_dx);
             this.groupBox3.Location = new System.Drawing.Point(3, 265);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox3.Size = new System.Drawing.Size(135, 139);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
@@ -379,7 +335,7 @@
             // btn_rotation_apply
             // 
             this.btn_rotation_apply.Location = new System.Drawing.Point(9, 87);
-            this.btn_rotation_apply.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_rotation_apply.Margin = new System.Windows.Forms.Padding(4);
             this.btn_rotation_apply.Name = "btn_rotation_apply";
             this.btn_rotation_apply.Size = new System.Drawing.Size(100, 28);
             this.btn_rotation_apply.TabIndex = 2;
@@ -420,7 +376,7 @@
             // t_rotation_dz
             // 
             this.t_rotation_dz.Location = new System.Drawing.Point(96, 55);
-            this.t_rotation_dz.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.t_rotation_dz.Margin = new System.Windows.Forms.Padding(4);
             this.t_rotation_dz.Name = "t_rotation_dz";
             this.t_rotation_dz.Size = new System.Drawing.Size(29, 22);
             this.t_rotation_dz.TabIndex = 0;
@@ -429,7 +385,7 @@
             // t_rotation_dy
             // 
             this.t_rotation_dy.Location = new System.Drawing.Point(52, 55);
-            this.t_rotation_dy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.t_rotation_dy.Margin = new System.Windows.Forms.Padding(4);
             this.t_rotation_dy.Name = "t_rotation_dy";
             this.t_rotation_dy.Size = new System.Drawing.Size(29, 22);
             this.t_rotation_dy.TabIndex = 0;
@@ -438,7 +394,7 @@
             // t_rotation_dx
             // 
             this.t_rotation_dx.Location = new System.Drawing.Point(9, 55);
-            this.t_rotation_dx.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.t_rotation_dx.Margin = new System.Windows.Forms.Padding(4);
             this.t_rotation_dx.Name = "t_rotation_dx";
             this.t_rotation_dx.Size = new System.Drawing.Size(29, 22);
             this.t_rotation_dx.TabIndex = 0;
@@ -454,9 +410,9 @@
             this.groupBox4.Controls.Add(this.t_scale_dy);
             this.groupBox4.Controls.Add(this.t_scale_dx);
             this.groupBox4.Location = new System.Drawing.Point(3, 411);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox4.Size = new System.Drawing.Size(135, 139);
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
@@ -464,16 +420,9 @@
             // 
             // btn_scale_apply
             // 
-            this.button3.Location = new System.Drawing.Point(9, 87);
-            this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(100, 28);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Применить";
-            this.button3.UseVisualStyleBackColor = true;
-            this.btn_scale_apply.Location = new System.Drawing.Point(7, 71);
+            this.btn_scale_apply.Location = new System.Drawing.Point(19, 84);
             this.btn_scale_apply.Name = "btn_scale_apply";
-            this.btn_scale_apply.Size = new System.Drawing.Size(75, 23);
+            this.btn_scale_apply.Size = new System.Drawing.Size(90, 23);
             this.btn_scale_apply.TabIndex = 2;
             this.btn_scale_apply.Text = "Применить";
             this.btn_scale_apply.UseVisualStyleBackColor = true;
@@ -512,7 +461,7 @@
             // t_scale_dz
             // 
             this.t_scale_dz.Location = new System.Drawing.Point(89, 55);
-            this.t_scale_dz.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.t_scale_dz.Margin = new System.Windows.Forms.Padding(4);
             this.t_scale_dz.Name = "t_scale_dz";
             this.t_scale_dz.Size = new System.Drawing.Size(29, 22);
             this.t_scale_dz.TabIndex = 0;
@@ -521,7 +470,7 @@
             // t_scale_dy
             // 
             this.t_scale_dy.Location = new System.Drawing.Point(48, 55);
-            this.t_scale_dy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.t_scale_dy.Margin = new System.Windows.Forms.Padding(4);
             this.t_scale_dy.Name = "t_scale_dy";
             this.t_scale_dy.Size = new System.Drawing.Size(29, 22);
             this.t_scale_dy.TabIndex = 0;
@@ -530,7 +479,7 @@
             // t_scale_dx
             // 
             this.t_scale_dx.Location = new System.Drawing.Point(9, 55);
-            this.t_scale_dx.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.t_scale_dx.Margin = new System.Windows.Forms.Padding(4);
             this.t_scale_dx.Name = "t_scale_dx";
             this.t_scale_dx.Size = new System.Drawing.Size(29, 22);
             this.t_scale_dx.TabIndex = 0;
@@ -538,8 +487,8 @@
             // 
             // btn_clear
             // 
-            this.btn_clear.Location = new System.Drawing.Point(16, 71);
-            this.btn_clear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_clear.Location = new System.Drawing.Point(16, 86);
+            this.btn_clear.Margin = new System.Windows.Forms.Padding(4);
             this.btn_clear.Name = "btn_clear";
             this.btn_clear.Size = new System.Drawing.Size(100, 28);
             this.btn_clear.TabIndex = 1;
@@ -565,7 +514,7 @@
             this.groupBox5.Controls.Add(this.t_reflection_xz);
             this.groupBox5.Controls.Add(this.t_reflection_xy);
             this.groupBox5.Controls.Add(this.btn_reflection_apply);
-            this.groupBox5.Location = new System.Drawing.Point(2, 453);
+            this.groupBox5.Location = new System.Drawing.Point(22, 557);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(101, 131);
             this.groupBox5.TabIndex = 6;
@@ -578,7 +527,7 @@
             this.radioButton1.Checked = true;
             this.radioButton1.Location = new System.Drawing.Point(50, 20);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(44, 17);
+            this.radioButton1.Size = new System.Drawing.Size(53, 20);
             this.radioButton1.TabIndex = 4;
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Нет";
@@ -589,7 +538,7 @@
             this.t_reflection_yz.AutoSize = true;
             this.t_reflection_yz.Location = new System.Drawing.Point(7, 66);
             this.t_reflection_yz.Name = "t_reflection_yz";
-            this.t_reflection_yz.Size = new System.Drawing.Size(39, 17);
+            this.t_reflection_yz.Size = new System.Drawing.Size(45, 20);
             this.t_reflection_yz.TabIndex = 3;
             this.t_reflection_yz.TabStop = true;
             this.t_reflection_yz.Text = "YZ";
@@ -600,7 +549,7 @@
             this.t_reflection_xz.AutoSize = true;
             this.t_reflection_xz.Location = new System.Drawing.Point(7, 43);
             this.t_reflection_xz.Name = "t_reflection_xz";
-            this.t_reflection_xz.Size = new System.Drawing.Size(39, 17);
+            this.t_reflection_xz.Size = new System.Drawing.Size(44, 20);
             this.t_reflection_xz.TabIndex = 3;
             this.t_reflection_xz.TabStop = true;
             this.t_reflection_xz.Text = "XZ";
@@ -611,7 +560,7 @@
             this.t_reflection_xy.AutoSize = true;
             this.t_reflection_xy.Location = new System.Drawing.Point(7, 20);
             this.t_reflection_xy.Name = "t_reflection_xy";
-            this.t_reflection_xy.Size = new System.Drawing.Size(39, 17);
+            this.t_reflection_xy.Size = new System.Drawing.Size(45, 20);
             this.t_reflection_xy.TabIndex = 3;
             this.t_reflection_xy.Text = "XY";
             this.t_reflection_xy.UseVisualStyleBackColor = true;
@@ -620,7 +569,7 @@
             // 
             this.btn_reflection_apply.Location = new System.Drawing.Point(7, 89);
             this.btn_reflection_apply.Name = "btn_reflection_apply";
-            this.btn_reflection_apply.Size = new System.Drawing.Size(75, 23);
+            this.btn_reflection_apply.Size = new System.Drawing.Size(88, 23);
             this.btn_reflection_apply.TabIndex = 2;
             this.btn_reflection_apply.Text = "Применить";
             this.btn_reflection_apply.UseVisualStyleBackColor = true;
@@ -629,7 +578,7 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(7, 594);
+            this.comboBox1.Location = new System.Drawing.Point(6, 26);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 24);
             this.comboBox1.TabIndex = 7;
@@ -637,20 +586,63 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(7, 572);
+            this.label11.Location = new System.Drawing.Point(6, 7);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(115, 16);
             this.label11.TabIndex = 8;
             this.label11.Text = "Выбрать фигуру";
             // 
+            // vertex_a
+            // 
+            this.vertex_a.AutoSize = true;
+            this.vertex_a.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.vertex_a.Location = new System.Drawing.Point(833, 550);
+            this.vertex_a.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.vertex_a.Name = "vertex_a";
+            this.vertex_a.Size = new System.Drawing.Size(25, 28);
+            this.vertex_a.TabIndex = 2;
+            this.vertex_a.Text = "a";
+            // 
+            // vertex_b
+            // 
+            this.vertex_b.AutoSize = true;
+            this.vertex_b.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.vertex_b.Location = new System.Drawing.Point(833, 594);
+            this.vertex_b.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.vertex_b.Name = "vertex_b";
+            this.vertex_b.Size = new System.Drawing.Size(25, 28);
+            this.vertex_b.TabIndex = 2;
+            this.vertex_b.Text = "a";
+            // 
+            // vertex_c
+            // 
+            this.vertex_c.AutoSize = true;
+            this.vertex_c.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.vertex_c.Location = new System.Drawing.Point(833, 633);
+            this.vertex_c.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.vertex_c.Name = "vertex_c";
+            this.vertex_c.Size = new System.Drawing.Size(25, 28);
+            this.vertex_c.TabIndex = 2;
+            this.vertex_c.Text = "a";
+            // 
+            // cur_info
+            // 
+            this.cur_info.AutoSize = true;
+            this.cur_info.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cur_info.Location = new System.Drawing.Point(833, 87);
+            this.cur_info.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.cur_info.Name = "cur_info";
+            this.cur_info.Size = new System.Drawing.Size(90, 28);
+            this.cur_info.TabIndex = 2;
+            this.cur_info.Text = "label1";
+            // 
             // Task1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1164, 706);
+            this.ClientSize = new System.Drawing.Size(1416, 741);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.comboBox1);
-            this.ClientSize = new System.Drawing.Size(873, 618);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -665,7 +657,7 @@
             this.Controls.Add(this.btn_clear);
             this.Controls.Add(this.btn_draw);
             this.Controls.Add(this.canvas);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Task1";
             this.Text = "Task1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Task1_FormClosing);
@@ -690,10 +682,6 @@
 
         private System.Windows.Forms.PictureBox canvas;
         private System.Windows.Forms.Button btn_draw;
-        private System.Windows.Forms.Label cur_info;
-        private System.Windows.Forms.Label vertex_a;
-        private System.Windows.Forms.Label vertex_b;
-        private System.Windows.Forms.Label vertex_c;
         private System.Windows.Forms.RadioButton ortho_x_plus;
         private System.Windows.Forms.RadioButton ortho_x_minus;
         private System.Windows.Forms.RadioButton ortho_y_plus;
@@ -737,5 +725,9 @@
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label vertex_a;
+        private System.Windows.Forms.Label vertex_b;
+        private System.Windows.Forms.Label vertex_c;
+        private System.Windows.Forms.Label cur_info;
     }
 }
