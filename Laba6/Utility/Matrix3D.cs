@@ -312,7 +312,63 @@ namespace blank.Utility
                 };
             return new Matrix3D(reflectionMatrix);
         }
+        public static Matrix3D GetLineRotationMatrix(Vector4 P1, Vector4 P2, float angle)
+        {
+            if ((P1 == P2) || (angle==0)) return GetIdentityMatrix();
+            Vector4 v = P2 - P1;
 
+            Vector4 center = (P1 + P2) * 0.5f; // Находим центр прямой
+            Matrix3D translateToOrigin = GetTranslationMatrix(new Vector4(-center.x, -center.y, -center.z));
+
+            v = v.Normalize();
+
+            float theta = ToRadians(angle);
+
+            float c = (float)Math.Cos(theta);
+            float s = (float)Math.Sin(theta);
+            float t = 1 - c;
+
+            float x = v.x;
+            float y = v.y;
+            float z = v.z;
+
+            float tx = t * x;
+            float ty = t * y;
+            float tz = t * z;
+
+            float sx = s * x;
+            float sy = s * y;
+            float sz = s * z;
+
+            float txy = tx * y;
+            float tyz = ty * z;
+            float txz = tx * z;
+
+            float m11 = tx * x + c;
+            float m12 = txy - sz;
+            float m13 = txz + sy;
+            float m21 = txy + sz;
+            float m22 = ty * y + c;
+            float m23 = tyz - sx;
+            float m31 = txz - sy;
+            float m32 = tyz + sx;
+            float m33 = tz * z + c;
+
+            var rotationMatrix = new float[,] {
+                { m11, m12, m13, 0 },
+                { m21, m22, m23, 0 },
+                { m31, m32, m33, 0 },
+                { 0, 0, 0, 1}
+            };
+
+            // Возвращаем систему координат в исходное положение
+            Matrix3D translateBack = GetTranslationMatrix(new Vector4(center.x, center.y, center.z));
+
+            // Комбинируем матрицы в правильном порядке
+            Matrix3D finalMatrix = translateBack * new Matrix3D(rotationMatrix) * translateToOrigin;
+
+            return finalMatrix;
+        }
 
         public static Matrix3D GetOrtho(PROJECTION_TYPE axis)
         {

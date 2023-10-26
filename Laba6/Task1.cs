@@ -26,6 +26,8 @@ namespace blank
 
         private PROJECTION_TYPE g_projection_type = PROJECTION_TYPE.ORTHO_Z_PLUS;
 
+        private Line rotation_line;
+
         public Task1()
         {
             InitializeComponent();
@@ -443,6 +445,26 @@ namespace blank
             if (t_reflection_xz.Checked) offset.y *= -1;
             if (t_reflection_yz.Checked) offset.x *= -1;
             _objects.Last().transform.Reflection(offset);
+            DrawAll();
+        }
+
+        private void btn_line_rotation_apply_Click(object sender, EventArgs e)
+        {
+            Vector4 point1 = new Vector4();
+            Vector4 point2 = new Vector4();
+            float angle = 0;
+
+            if (tb_line_x1.Text != "") point1.x = Int32.Parse(tb_line_x1.Text);
+            if (tb_line_y1.Text != "") point1.y = Int32.Parse(tb_line_y1.Text);
+            if (tb_line_z1.Text != "") point1.z = Int32.Parse(tb_line_z1.Text);
+
+            if (tb_line_x2.Text != "") point2.x = Int32.Parse(tb_line_x2.Text);
+            if (tb_line_y2.Text != "") point2.y = Int32.Parse(tb_line_y2.Text);
+            if (tb_line_z2.Text != "") point2.z = Int32.Parse(tb_line_z2.Text);
+
+            if (tb_line_rotation_angle.Text != "") angle = Int32.Parse(tb_line_rotation_angle.Text);
+
+            _objects.Last().transform.RotateRelativeLine(point1, point2, angle);
             DrawAll();
         }
     }

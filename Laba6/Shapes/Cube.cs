@@ -41,4 +41,12 @@ namespace blank.Shapes
             this.transform = transform;
         }
     }
+
+    internal class Line : Object3D
+    {
+        public Line(Vector4 point1, Vector4 point2) : base()
+        {
+            mech.AddFace(point1, point2, point2, Color.Red);
+        }
+    }
 }
