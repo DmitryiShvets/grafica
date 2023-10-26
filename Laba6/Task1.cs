@@ -44,6 +44,7 @@ namespace blank
             comboBox1.Items.Add("Tetrahedron");
             comboBox1.Items.Add("Octahedron");
             comboBox1.Items.Add("Icosahedron");
+            comboBox1.Items.Add("Dodecahedron");
         }
 
         private Transform GetTransform()
@@ -392,6 +393,8 @@ namespace blank
                     return new Octahedron(GetTransform());
                 case 3:
                     return new Icosahedron(GetTransform());
+                case 4:
+                    return new Dodecahedron(GetTransform());
             }
             return new Cube(GetTransform());
         }

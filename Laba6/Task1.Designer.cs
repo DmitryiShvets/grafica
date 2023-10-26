@@ -422,7 +422,7 @@
             // 
             this.btn_scale_apply.Location = new System.Drawing.Point(19, 84);
             this.btn_scale_apply.Name = "btn_scale_apply";
-            this.btn_scale_apply.Size = new System.Drawing.Size(90, 23);
+            this.btn_scale_apply.Size = new System.Drawing.Size(99, 23);
             this.btn_scale_apply.TabIndex = 2;
             this.btn_scale_apply.Text = "Применить";
             this.btn_scale_apply.UseVisualStyleBackColor = true;
@@ -514,9 +514,9 @@
             this.groupBox5.Controls.Add(this.t_reflection_xz);
             this.groupBox5.Controls.Add(this.t_reflection_xy);
             this.groupBox5.Controls.Add(this.btn_reflection_apply);
-            this.groupBox5.Location = new System.Drawing.Point(22, 557);
+            this.groupBox5.Location = new System.Drawing.Point(5, 557);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(101, 131);
+            this.groupBox5.Size = new System.Drawing.Size(133, 131);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Отражение";
@@ -525,7 +525,7 @@
             // 
             this.radioButton1.AutoSize = true;
             this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(50, 20);
+            this.radioButton1.Location = new System.Drawing.Point(63, 21);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(53, 20);
             this.radioButton1.TabIndex = 4;
@@ -569,7 +569,7 @@
             // 
             this.btn_reflection_apply.Location = new System.Drawing.Point(7, 89);
             this.btn_reflection_apply.Name = "btn_reflection_apply";
-            this.btn_reflection_apply.Size = new System.Drawing.Size(88, 23);
+            this.btn_reflection_apply.Size = new System.Drawing.Size(115, 23);
             this.btn_reflection_apply.TabIndex = 2;
             this.btn_reflection_apply.Text = "Применить";
             this.btn_reflection_apply.UseVisualStyleBackColor = true;

@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Primitives\Object3D.cs" />
     <Compile Include="Shapes\Cube.cs" />
+    <Compile Include="Shapes\Dodecahedron.cs" />
     <Compile Include="Shapes\Icosahedron.cs" />
     <Compile Include="Shapes\Octahedron.cs" />
     <Compile Include="Shapes\Tetrahedron.cs" />
