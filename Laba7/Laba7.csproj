@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CBD0B5B2-3302-4AEF-A3D1-1DFA5B6E8589}</ProjectGuid>
+    <ProjectGuid>{B6EF1E22-5249-4F25-B5A5-AB7059590D8B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>blank</RootNamespace>
-    <AssemblyName>Laba6</AssemblyName>
+    <AssemblyName>Laba7</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -35,8 +35,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
+    <StartupObject>blank.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
