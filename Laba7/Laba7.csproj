@@ -52,6 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GraphD.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GraphD.Designer.cs">
+      <DependentUpon>GraphD.cs</DependentUpon>
+    </Compile>
     <Compile Include="Primitives\Object3D.cs" />
     <Compile Include="Shapes\Cube.cs" />
     <Compile Include="Shapes\Dodecahedron.cs" />
@@ -125,6 +131,9 @@
     <Compile Include="Primitives\Vertex2D.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraphD.resx">
+      <DependentUpon>GraphD.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Paint.resx">
       <DependentUpon>Paint.cs</DependentUpon>

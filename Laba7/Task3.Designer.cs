@@ -28,23 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.vecPaintD1 = new blank.VecPaintD();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.graphD1 = new blank.GraphD();
             this.SuspendLayout();
             // 
-            // vecPaintD1
+            // graphD1
             // 
-            this.vecPaintD1.BackColor = System.Drawing.SystemColors.Control;
-            this.vecPaintD1.Location = new System.Drawing.Point(1, 24);
-            this.vecPaintD1.Name = "vecPaintD1";
-            this.vecPaintD1.Size = new System.Drawing.Size(1076, 530);
-            this.vecPaintD1.TabIndex = 0;
+            this.graphD1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.graphD1.Location = new System.Drawing.Point(-6, -10);
+            this.graphD1.Name = "graphD1";
+            this.graphD1.Size = new System.Drawing.Size(1256, 711);
+            this.graphD1.TabIndex = 0;
             // 
             // Task3
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1072, 581);
-            this.Controls.Add(this.vecPaintD1);
+            this.ClientSize = new System.Drawing.Size(1210, 689);
+            this.Controls.Add(this.graphD1);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Task3";
             this.Text = "Task3";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Task3_FormClosing);
@@ -54,6 +56,7 @@
 
         #endregion
 
-        private VecPaintD vecPaintD1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private GraphD graphD1;
     }
 }
