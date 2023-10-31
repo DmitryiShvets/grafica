@@ -20,28 +20,46 @@ namespace blank
     public partial class Task1 : Form
     {
         private Bitmap _bitmap;
+        private Bitmap _bitmap_editor;
         private Graphics _graphics;
+        private Graphics _graphics_editor;
         private List<Object3D> _objects;
         private int zoom = 1;
-
+        private List<Vector4> editor_points;
+        private List<Vector4> editor_points_mesh;
         private PROJECTION_TYPE g_projection_type = PROJECTION_TYPE.ORTHO_Z_PLUS;
-
-        private Line rotation_line;
-
+        private RotationFigure rotation_figure;
         public Task1()
         {
             InitializeComponent();
 
             _bitmap = new Bitmap(canvas.Width, canvas.Height);
+            _bitmap_editor = new Bitmap(editor.Width, editor.Height);
             _graphics = Graphics.FromImage(_bitmap);
+            _graphics_editor = Graphics.FromImage(_bitmap_editor);
             _graphics.Clear(Color.White);
+            _graphics_editor.Clear(Color.White);
+            rotation_figure = new RotationFigure(GetTransform());
             AddAllObjects();
             comboBox1.SelectedIndex = 0;
+
             canvas.Image = _bitmap;
+            editor.Image = _bitmap_editor;
+
+            editor_points = new List<Vector4>();
+            editor_points_mesh = new List<Vector4>();
+
+            _objects = new List<Object3D>
+            {
+                GetObject(0)
+            };
+
+            DrawAll();
         }
 
         private void AddAllObjects()
         {
+            comboBox1.Items.Add("Rotation");
             comboBox1.Items.Add("Cube");
             comboBox1.Items.Add("Tetrahedron");
             comboBox1.Items.Add("Octahedron");
@@ -51,17 +69,20 @@ namespace blank
 
         private Transform GetTransform()
         {
-            return new Transform(new Vector4(0, 0, 3), new Vector4(0, 0, 0), new Vector4(1, 1, 1), new Vector4(1, 1, 1));
+            return new Transform(new Vector4(0, 0, 2), new Vector4(0, 0, 0), new Vector4(1, 1, 1), new Vector4(1, 1, 1));
         }
 
-        Matrix3D view_matrix = Matrix3D.LookAt(new Vector4(0, 0, 1), new Vector4(0, 0, 0), new Vector4(0, 1, 0));
+        Matrix3D view_matrix = Matrix3D.LookAt(new Vector4(0, 0, -1), new Vector4(0, 0, 0), new Vector4(0, -1, 0));
 
         Matrix3D projection_matrix = Matrix3D.GetProjectionMatrix(45.0f, 1.2f, 0.1f, 10.0f);
 
         private void DrawAll()
         {
             _graphics.Clear(Color.White);
+            _graphics_editor.Clear(Color.White);
             DrawAxes();
+
+            if (editor_points.Count > 0) DrawEditor();
 
             foreach (var obj in _objects)
             {
@@ -73,8 +94,10 @@ namespace blank
 
             canvas.Image = _bitmap;
             canvas.Invalidate();
-
+            editor.Image = _bitmap_editor;
+            editor.Invalidate();
         }
+
         private void DrawTriangle(Triangle3D triangle, Transform transform)
         {
             if (g_projection_type == PROJECTION_TYPE.PERSPECTIVE)
@@ -111,8 +134,8 @@ namespace blank
             //view_v1 /= view_v1[3, 0];
             //view_v2 /= view_v2[3, 0];
 
-            // Matrix3D projection_m = projection_matrix;
-            Matrix3D projection_m = Matrix3D.GetProjectionMatrix1();
+            Matrix3D projection_m = projection_matrix;
+            //Matrix3D projection_m = Matrix3D.GetProjectionMatrix1();
 
             Matrix3D ortho_v0 = projection_m * view_v0;
             Matrix3D ortho_v1 = projection_m * view_v1;
@@ -134,14 +157,14 @@ namespace blank
             canvas_v1 /= canvas_v1[3, 0];
             canvas_v2 /= canvas_v2[3, 0];
 
-            cur_info.Text = "model a\n";
-            cur_info.Text += model_v0.ToString();
-            cur_info.Text += "view a\n";
-            cur_info.Text += view_v0.ToString();
-            cur_info.Text += "ortho b\n";
-            cur_info.Text += ortho_v0;
-            cur_info.Text += "canv c\n";
-            cur_info.Text += canvas_v0.ToString();
+            //cur_info.Text = "model a\n";
+            //cur_info.Text += model_v0.ToString();
+            //cur_info.Text += "view a\n";
+            //cur_info.Text += view_v0.ToString();
+            //cur_info.Text += "ortho b\n";
+            //cur_info.Text += ortho_v0;
+            //cur_info.Text += "canv c\n";
+            //cur_info.Text += canvas_v0.ToString();
 
             points[0] = canvas_v0.ToVector4().ToPointF();
             points[1] = canvas_v1.ToVector4().ToPointF();
@@ -150,7 +173,6 @@ namespace blank
 
             _graphics.DrawLines(new Pen(triangle.color, 1.0f), points);
             //_graphics.DrawLines(new Pen(Color.Black, 1.0f), points);
-
         }
 
         private void DrawTriangleOrtho(Triangle3D triangle, Transform transform)
@@ -198,14 +220,14 @@ namespace blank
             //canvas_v1 /= canvas_v1[3, 0];
             //canvas_v2 /= canvas_v2[3, 0];
 
-            cur_info.Text = "model a\n";
-            cur_info.Text += model_v0.ToString();
-            cur_info.Text += "view a\n";
-            cur_info.Text += view_v0.ToString();
-            cur_info.Text += "ortho b\n";
-            cur_info.Text += ortho_v0;
-            cur_info.Text += "canv c\n";
-            cur_info.Text += canvas_v0.ToString();
+            //cur_info.Text = "model a\n";
+            //cur_info.Text += model_v0.ToString();
+            //cur_info.Text += "view a\n";
+            //cur_info.Text += view_v0.ToString();
+            //cur_info.Text += "ortho b\n";
+            //cur_info.Text += ortho_v0;
+            //cur_info.Text += "canv c\n";
+            //cur_info.Text += canvas_v0.ToString();
 
             points[0] = canvas_v0.ToVector4().ToPointF();
             points[1] = canvas_v1.ToVector4().ToPointF();
@@ -213,68 +235,72 @@ namespace blank
             points[3] = canvas_v0.ToVector4().ToPointF();
 
             _graphics.DrawLines(new Pen(triangle.color, 1.0f), points);
-
         }
 
         private void DrawAxes()
         {
-            float aspect_ration = Math.Abs(canvas.Height - canvas.Width) / 2;
-            float max = Math.Max(canvas.Width, canvas.Height);
+            //оси для канваса
             PointF y0 = new PointF(canvas.Width / 2, 0);
             PointF y1 = new PointF(canvas.Width / 2, canvas.Height);
 
             PointF x0 = new PointF(0, canvas.Height / 2);
             PointF x1 = new PointF(canvas.Width, canvas.Height / 2);
 
-            PointF z0 = new PointF(max - aspect_ration, 0);
-            PointF z1 = new PointF(0 + aspect_ration, canvas.Height);
+            //оси для редактора фигуры
+            PointF yy0 = new PointF(editor.Width / 2, 0);
+            PointF yy1 = new PointF(editor.Width / 2, editor.Height);
+
+            PointF xx0 = new PointF(0, editor.Height / 2);
+            PointF xx1 = new PointF(editor.Width, editor.Height / 2);
 
             switch (g_projection_type)
             {
                 case PROJECTION_TYPE.ORTHO_X_PLUS:
                     {
-                        DrawAxis(x0, x1, AXIS_TYPE.X, "+Z", "-Z", Color.Red);
-                        DrawAxis(y0, y1, AXIS_TYPE.Y, "-Y", "+Y", Color.Blue);
+                        DrawAxis(x0, x1, xx0, xx1, AXIS_TYPE.X, "+Z", "-Z", Color.Red);
+                        DrawAxis(y0, y1, yy0, yy1, AXIS_TYPE.Y, "-Y", "+Y", Color.Blue);
                         break;
                     }
                 case PROJECTION_TYPE.ORTHO_X_MINUS:
                     {
-                        DrawAxis(x0, x1, AXIS_TYPE.X, "-Z", "+Z", Color.Red);
-                        DrawAxis(y0, y1, AXIS_TYPE.Y, "-Y", "+Y", Color.Blue);
+                        DrawAxis(x0, x1, xx0, xx1, AXIS_TYPE.X, "-Z", "+Z", Color.Red);
+                        DrawAxis(y0, y1, yy0, yy1, AXIS_TYPE.Y, "-Y", "+Y", Color.Blue);
                         break;
                     }
                 case PROJECTION_TYPE.ORTHO_Y_PLUS:
                     {
-                        DrawAxis(x0, x1, AXIS_TYPE.X, "+X", "-X", Color.Red);
-                        DrawAxis(y0, y1, AXIS_TYPE.Y, "-Z", "+Z", Color.Blue);
+                        DrawAxis(x0, x1, xx0, xx1, AXIS_TYPE.X, "+X", "-X", Color.Red);
+                        DrawAxis(y0, y1, yy0, yy1, AXIS_TYPE.Y, "-Z", "+Z", Color.Blue);
                         break;
                     }
                 case PROJECTION_TYPE.ORTHO_Y_MINUS:
                     {
-                        DrawAxis(x0, x1, AXIS_TYPE.X, "-X", "+X", Color.Red);
-                        DrawAxis(y0, y1, AXIS_TYPE.Y, "-Z", "+Z", Color.Blue);
+                        DrawAxis(x0, x1, xx0, xx1, AXIS_TYPE.X, "-X", "+X", Color.Red);
+                        DrawAxis(y0, y1, yy0, yy1, AXIS_TYPE.Y, "-Z", "+Z", Color.Blue);
                         break;
                     }
                 case PROJECTION_TYPE.PERSPECTIVE:
                 case PROJECTION_TYPE.ORTHO_Z_PLUS:
                     {
-                        DrawAxis(x0, x1, AXIS_TYPE.X, "-X", "+X", Color.Red);
-                        DrawAxis(y0, y1, AXIS_TYPE.Y, "-Y", "+Y", Color.Blue);
+                        DrawAxis(x0, x1, xx0, xx1, AXIS_TYPE.X, "-X", "+X", Color.Red);
+                        DrawAxis(y0, y1, yy0, yy1, AXIS_TYPE.Y, "-Y", "+Y", Color.Blue);
                         break;
                     }
                 case PROJECTION_TYPE.ORTHO_Z_MINUS:
                     {
-                        DrawAxis(x0, x1, AXIS_TYPE.X, "+X", "-X", Color.Red);
-                        DrawAxis(y0, y1, AXIS_TYPE.Y, "-Y", "+Y", Color.Blue);
+                        DrawAxis(x0, x1, xx0, xx1, AXIS_TYPE.X, "+X", "-X", Color.Red);
+                        DrawAxis(y0, y1, yy0, yy1, AXIS_TYPE.Y, "-Y", "+Y", Color.Blue);
                         break;
                     }
             }
 
         }
 
-        private void DrawAxis(PointF a, PointF b, AXIS_TYPE axis_type, string axis_name_n, string axis_name_p, Color color)
+        private void DrawAxis(PointF a, PointF b, PointF aa, PointF bb, AXIS_TYPE axis_type, string axis_name_n, string axis_name_p, Color color)
         {
             _graphics.DrawLine(new Pen(color), a, b);
+
+            _graphics_editor.DrawLine(new Pen(color), aa, bb);
             switch (axis_type)
             {
                 case AXIS_TYPE.X:
@@ -388,14 +414,16 @@ namespace blank
             switch (v)
             {
                 case 0:
-                    return new Cube(GetTransform());
+                    return rotation_figure;
                 case 1:
-                    return new Tetrahedron(GetTransform());
+                    return new Cube(GetTransform());
                 case 2:
-                    return new Octahedron(GetTransform());
+                    return new Tetrahedron(GetTransform());
                 case 3:
-                    return new Icosahedron(GetTransform());
+                    return new Octahedron(GetTransform());
                 case 4:
+                    return new Icosahedron(GetTransform());
+                case 5:
                     return new Dodecahedron(GetTransform());
             }
             return new Cube(GetTransform());
@@ -414,11 +442,16 @@ namespace blank
         private void btn_clear_Click(object sender, EventArgs e)
         {
             _objects.Clear();
+            editor_points.Clear();
+            editor_points_mesh.Clear();
             int variant = comboBox1.SelectedIndex;
+            rotation_figure = new RotationFigure(GetTransform());
+
             _objects = new List<Object3D>
             {
                 GetObject(variant)
             };
+
             DrawAll();
         }
 
@@ -466,6 +499,60 @@ namespace blank
 
             _objects.Last().transform.RotateRelativeLine(point1, point2, angle);
             DrawAll();
+        }
+
+        private void editor_MouseClick(object sender, MouseEventArgs e)
+        {
+            float x = e.X - editor.Width / 2;
+            float y = editor.Height / 2 - e.Y;
+            int z = 5;
+
+            editor_points.Add(new Vector4(x, y, z));
+
+            x = LinX(x, editor.Width) + 1;
+            y = LinY(y, editor.Height);
+            editor_points_mesh.Add(new Vector4(x, y, z));
+
+            DrawAll();
+
+        }
+
+        private void DrawEditor()
+        {
+            Color c = Color.Green;
+            float center_x = editor.Width / 2;
+            float center_y = editor.Height / 2;
+
+            _graphics_editor.DrawEllipse(new Pen(Color.Black), editor_points.First().x - 1 + center_x, center_y - editor_points.First().y - 1, 2, 2);
+            for (int i = 1; i < editor_points.Count(); ++i)
+            {
+                _graphics_editor.DrawLine(new Pen(c), editor_points[i - 1].x + center_x, center_y - editor_points[i - 1].y, editor_points[i].x + center_x, center_y - editor_points[i].y);
+            }
+            _graphics_editor.DrawLine(new Pen(c), editor_points.Last().x + center_x, center_y - editor_points.Last().y, editor_points.First().x + center_x, center_y - editor_points.First().y);
+
+            if (editor_points.Count() >= 3)
+            {
+                rotation_figure.mech.AddFace(editor_points.First(), editor_points[editor_points.Count - 2], editor_points.Last(), Color.Magenta);
+            }
+        }
+
+        private void editor_MouseMove(object sender, MouseEventArgs e)
+        {
+            float x = e.X - editor.Width / 2;
+            x = LinX(x, editor.Width)+1;
+            float y = editor.Height / 2 - e.Y;
+            y = LinY(y, editor.Height);
+            cur_info.Text = "x = " + x.ToString() + " | y = " + y.ToString();
+        }
+
+        private float LinX(float x, int b)
+        {
+            return 2 * (x / b) - 1;
+        }
+
+        private float LinY(float y,float max)
+        {
+            return 2 * (y / max) ;
         }
     }
 }

@@ -67,6 +67,7 @@ namespace blank.Primitives
         public void Rotate(Vector4 rotation)
         {
             this.rotation += rotation;
+            //Console.WriteLine(this.rotation + " ");
         }
         //Увеличение размена на dx,dy,dz
         public void Scale(Vector4 scale)

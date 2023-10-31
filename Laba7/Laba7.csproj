@@ -63,6 +63,7 @@
     <Compile Include="Shapes\Dodecahedron.cs" />
     <Compile Include="Shapes\Icosahedron.cs" />
     <Compile Include="Shapes\Octahedron.cs" />
+    <Compile Include="Shapes\RotationFigure.cs" />
     <Compile Include="Shapes\Tetrahedron.cs" />
     <Compile Include="Utility\FileStorage.cs" />
     <Compile Include="Utility\Matrix3D.cs" />

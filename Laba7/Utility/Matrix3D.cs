@@ -299,9 +299,6 @@ namespace blank.Utility
 
         public static Matrix3D GetReflectionMatrix(Vector4 reflection)
         {
-            Debug.WriteLine(reflection.x);
-            Debug.WriteLine(reflection.y);
-            Debug.WriteLine(reflection.z);
             float[,] reflectionMatrix = new float[,]
                 
                 {
@@ -312,6 +309,7 @@ namespace blank.Utility
                 };
             return new Matrix3D(reflectionMatrix);
         }
+
         public static Matrix3D GetLineRotationMatrix(Vector4 P1, Vector4 P2, float angle)
         {
             if ((P1 == P2) || (angle==0)) return GetIdentityMatrix();
@@ -381,7 +379,7 @@ namespace blank.Utility
                         ortho_matrix = new float[,]
                         {
                                 { 0, 0, 0, 0 },
-                                { 0, -1, 0, 0 },
+                                { 0, 1, 0, 0 },
                                 { 0, 0, 1, 0 },
                                 { 0, 0, 1, 1 }
                         };
@@ -393,7 +391,7 @@ namespace blank.Utility
                         ortho_matrix = new float[,]
                         {
                                 { 0, 0, 0, 0 },
-                                { 0, -1, 0, 0 },
+                                { 0, 1, 0, 0 },
                                 { 0, 0, -1, 0 },
                                 { 0, 0, 1, 1 }
                         };
@@ -404,7 +402,7 @@ namespace blank.Utility
                     {
                         ortho_matrix = new float[,]
                         {
-                                { -1, 0, 0, 0 },
+                                { 1, 0, 0, 0 },
                                 { 0, 0, 0, 0 },
                                 { 0, 0, -1, 0 },
                                 { 0, 0, 1, 1 }
@@ -416,7 +414,7 @@ namespace blank.Utility
                     {
                         ortho_matrix = new float[,]
                         {
-                                { 1, 0, 0, 0 },
+                                { -1, 0, 0, 0 },
                                 { 0, 0, 0, 0 },
                                 { 0, 0, -1, 0 },
                                 { 0, 0, 1, 1 }
@@ -429,7 +427,7 @@ namespace blank.Utility
                         ortho_matrix = new float[,]
                         {
                                 { 1, 0, 0, 0 },
-                                { 0, -1, 0, 0 },
+                                { 0, 1, 0, 0 },
                                 { 0, 0, 0, 0 },
                                 { 0, 0, 1, 1 }
                         };
@@ -441,7 +439,7 @@ namespace blank.Utility
                         ortho_matrix = new float[,]
                         {
                                 { -1, 0, 0, 0 },
-                                { 0, -1, 0, 0 },
+                                { 0, 1, 0, 0 },
                                 { 0, 0, 0, 0 },
                                 { 0, 0, 1, 1 }
                         };
@@ -453,7 +451,7 @@ namespace blank.Utility
                         ortho_matrix = new float[,]
                         {
                                 { 1, 0, 0, 0 },
-                                { 0, -1, 0, 0 },
+                                { 0, 1, 0, 0 },
                                 { 0, 0, 0, 0 },
                                 { 0, 0, 1, 1 }
                         };
