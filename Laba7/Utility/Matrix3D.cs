@@ -480,17 +480,18 @@ namespace blank.Utility
         {
             float radians_fov = ToRadians(fovy);
             float ctg_fov = (float)(1.0 / Math.Tan(radians_fov / 2));
-            float a = ctg_fov / aspect;
-            float b = ctg_fov;
-            float c = f + n / f - n;
-            float d = (-2 * f * n) / (f - n);
+            float x = ctg_fov / aspect;
+            float y = ctg_fov;
+            float h = f - n;
+            float z = f + n / h;
+            float d = (-2 * f * n) / h;
 
             float[,] projection_matrix = new float[,]
          {
-                { a, 0, 0, 0 },
-                { 0, b, 0, 0 },
-                { 0, 0, c, 1 },
-                { 0, 0, d, 0 }
+                { x, 0, 0, 0 },
+                { 0, y, 0, 0 },
+                { 0, 0, z, 0 },
+                { 0, 0, d, 1 }
          };
             return new Matrix3D(projection_matrix);
         }
@@ -521,31 +522,6 @@ namespace blank.Utility
             return rotation * translation;
         }
 
-        public static Matrix3D LookAt1(Vector4 Eye, Vector4 Center, Vector4 Up)
-        {
-            Vector4 X, Y, Z;
-            Z = Eye - Center;
-            Z.Normalize();
-            Y = Up;
-            X = Vector4.CrossProduct(Y, Z);
-            Y = Vector4.CrossProduct(Z, X);
-            X.Normalize();
-            Y.Normalize();
-
-            float x_dot = Vector4.DotProduct(X, Eye);
-            float y_dot = Vector4.DotProduct(Y, Eye);
-            float z_dot = Vector4.DotProduct(Z, Eye);
-
-            float[,] look_matrix = new float[,]
-           {
-                { X.x, Y.x, Z.x, 0 },
-                { X.y, Y.y, Z.y, 0 },
-                { X.z, Y.z, Z.z, 0 },
-                { -x_dot, -y_dot, -z_dot, 1 }
-           };
-            return new Matrix3D(look_matrix);
-
-        }
 
         public static Matrix3D GetViewPortMatrix(int zoom_x, int zoom_y, int x_center, int y_center)
         {

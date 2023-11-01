@@ -94,6 +94,15 @@
             this.tb_line_y1 = new System.Windows.Forms.TextBox();
             this.tb_line_x1 = new System.Windows.Forms.TextBox();
             this.editor = new System.Windows.Forms.PictureBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.rb_axis_x = new System.Windows.Forms.RadioButton();
+            this.rb_axis_z = new System.Windows.Forms.RadioButton();
+            this.rb_axis_y = new System.Windows.Forms.RadioButton();
+            this.count_partition = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.label14 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.track_zoom)).BeginInit();
@@ -103,6 +112,7 @@
             this.groupBox5.SuspendLayout();
             this.groupBox_line_rotation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.editor)).BeginInit();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // canvas
@@ -174,6 +184,7 @@
             // ortho_z_plus
             // 
             this.ortho_z_plus.AutoSize = true;
+            this.ortho_z_plus.Checked = true;
             this.ortho_z_plus.Location = new System.Drawing.Point(99, 37);
             this.ortho_z_plus.Name = "ortho_z_plus";
             this.ortho_z_plus.Size = new System.Drawing.Size(38, 17);
@@ -204,9 +215,11 @@
             this.groupBox1.Controls.Add(this.ortho_z_plus);
             this.groupBox1.Controls.Add(this.ortho_x_minus);
             this.groupBox1.Controls.Add(this.ortho_y_plus);
+            this.groupBox1.Controls.Add(this.track_zoom);
+            this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Location = new System.Drawing.Point(109, 21);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(274, 100);
+            this.groupBox1.Size = new System.Drawing.Size(358, 100);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Проекция:";
@@ -225,7 +238,7 @@
             // 
             // track_zoom
             // 
-            this.track_zoom.Location = new System.Drawing.Point(389, 71);
+            this.track_zoom.Location = new System.Drawing.Point(249, 49);
             this.track_zoom.Maximum = 100;
             this.track_zoom.Minimum = 1;
             this.track_zoom.Name = "track_zoom";
@@ -481,7 +494,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(389, 46);
+            this.label10.Location = new System.Drawing.Point(249, 24);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(50, 22);
             this.label10.TabIndex = 2;
@@ -616,7 +629,7 @@
             this.cur_info.AutoSize = true;
             this.cur_info.Enabled = false;
             this.cur_info.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cur_info.Location = new System.Drawing.Point(625, 18);
+            this.cur_info.Location = new System.Drawing.Point(755, 614);
             this.cur_info.Name = "cur_info";
             this.cur_info.Size = new System.Drawing.Size(70, 22);
             this.cur_info.TabIndex = 2;
@@ -788,6 +801,110 @@
             this.editor.MouseClick += new System.Windows.Forms.MouseEventHandler(this.editor_MouseClick);
             this.editor.MouseMove += new System.Windows.Forms.MouseEventHandler(this.editor_MouseMove);
             // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.label13);
+            this.groupBox6.Controls.Add(this.label14);
+            this.groupBox6.Controls.Add(this.label12);
+            this.groupBox6.Controls.Add(this.comboBox2);
+            this.groupBox6.Controls.Add(this.rb_axis_x);
+            this.groupBox6.Controls.Add(this.rb_axis_z);
+            this.groupBox6.Controls.Add(this.rb_axis_y);
+            this.groupBox6.Controls.Add(this.count_partition);
+            this.groupBox6.Location = new System.Drawing.Point(629, 21);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(386, 100);
+            this.groupBox6.TabIndex = 4;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Редектор:";
+            // 
+            // rb_axis_x
+            // 
+            this.rb_axis_x.AutoSize = true;
+            this.rb_axis_x.Location = new System.Drawing.Point(19, 49);
+            this.rb_axis_x.Name = "rb_axis_x";
+            this.rb_axis_x.Size = new System.Drawing.Size(38, 17);
+            this.rb_axis_x.TabIndex = 3;
+            this.rb_axis_x.Text = "+X";
+            this.rb_axis_x.UseVisualStyleBackColor = true;
+            this.rb_axis_x.CheckedChanged += new System.EventHandler(this.rb_axis_x_CheckedChanged);
+            // 
+            // rb_axis_z
+            // 
+            this.rb_axis_z.AutoSize = true;
+            this.rb_axis_z.Location = new System.Drawing.Point(101, 49);
+            this.rb_axis_z.Name = "rb_axis_z";
+            this.rb_axis_z.Size = new System.Drawing.Size(38, 17);
+            this.rb_axis_z.TabIndex = 3;
+            this.rb_axis_z.Text = "+Z";
+            this.rb_axis_z.UseVisualStyleBackColor = true;
+            this.rb_axis_z.CheckedChanged += new System.EventHandler(this.rb_axis_z_CheckedChanged);
+            // 
+            // rb_axis_y
+            // 
+            this.rb_axis_y.AutoSize = true;
+            this.rb_axis_y.Checked = true;
+            this.rb_axis_y.Location = new System.Drawing.Point(60, 49);
+            this.rb_axis_y.Name = "rb_axis_y";
+            this.rb_axis_y.Size = new System.Drawing.Size(38, 17);
+            this.rb_axis_y.TabIndex = 3;
+            this.rb_axis_y.TabStop = true;
+            this.rb_axis_y.Text = "+Y";
+            this.rb_axis_y.UseVisualStyleBackColor = true;
+            this.rb_axis_y.CheckedChanged += new System.EventHandler(this.rb_axis_y_CheckedChanged);
+            // 
+            // count_partition
+            // 
+            this.count_partition.Location = new System.Drawing.Point(145, 49);
+            this.count_partition.Name = "count_partition";
+            this.count_partition.Size = new System.Drawing.Size(96, 20);
+            this.count_partition.TabIndex = 0;
+            this.count_partition.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.t_transform_dx_KeyPress);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(142, 30);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(101, 13);
+            this.label12.TabIndex = 4;
+            this.label12.Text = "Кол-во разбиений:";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(16, 30);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(84, 13);
+            this.label13.TabIndex = 4;
+            this.label13.Text = "Ось вращения:";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.comboBox2.Items.AddRange(new object[] {
+            "Образующая",
+            "Разбиение",
+            "Финал"});
+            this.comboBox2.Location = new System.Drawing.Point(255, 48);
+            this.comboBox2.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(116, 21);
+            this.comboBox2.TabIndex = 7;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(252, 30);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(46, 13);
+            this.label14.TabIndex = 4;
+            this.label14.Text = "Стадия:";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Task1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -801,12 +918,11 @@
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.track_zoom);
+            this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.vertex_c);
             this.Controls.Add(this.vertex_b);
             this.Controls.Add(this.vertex_a);
-            this.Controls.Add(this.label10);
             this.Controls.Add(this.cur_info);
             this.Controls.Add(this.btn_clear);
             this.Controls.Add(this.btn_draw);
@@ -829,6 +945,8 @@
             this.groupBox_line_rotation.ResumeLayout(false);
             this.groupBox_line_rotation.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.editor)).EndInit();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -902,5 +1020,14 @@
         private System.Windows.Forms.Label label_line_rotation_angle;
         private System.Windows.Forms.TextBox tb_line_rotation_angle;
         private System.Windows.Forms.PictureBox editor;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.RadioButton rb_axis_x;
+        private System.Windows.Forms.RadioButton rb_axis_z;
+        private System.Windows.Forms.RadioButton rb_axis_y;
+        private System.Windows.Forms.TextBox count_partition;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.Label label14;
     }
 }

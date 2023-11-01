@@ -26,7 +26,6 @@ namespace blank
         private List<Object3D> _objects;
         private int zoom = 1;
         private List<Vector4> editor_points;
-        private List<Vector4> editor_points_mesh;
         private PROJECTION_TYPE g_projection_type = PROJECTION_TYPE.ORTHO_Z_PLUS;
         private RotationFigure rotation_figure;
         public Task1()
@@ -42,12 +41,12 @@ namespace blank
             rotation_figure = new RotationFigure(GetTransform());
             AddAllObjects();
             comboBox1.SelectedIndex = 0;
+            comboBox2.SelectedIndex = 0;
 
             canvas.Image = _bitmap;
             editor.Image = _bitmap_editor;
 
             editor_points = new List<Vector4>();
-            editor_points_mesh = new List<Vector4>();
 
             _objects = new List<Object3D>
             {
@@ -125,14 +124,9 @@ namespace blank
             Matrix3D view_m = view_matrix;
             //Matrix3D view_m = GetIdentityMatrix();
 
-
             Matrix3D view_v0 = view_m * model_v0;
             Matrix3D view_v1 = view_m * model_v1;
             Matrix3D view_v2 = view_m * model_v2;
-
-            //view_v0 /= view_v0[3, 0];
-            //view_v1 /= view_v1[3, 0];
-            //view_v2 /= view_v2[3, 0];
 
             Matrix3D projection_m = projection_matrix;
             //Matrix3D projection_m = Matrix3D.GetProjectionMatrix1();
@@ -140,11 +134,6 @@ namespace blank
             Matrix3D ortho_v0 = projection_m * view_v0;
             Matrix3D ortho_v1 = projection_m * view_v1;
             Matrix3D ortho_v2 = projection_m * view_v2;
-
-            //ortho_v0 /= ortho_v0[3, 0];
-            //ortho_v1 /= ortho_v1[3, 0];
-            //ortho_v2 /= ortho_v2[3, 0];
-
 
             Matrix3D viewport_matrix = Matrix3D.GetViewPortMatrix(zoom, zoom, canvas.Width / 2, canvas.Height / 2);
             //Matrix3D viewport_matrix = Matrix3D.GetIdentityMatrix();
@@ -157,22 +146,12 @@ namespace blank
             canvas_v1 /= canvas_v1[3, 0];
             canvas_v2 /= canvas_v2[3, 0];
 
-            //cur_info.Text = "model a\n";
-            //cur_info.Text += model_v0.ToString();
-            //cur_info.Text += "view a\n";
-            //cur_info.Text += view_v0.ToString();
-            //cur_info.Text += "ortho b\n";
-            //cur_info.Text += ortho_v0;
-            //cur_info.Text += "canv c\n";
-            //cur_info.Text += canvas_v0.ToString();
-
             points[0] = canvas_v0.ToVector4().ToPointF();
             points[1] = canvas_v1.ToVector4().ToPointF();
             points[2] = canvas_v2.ToVector4().ToPointF();
             points[3] = canvas_v0.ToVector4().ToPointF();
 
             _graphics.DrawLines(new Pen(triangle.color, 1.0f), points);
-            //_graphics.DrawLines(new Pen(Color.Black, 1.0f), points);
         }
 
         private void DrawTriangleOrtho(Triangle3D triangle, Transform transform)
@@ -443,7 +422,7 @@ namespace blank
         {
             _objects.Clear();
             editor_points.Clear();
-            editor_points_mesh.Clear();
+            //editor_points_mesh.Clear();
             int variant = comboBox1.SelectedIndex;
             rotation_figure = new RotationFigure(GetTransform());
 
@@ -511,7 +490,7 @@ namespace blank
 
             x = LinX(x, editor.Width) + 1;
             y = LinY(y, editor.Height);
-            editor_points_mesh.Add(new Vector4(x, y, z));
+            rotation_figure.editor_points_mesh.Add(new Vector4(x, y, z));
 
             DrawAll();
 
@@ -539,7 +518,7 @@ namespace blank
         private void editor_MouseMove(object sender, MouseEventArgs e)
         {
             float x = e.X - editor.Width / 2;
-            x = LinX(x, editor.Width)+1;
+            x = LinX(x, editor.Width) + 1;
             float y = editor.Height / 2 - e.Y;
             y = LinY(y, editor.Height);
             cur_info.Text = "x = " + x.ToString() + " | y = " + y.ToString();
@@ -550,9 +529,24 @@ namespace blank
             return 2 * (x / b) - 1;
         }
 
-        private float LinY(float y,float max)
+        private float LinY(float y, float max)
         {
-            return 2 * (y / max) ;
+            return 2 * (y / max);
+        }
+
+        private void rb_axis_x_CheckedChanged(object sender, EventArgs e)
+        {
+            rotation_figure.rotation_axis = AXIS_TYPE.X;
+        }
+
+        private void rb_axis_y_CheckedChanged(object sender, EventArgs e)
+        {
+            rotation_figure.rotation_axis = AXIS_TYPE.Y;
+        }
+
+        private void rb_axis_z_CheckedChanged(object sender, EventArgs e)
+        {
+            rotation_figure.rotation_axis = AXIS_TYPE.Z;
         }
     }
 }
