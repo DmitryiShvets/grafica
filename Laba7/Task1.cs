@@ -111,109 +111,45 @@ namespace blank
 
         private void DrawTrianglePerspective(Triangle3D triangle, Transform transform)
         {
-            PointF[] points = new PointF[4];
-
-            Matrix3D model_v0 = transform.ApplyTransform(triangle[0]);
-            Matrix3D model_v1 = transform.ApplyTransform(triangle[1]);
-            Matrix3D model_v2 = transform.ApplyTransform(triangle[2]);
-
-            vertex_a.Text = model_v0.ToString();
-            vertex_b.Text = model_v1.ToString();
-            vertex_c.Text = model_v2.ToString();
-
-            Matrix3D view_m = view_matrix;
-            //Matrix3D view_m = GetIdentityMatrix();
-
-            Matrix3D view_v0 = view_m * model_v0;
-            Matrix3D view_v1 = view_m * model_v1;
-            Matrix3D view_v2 = view_m * model_v2;
-
-            Matrix3D projection_m = projection_matrix;
-            //Matrix3D projection_m = Matrix3D.GetProjectionMatrix1();
-
-            Matrix3D ortho_v0 = projection_m * view_v0;
-            Matrix3D ortho_v1 = projection_m * view_v1;
-            Matrix3D ortho_v2 = projection_m * view_v2;
-
+            List<PointF> points = new List<PointF>();
             Matrix3D viewport_matrix = Matrix3D.GetViewPortMatrix(zoom, zoom, canvas.Width / 2, canvas.Height / 2);
-            //Matrix3D viewport_matrix = Matrix3D.GetIdentityMatrix();
 
-            Matrix3D canvas_v0 = viewport_matrix * ortho_v0;
-            Matrix3D canvas_v1 = viewport_matrix * ortho_v1;
-            Matrix3D canvas_v2 = viewport_matrix * ortho_v2;
-
-            canvas_v0 /= canvas_v0[3, 0];
-            canvas_v1 /= canvas_v1[3, 0];
-            canvas_v2 /= canvas_v2[3, 0];
-
-            points[0] = canvas_v0.ToVector4().ToPointF();
-            points[1] = canvas_v1.ToVector4().ToPointF();
-            points[2] = canvas_v2.ToVector4().ToPointF();
-            points[3] = canvas_v0.ToVector4().ToPointF();
-
-            _graphics.DrawLines(new Pen(triangle.color, 1.0f), points);
+            for (int i = 0; i < triangle.Size; ++i)
+            {
+                Matrix3D model = transform.ApplyTransform(triangle[i]);
+                if (model[2, 0] < 0) continue;
+                Matrix3D view = view_matrix * model;
+                Matrix3D projection = projection_matrix * view;
+                projection /= projection[3, 0];
+                Matrix3D canvas = viewport_matrix * projection;
+                points.Add(canvas.ToVector4().ToPointF());
+            }
+            if (points.Count >= 3)
+            {
+                points.Add(points.First());
+                _graphics.DrawLines(new Pen(triangle.color, 1.0f), points.ToArray());
+            }
         }
 
         private void DrawTriangleOrtho(Triangle3D triangle, Transform transform)
         {
-            PointF[] points = new PointF[4];
-
-            Matrix3D model_v0 = transform.ApplyTransform(triangle[0]);
-            Matrix3D model_v1 = transform.ApplyTransform(triangle[1]);
-            Matrix3D model_v2 = transform.ApplyTransform(triangle[2]);
-
-            vertex_a.Text = model_v0.ToString();
-            vertex_b.Text = model_v1.ToString();
-            vertex_c.Text = model_v2.ToString();
-
-            Matrix3D view_v0 = view_matrix * model_v0;
-            Matrix3D view_v1 = view_matrix * model_v1;
-            Matrix3D view_v2 = view_matrix * model_v2;
-
-            Matrix3D projection_m = Matrix3D.GetOrtho(g_projection_type);
-            // Matrix3D projection_m = projection_matrix;
-
-            Matrix3D ortho_v0 = projection_m * view_v0;
-            Matrix3D ortho_v1 = projection_m * view_v1;
-            Matrix3D ortho_v2 = projection_m * view_v2;
-
-            //ortho_v0 /= ortho_v0[2, 0];
-            //ortho_v1 /= ortho_v1[2, 0];
-            //ortho_v2 /= ortho_v2[2, 0];
-
-            //Vector4 a = new Vector4(ortho_v0[2, 0], ortho_v0[1, 0], ortho_v0[3, 0]);
-            //Vector4 b = new Vector4(ortho_v1[2, 0], ortho_v1[1, 0], ortho_v0[3, 0]);
-            //Vector4 c = new Vector4(ortho_v2[2, 0], ortho_v2[1, 0], ortho_v0[3, 0]);
-
-            //a *= 1.0f / a.z;
-            //b *= 1.0f / b.z;
-            //c *= 1.0f / c.z;
-
+            List<PointF> points = new List<PointF>();
             Matrix3D viewport_matrix = Matrix3D.GetViewPortMatrix(zoom, zoom, canvas.Width / 2, canvas.Height / 2);
+            Matrix3D projection_m = Matrix3D.GetOrtho(g_projection_type);
 
-            Matrix3D canvas_v0 = viewport_matrix * ortho_v0.ToVector3(g_projection_type);
-            Matrix3D canvas_v1 = viewport_matrix * ortho_v1.ToVector3(g_projection_type);
-            Matrix3D canvas_v2 = viewport_matrix * ortho_v2.ToVector3(g_projection_type);
-
-            //canvas_v0 /= canvas_v0[3, 0];
-            //canvas_v1 /= canvas_v1[3, 0];
-            //canvas_v2 /= canvas_v2[3, 0];
-
-            //cur_info.Text = "model a\n";
-            //cur_info.Text += model_v0.ToString();
-            //cur_info.Text += "view a\n";
-            //cur_info.Text += view_v0.ToString();
-            //cur_info.Text += "ortho b\n";
-            //cur_info.Text += ortho_v0;
-            //cur_info.Text += "canv c\n";
-            //cur_info.Text += canvas_v0.ToString();
-
-            points[0] = canvas_v0.ToVector4().ToPointF();
-            points[1] = canvas_v1.ToVector4().ToPointF();
-            points[2] = canvas_v2.ToVector4().ToPointF();
-            points[3] = canvas_v0.ToVector4().ToPointF();
-
-            _graphics.DrawLines(new Pen(triangle.color, 1.0f), points);
+            for (int i = 0; i < triangle.Size; ++i)
+            {
+                Matrix3D model = transform.ApplyTransform(triangle[i]);
+                Matrix3D view = view_matrix * model;
+                Matrix3D projection = projection_m * view;
+                Matrix3D canvas = viewport_matrix * projection.ToVector3(g_projection_type);
+                points.Add(canvas.ToVector4().ToPointF());
+            }
+            if (points.Count >= 3)
+            {
+                points.Add(points.First());
+                _graphics.DrawLines(new Pen(triangle.color, 1.0f), points.ToArray());
+            }
         }
 
         private void DrawAxes()
@@ -484,14 +420,14 @@ namespace blank
         {
             float x = e.X - editor.Width / 2;
             float y = editor.Height / 2 - e.Y;
-            int z = 5;
+            int z = 0;
 
             editor_points.Add(new Vector4(x, y, z));
 
             x = LinX(x, editor.Width) + 1;
             y = LinY(y, editor.Height);
             rotation_figure.editor_points_mesh.Add(new Vector4(x, y, z));
-
+            rotation_figure.BuildFormingMesh();
             DrawAll();
 
         }
@@ -501,7 +437,7 @@ namespace blank
             Color c = Color.Green;
             float center_x = editor.Width / 2;
             float center_y = editor.Height / 2;
-
+            
             _graphics_editor.DrawEllipse(new Pen(Color.Black), editor_points.First().x - 1 + center_x, center_y - editor_points.First().y - 1, 2, 2);
             for (int i = 1; i < editor_points.Count(); ++i)
             {
@@ -509,10 +445,6 @@ namespace blank
             }
             _graphics_editor.DrawLine(new Pen(c), editor_points.Last().x + center_x, center_y - editor_points.Last().y, editor_points.First().x + center_x, center_y - editor_points.First().y);
 
-            if (editor_points.Count() >= 3)
-            {
-                rotation_figure.mech.AddFace(editor_points.First(), editor_points[editor_points.Count - 2], editor_points.Last(), Color.Magenta);
-            }
         }
 
         private void editor_MouseMove(object sender, MouseEventArgs e)

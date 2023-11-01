@@ -9,41 +9,38 @@ namespace blank.Primitives
 {
     internal class Triangle3D
     {
-       // private Vector4[] vertexes;
         private List<Vector4> vertexes;
         private Vector4 normal;
         public Color color;
 
+        public Triangle3D(Color color)
+        {
+            this.vertexes = new List<Vector4>();
+            this.normal = new Vector4();
+            this.color = color;
+        }
+
         public Triangle3D(Vector4 v1, Vector4 v2, Vector4 v3)
         {
-            //this.vertexes = new Vector4[3];
-            //this.vertexes[0] = v1;
-            //this.vertexes[1] = v2;
-            //this.vertexes[2] = v3;
-            this.vertexes = new List<Vector4>(3);
-            this.vertexes.Add(v1);
-            this.vertexes.Add(v2);
-            this.vertexes.Add(v3);
+            this.vertexes = new List<Vector4>(3) { v1, v2, v3 };
 
             this.normal = Vector4.CrossProduct(v2 - v1, v3 - v1);
             this.normal = normal * (float)(1.0 / normal.Length());
-            this.color= Color.Black;
+            this.color = Color.Black;
         }
 
-        public Triangle3D(Vector4 v1, Vector4 v2, Vector4 v3,Color color)
+        public Triangle3D(Vector4 v1, Vector4 v2, Vector4 v3, Color color)
         {
-            //this.vertexes = new Vector4[3];
-            //this.vertexes[0] = v1;
-            //this.vertexes[1] = v2;
-            //this.vertexes[2] = v3;
-            this.vertexes = new List<Vector4>(3);
-            this.vertexes.Add(v1);
-            this.vertexes.Add(v2);
-            this.vertexes.Add(v3);
+            this.vertexes = new List<Vector4>(3) { v1, v2, v3 };
 
             this.normal = Vector4.CrossProduct(v2 - v1, v3 - v1);
             this.normal = normal * (float)(1.0 / normal.Length());
             this.color = color;
+        }
+
+        public void AddVertex(Vector4 v)
+        {
+            this.vertexes.Add(v);
         }
 
 

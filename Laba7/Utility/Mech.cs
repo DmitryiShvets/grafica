@@ -17,6 +17,11 @@ namespace blank.Utility
             faces = new List<Triangle3D>();
         }
 
+        public Mech(Triangle3D face)
+        {
+            faces = new List<Triangle3D>() { face };
+        }
+
         public void AddFace(Vector4 a, Vector4 b, Vector4 c , Color color)
         {
             faces.Add(new Triangle3D(a,b,c,color));
