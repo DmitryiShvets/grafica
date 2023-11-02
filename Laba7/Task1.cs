@@ -40,7 +40,7 @@ namespace blank
             _graphics_editor.Clear(Color.White);
 
             int divisions = count_partition.Text == "" ? 1 : Int32.Parse(count_partition.Text);
-            rotation_figure = new RotationFigure(GetTransform(), divisions, cb_active_mesh.SelectedIndex);
+            rotation_figure = new RotationFigure(GetTransform(), divisions, cb_active_mesh.SelectedIndex, GetAxisType());
 
             AddAllObjects();
             comboBox1.SelectedIndex = 0;
@@ -364,11 +364,20 @@ namespace blank
             int variant = comboBox1.SelectedIndex;
 
             int divisions = count_partition.Text == "" ? 1 : Int32.Parse(count_partition.Text);
-            rotation_figure = new RotationFigure(GetTransform(), divisions, cb_active_mesh.SelectedIndex);
+
+            rotation_figure = new RotationFigure(GetTransform(), divisions, cb_active_mesh.SelectedIndex, GetAxisType());
 
             _objects = new List<Object3D> { GetObject(variant) };
 
             DrawAll();
+        }
+
+        private AXIS_TYPE GetAxisType()
+        {
+            if (rb_axis_x.Checked) return AXIS_TYPE.X;
+            if (rb_axis_y.Checked) return AXIS_TYPE.Y;
+            if (rb_axis_z.Checked) return AXIS_TYPE.Z;
+            else return AXIS_TYPE.Y;
         }
 
         private void track_zoom_ValueChanged(object sender, EventArgs e)
@@ -421,13 +430,14 @@ namespace blank
         {
             float x = e.X - editor.Width / 2;
             float y = editor.Height / 2 - e.Y;
-            int z = 0;
 
-            editor_points.Add(new Vector4(x, y, z));
+            editor_points.Add(new Vector4(x, y, 0));
 
             x = LinX(x, editor.Width) + 1;
             y = LinY(y, editor.Height);
-            rotation_figure.editor_points_mesh.Add(new Vector4(x, y, z));
+            rotation_figure.editor_points_mesh_x.Add(new Vector4(y, 0, x));
+            rotation_figure.editor_points_mesh_y.Add(new Vector4(x, y, 0));
+            rotation_figure.editor_points_mesh_z.Add(new Vector4(x, 0, y));
             rotation_figure.Build();
             DrawAll();
 
@@ -470,22 +480,28 @@ namespace blank
         private void rb_axis_x_CheckedChanged(object sender, EventArgs e)
         {
             rotation_figure.rotation_axis = AXIS_TYPE.X;
+            rotation_figure.Build();
+            DrawAll();
         }
 
         private void rb_axis_y_CheckedChanged(object sender, EventArgs e)
         {
             rotation_figure.rotation_axis = AXIS_TYPE.Y;
+            rotation_figure.Build();
+            DrawAll();
         }
 
         private void rb_axis_z_CheckedChanged(object sender, EventArgs e)
         {
             rotation_figure.rotation_axis = AXIS_TYPE.Z;
+            rotation_figure.Build();
+            DrawAll();
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             rotation_figure.SetIndexActiveMesh(cb_active_mesh.SelectedIndex);
-            if (rotation_figure.editor_points_mesh.Count > 0) DrawAll();
+            if (rotation_figure.PointCount > 0) DrawAll();
         }
 
         private void count_partition_KeyPress(object sender, KeyPressEventArgs e)
@@ -497,7 +513,7 @@ namespace blank
 
         private void count_partition_TextChanged(object sender, EventArgs e)
         {
-            if (rotation_figure.editor_points_mesh.Count > 0)
+            if (rotation_figure.PointCount > 0)
             {
                 int divisions = count_partition.Text == "" ? 1 : Int32.Parse(count_partition.Text);
                 rotation_figure.SetDivisionsCount(divisions);
