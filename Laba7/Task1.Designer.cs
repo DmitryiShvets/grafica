@@ -103,6 +103,9 @@
             this.rb_axis_z = new System.Windows.Forms.RadioButton();
             this.rb_axis_y = new System.Windows.Forms.RadioButton();
             this.count_partition = new System.Windows.Forms.TextBox();
+            this.btn_save_model = new System.Windows.Forms.Button();
+            this.btn_load_model = new System.Windows.Forms.Button();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.track_zoom)).BeginInit();
@@ -113,6 +116,7 @@
             this.groupBox_line_rotation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.editor)).BeginInit();
             this.groupBox6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // canvas
@@ -125,9 +129,9 @@
             // 
             // btn_draw
             // 
-            this.btn_draw.Location = new System.Drawing.Point(12, 46);
+            this.btn_draw.Location = new System.Drawing.Point(110, 37);
             this.btn_draw.Name = "btn_draw";
-            this.btn_draw.Size = new System.Drawing.Size(75, 23);
+            this.btn_draw.Size = new System.Drawing.Size(64, 23);
             this.btn_draw.TabIndex = 1;
             this.btn_draw.Text = "Рисовать";
             this.btn_draw.UseVisualStyleBackColor = true;
@@ -217,7 +221,7 @@
             this.groupBox1.Controls.Add(this.ortho_y_plus);
             this.groupBox1.Controls.Add(this.track_zoom);
             this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Location = new System.Drawing.Point(109, 21);
+            this.groupBox1.Location = new System.Drawing.Point(265, 21);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(358, 100);
             this.groupBox1.TabIndex = 4;
@@ -267,7 +271,7 @@
             this.groupBox2.Controls.Add(this.t_transform_dz);
             this.groupBox2.Controls.Add(this.t_transform_dy);
             this.groupBox2.Controls.Add(this.t_transform_dx);
-            this.groupBox2.Location = new System.Drawing.Point(2, 96);
+            this.groupBox2.Location = new System.Drawing.Point(4, 136);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(101, 113);
             this.groupBox2.TabIndex = 6;
@@ -344,7 +348,7 @@
             this.groupBox3.Controls.Add(this.t_rotation_dz);
             this.groupBox3.Controls.Add(this.t_rotation_dy);
             this.groupBox3.Controls.Add(this.t_rotation_dx);
-            this.groupBox3.Location = new System.Drawing.Point(2, 215);
+            this.groupBox3.Location = new System.Drawing.Point(4, 255);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(101, 113);
             this.groupBox3.TabIndex = 6;
@@ -421,7 +425,7 @@
             this.groupBox4.Controls.Add(this.t_scale_dz);
             this.groupBox4.Controls.Add(this.t_scale_dy);
             this.groupBox4.Controls.Add(this.t_scale_dx);
-            this.groupBox4.Location = new System.Drawing.Point(2, 334);
+            this.groupBox4.Location = new System.Drawing.Point(4, 374);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(101, 113);
             this.groupBox4.TabIndex = 6;
@@ -492,9 +496,9 @@
             // 
             // btn_clear
             // 
-            this.btn_clear.Location = new System.Drawing.Point(12, 70);
+            this.btn_clear.Location = new System.Drawing.Point(110, 61);
             this.btn_clear.Name = "btn_clear";
-            this.btn_clear.Size = new System.Drawing.Size(75, 23);
+            this.btn_clear.Size = new System.Drawing.Size(64, 23);
             this.btn_clear.TabIndex = 1;
             this.btn_clear.Text = "Сбросить";
             this.btn_clear.UseVisualStyleBackColor = true;
@@ -507,7 +511,7 @@
             this.groupBox5.Controls.Add(this.t_reflection_xz);
             this.groupBox5.Controls.Add(this.t_reflection_xy);
             this.groupBox5.Controls.Add(this.btn_reflection_apply);
-            this.groupBox5.Location = new System.Drawing.Point(4, 453);
+            this.groupBox5.Location = new System.Drawing.Point(109, 542);
             this.groupBox5.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(2);
@@ -578,7 +582,7 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(4, 21);
+            this.comboBox1.Location = new System.Drawing.Point(13, 51);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(92, 21);
@@ -587,7 +591,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(4, 6);
+            this.label11.Location = new System.Drawing.Point(13, 36);
             this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(89, 13);
@@ -652,7 +656,7 @@
             this.groupBox_line_rotation.Controls.Add(this.tb_line_rotation_angle);
             this.groupBox_line_rotation.Controls.Add(this.tb_line_y1);
             this.groupBox_line_rotation.Controls.Add(this.tb_line_x1);
-            this.groupBox_line_rotation.Location = new System.Drawing.Point(109, 542);
+            this.groupBox_line_rotation.Location = new System.Drawing.Point(213, 544);
             this.groupBox_line_rotation.Name = "groupBox_line_rotation";
             this.groupBox_line_rotation.Size = new System.Drawing.Size(203, 104);
             this.groupBox_line_rotation.TabIndex = 6;
@@ -908,14 +912,48 @@
             this.count_partition.TextChanged += new System.EventHandler(this.count_partition_TextChanged);
             this.count_partition.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.count_partition_KeyPress);
             // 
+            // btn_save_model
+            // 
+            this.btn_save_model.Location = new System.Drawing.Point(175, 37);
+            this.btn_save_model.Name = "btn_save_model";
+            this.btn_save_model.Size = new System.Drawing.Size(69, 23);
+            this.btn_save_model.TabIndex = 1;
+            this.btn_save_model.Text = "Сохранить";
+            this.btn_save_model.UseVisualStyleBackColor = true;
+            this.btn_save_model.Click += new System.EventHandler(this.btn_save_model_Click);
+            // 
+            // btn_load_model
+            // 
+            this.btn_load_model.Location = new System.Drawing.Point(175, 61);
+            this.btn_load_model.Name = "btn_load_model";
+            this.btn_load_model.Size = new System.Drawing.Size(69, 23);
+            this.btn_load_model.TabIndex = 1;
+            this.btn_load_model.Text = "Загрузить";
+            this.btn_load_model.UseVisualStyleBackColor = true;
+            this.btn_load_model.Click += new System.EventHandler(this.btn_load_model_Click);
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.btn_draw);
+            this.groupBox7.Controls.Add(this.btn_clear);
+            this.groupBox7.Controls.Add(this.label11);
+            this.groupBox7.Controls.Add(this.comboBox1);
+            this.groupBox7.Controls.Add(this.btn_save_model);
+            this.groupBox7.Controls.Add(this.btn_load_model);
+            this.groupBox7.Location = new System.Drawing.Point(9, 21);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(250, 100);
+            this.groupBox7.TabIndex = 79;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Модель";
+            // 
             // Task1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1098, 645);
+            this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.editor);
-            this.Controls.Add(this.label11);
-            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox_line_rotation);
             this.Controls.Add(this.groupBox4);
@@ -927,8 +965,6 @@
             this.Controls.Add(this.vertex_b);
             this.Controls.Add(this.vertex_a);
             this.Controls.Add(this.cur_info);
-            this.Controls.Add(this.btn_clear);
-            this.Controls.Add(this.btn_draw);
             this.Controls.Add(this.canvas);
             this.Name = "Task1";
             this.Text = "Task1";
@@ -950,6 +986,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.editor)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1032,5 +1070,8 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ComboBox cb_active_mesh;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button btn_save_model;
+        private System.Windows.Forms.Button btn_load_model;
+        private System.Windows.Forms.GroupBox groupBox7;
     }
 }

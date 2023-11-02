@@ -13,8 +13,7 @@ namespace blank.Utility
 {
     internal class FileStorage
     {
-
-        public void ExportModel(string file_name, Object3D obj)
+        public static void ExportModel(string file_name, Object3D obj)
         {
             try
             {
@@ -46,7 +45,7 @@ namespace blank.Utility
 
 
 
-        public Object3D ImportModel(string file_name)
+        public static Object3D ImportModel(string file_name)
         {
             Object3D new_obj = new Object3D();
             int cur_line = 0;
@@ -82,7 +81,7 @@ namespace blank.Utility
         }
 
         // Функция для парсинга грани
-        private Transform ParseTransform(string line)
+        private static Transform ParseTransform(string line)
         {
             string[] parts = line.Split(';');
             if (parts.Length == 4)
@@ -90,7 +89,7 @@ namespace blank.Utility
                 Vector4[] transorm = new Vector4[4];
                 for (int i = 0; i < 4; ++i)
                 {
-                    string[] vec3 = parts[0].Split(' ');
+                    string[] vec3 = parts[i].Split(' ');
                     float x, y, z;
                     CultureInfo cultureInfo = new CultureInfo("en-US");
                     try
@@ -114,7 +113,7 @@ namespace blank.Utility
         }
 
         // Функция для парсинга грани
-        private Triangle3D ParseFace(string line)
+        private static Triangle3D ParseFace(string line)
         {
             string[] parts = line.Split(';');
             if (parts.Length == 4)
@@ -122,7 +121,7 @@ namespace blank.Utility
                 Vector4[] faces = new Vector4[4];
                 for (int i = 0; i < 4; ++i)
                 {
-                    string[] vec3 = parts[0].Split(' ');
+                    string[] vec3 = parts[i].Split(' ');
                     float x, y, z;
                     CultureInfo cultureInfo = new CultureInfo("en-US");
                     try
@@ -147,7 +146,7 @@ namespace blank.Utility
         }
 
 
-        private int ParseInt(string line)
+        private static int ParseInt(string line)
         {
             if (int.TryParse(line, out int result))
             {
@@ -157,9 +156,9 @@ namespace blank.Utility
         }
 
         // Функция для парсинга float
-        private float ParseFloat(string input, CultureInfo cultureInfo)
+        private static float ParseFloat(string input, CultureInfo cultureInfo)
         {
-            if (float.TryParse(input, NumberStyles.AllowDecimalPoint, cultureInfo, out float result))
+            if (float.TryParse(input, out float result))
             {
                 return result;
             }

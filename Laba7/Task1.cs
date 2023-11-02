@@ -28,6 +28,7 @@ namespace blank
         private List<Vector4> editor_points;
         private PROJECTION_TYPE g_projection_type = PROJECTION_TYPE.ORTHO_Z_PLUS;
         private RotationFigure rotation_figure;
+        private Object3D imported_model;
         public Task1()
         {
             InitializeComponent();
@@ -67,6 +68,7 @@ namespace blank
             comboBox1.Items.Add("Octahedron");
             comboBox1.Items.Add("Icosahedron");
             comboBox1.Items.Add("Dodecahedron");
+            comboBox1.Items.Add("Import");
         }
 
         private Transform GetTransform()
@@ -343,6 +345,8 @@ namespace blank
                     return new Icosahedron(GetTransform());
                 case 5:
                     return new Dodecahedron(GetTransform());
+                case 6:
+                    return imported_model;
             }
             return new Cube(GetTransform());
         }
@@ -521,6 +525,31 @@ namespace blank
                 DrawAll();
             }
 
+        }
+
+        private void btn_save_model_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.RestoreDirectory = true;
+            saveFileDialog1.Filter = "Text Files(*.txt)|*.txt|All files (*.*)|*.*";
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                FileStorage.ExportModel(saveFileDialog1.FileName, _objects.Last());
+            }
+        }
+
+        private void btn_load_model_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog saveFileDialog1 = new OpenFileDialog();
+            saveFileDialog1.RestoreDirectory = true;
+            saveFileDialog1.Filter = "Text Files(*.txt)|*.txt|All files (*.*)|*.*";
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                imported_model = FileStorage.ImportModel(saveFileDialog1.FileName);
+                comboBox1.SelectedIndex = 6;
+                _objects = new List<Object3D> { GetObject(comboBox1.SelectedIndex) };
+                DrawAll();
+            }
         }
     }
 }
