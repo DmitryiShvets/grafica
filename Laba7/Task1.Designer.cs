@@ -39,6 +39,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.perstective = new System.Windows.Forms.RadioButton();
             this.track_zoom = new System.Windows.Forms.TrackBar();
+            this.label10 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btn_transform_apply = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -64,7 +65,6 @@
             this.t_scale_dy = new System.Windows.Forms.TextBox();
             this.t_scale_dx = new System.Windows.Forms.TextBox();
             this.btn_clear = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.t_reflection_yz = new System.Windows.Forms.RadioButton();
@@ -95,14 +95,14 @@
             this.tb_line_x1 = new System.Windows.Forms.TextBox();
             this.editor = new System.Windows.Forms.PictureBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.cb_active_mesh = new System.Windows.Forms.ComboBox();
             this.rb_axis_x = new System.Windows.Forms.RadioButton();
             this.rb_axis_z = new System.Windows.Forms.RadioButton();
             this.rb_axis_y = new System.Windows.Forms.RadioButton();
             this.count_partition = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.label14 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.track_zoom)).BeginInit();
@@ -247,6 +247,16 @@
             this.track_zoom.TickStyle = System.Windows.Forms.TickStyle.None;
             this.track_zoom.Value = 1;
             this.track_zoom.ValueChanged += new System.EventHandler(this.track_zoom_ValueChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(249, 24);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(50, 22);
+            this.label10.TabIndex = 2;
+            this.label10.Text = "zoom";
             // 
             // groupBox2
             // 
@@ -489,16 +499,6 @@
             this.btn_clear.Text = "Сбросить";
             this.btn_clear.UseVisualStyleBackColor = true;
             this.btn_clear.Click += new System.EventHandler(this.btn_clear_Click);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(249, 24);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(50, 22);
-            this.label10.TabIndex = 2;
-            this.label10.Text = "zoom";
             // 
             // groupBox5
             // 
@@ -806,7 +806,7 @@
             this.groupBox6.Controls.Add(this.label13);
             this.groupBox6.Controls.Add(this.label14);
             this.groupBox6.Controls.Add(this.label12);
-            this.groupBox6.Controls.Add(this.comboBox2);
+            this.groupBox6.Controls.Add(this.cb_active_mesh);
             this.groupBox6.Controls.Add(this.rb_axis_x);
             this.groupBox6.Controls.Add(this.rb_axis_z);
             this.groupBox6.Controls.Add(this.rb_axis_y);
@@ -817,6 +817,51 @@
             this.groupBox6.TabIndex = 4;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Редектор:";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(16, 30);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(84, 13);
+            this.label13.TabIndex = 4;
+            this.label13.Text = "Ось вращения:";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(252, 30);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(46, 13);
+            this.label14.TabIndex = 4;
+            this.label14.Text = "Стадия:";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(142, 30);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(101, 13);
+            this.label12.TabIndex = 4;
+            this.label12.Text = "Кол-во разбиений:";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // cb_active_mesh
+            // 
+            this.cb_active_mesh.FormattingEnabled = true;
+            this.cb_active_mesh.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.cb_active_mesh.Items.AddRange(new object[] {
+            "Образующая",
+            "Разбиение",
+            "Финал"});
+            this.cb_active_mesh.Location = new System.Drawing.Point(255, 48);
+            this.cb_active_mesh.Margin = new System.Windows.Forms.Padding(2);
+            this.cb_active_mesh.Name = "cb_active_mesh";
+            this.cb_active_mesh.Size = new System.Drawing.Size(116, 21);
+            this.cb_active_mesh.TabIndex = 7;
+            this.cb_active_mesh.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // rb_axis_x
             // 
@@ -859,51 +904,9 @@
             this.count_partition.Name = "count_partition";
             this.count_partition.Size = new System.Drawing.Size(96, 20);
             this.count_partition.TabIndex = 0;
-            this.count_partition.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.t_transform_dx_KeyPress);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(142, 30);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(101, 13);
-            this.label12.TabIndex = 4;
-            this.label12.Text = "Кол-во разбиений:";
-            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(16, 30);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(84, 13);
-            this.label13.TabIndex = 4;
-            this.label13.Text = "Ось вращения:";
-            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.comboBox2.Items.AddRange(new object[] {
-            "Образующая",
-            "Разбиение",
-            "Финал"});
-            this.comboBox2.Location = new System.Drawing.Point(255, 48);
-            this.comboBox2.Margin = new System.Windows.Forms.Padding(2);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(116, 21);
-            this.comboBox2.TabIndex = 7;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(252, 30);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(46, 13);
-            this.label14.TabIndex = 4;
-            this.label14.Text = "Стадия:";
-            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.count_partition.Text = "3";
+            this.count_partition.TextChanged += new System.EventHandler(this.count_partition_TextChanged);
+            this.count_partition.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.count_partition_KeyPress);
             // 
             // Task1
             // 
@@ -1027,7 +1030,7 @@
         private System.Windows.Forms.TextBox count_partition;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox cb_active_mesh;
         private System.Windows.Forms.Label label14;
     }
 }

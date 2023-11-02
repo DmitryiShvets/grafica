@@ -19,6 +19,18 @@ namespace blank.Primitives
         public Vector4 line_point2;
 
 
+        public Transform(Transform other)
+        {
+            this.position = other.position;
+            this.rotation = other.rotation;
+            this.scale = other.scale;
+            this.reflection = other.reflection;
+
+            this.line_point1 = new Vector4();
+            this.line_point2 = new Vector4();
+            this.line_rotation_angle = 0;
+        }
+
         public Transform()
         {
             this.position = new Vector4();
@@ -29,7 +41,7 @@ namespace blank.Primitives
             this.line_point1 = new Vector4();
             this.line_point2 = new Vector4();
             this.line_rotation_angle = 0;
-    }
+        }
 
         public Transform(Vector4 position, Vector4 rotation, Vector4 scale, Vector4 reflection)
         {
@@ -53,8 +65,8 @@ namespace blank.Primitives
             Matrix3D line_rotation_matrix = Matrix3D.GetLineRotationMatrix(line_point1, line_point2, line_rotation_angle);
             Matrix3D reflection_matrix = Matrix3D.GetReflectionMatrix(reflection);
 
-            result = reflection_matrix*transform_matrix * rotation_matrix * line_rotation_matrix * scale_matrix * result;
-     
+            result = reflection_matrix * transform_matrix * rotation_matrix * line_rotation_matrix * scale_matrix * result;
+
             return result;
         }
 
@@ -84,7 +96,7 @@ namespace blank.Primitives
 
         public void RotateRelativeLine(Vector4 point1, Vector4 point2, float angle)
         {
-            if (point1!=this.line_point1 || point2!=this.line_point2)
+            if (point1 != this.line_point1 || point2 != this.line_point2)
             {
                 this.line_rotation_angle = 0;
             }

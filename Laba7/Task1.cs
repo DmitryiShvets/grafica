@@ -38,10 +38,13 @@ namespace blank
             _graphics_editor = Graphics.FromImage(_bitmap_editor);
             _graphics.Clear(Color.White);
             _graphics_editor.Clear(Color.White);
-            rotation_figure = new RotationFigure(GetTransform());
+
+            int divisions = count_partition.Text == "" ? 1 : Int32.Parse(count_partition.Text);
+            rotation_figure = new RotationFigure(GetTransform(), divisions, cb_active_mesh.SelectedIndex);
+
             AddAllObjects();
             comboBox1.SelectedIndex = 0;
-            comboBox2.SelectedIndex = 0;
+            cb_active_mesh.SelectedIndex = 0;
 
             canvas.Image = _bitmap;
             editor.Image = _bitmap_editor;
@@ -358,14 +361,12 @@ namespace blank
         {
             _objects.Clear();
             editor_points.Clear();
-            //editor_points_mesh.Clear();
             int variant = comboBox1.SelectedIndex;
-            rotation_figure = new RotationFigure(GetTransform());
 
-            _objects = new List<Object3D>
-            {
-                GetObject(variant)
-            };
+            int divisions = count_partition.Text == "" ? 1 : Int32.Parse(count_partition.Text);
+            rotation_figure = new RotationFigure(GetTransform(), divisions, cb_active_mesh.SelectedIndex);
+
+            _objects = new List<Object3D> { GetObject(variant) };
 
             DrawAll();
         }
@@ -427,7 +428,7 @@ namespace blank
             x = LinX(x, editor.Width) + 1;
             y = LinY(y, editor.Height);
             rotation_figure.editor_points_mesh.Add(new Vector4(x, y, z));
-            rotation_figure.BuildFormingMesh();
+            rotation_figure.Build();
             DrawAll();
 
         }
@@ -437,7 +438,7 @@ namespace blank
             Color c = Color.Green;
             float center_x = editor.Width / 2;
             float center_y = editor.Height / 2;
-            
+
             _graphics_editor.DrawEllipse(new Pen(Color.Black), editor_points.First().x - 1 + center_x, center_y - editor_points.First().y - 1, 2, 2);
             for (int i = 1; i < editor_points.Count(); ++i)
             {
@@ -479,6 +480,31 @@ namespace blank
         private void rb_axis_z_CheckedChanged(object sender, EventArgs e)
         {
             rotation_figure.rotation_axis = AXIS_TYPE.Z;
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            rotation_figure.SetIndexActiveMesh(cb_active_mesh.SelectedIndex);
+            if (rotation_figure.editor_points_mesh.Count > 0) DrawAll();
+        }
+
+        private void count_partition_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char el = e.KeyChar;
+            if (!Char.IsDigit(el) && el != (char)Keys.Back) // можно вводить только цифры и стирать
+                e.Handled = true;
+        }
+
+        private void count_partition_TextChanged(object sender, EventArgs e)
+        {
+            if (rotation_figure.editor_points_mesh.Count > 0)
+            {
+                int divisions = count_partition.Text == "" ? 1 : Int32.Parse(count_partition.Text);
+                rotation_figure.SetDivisionsCount(divisions);
+                rotation_figure.Build();
+                DrawAll();
+            }
+
         }
     }
 }
