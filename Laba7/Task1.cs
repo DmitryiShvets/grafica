@@ -69,6 +69,11 @@ namespace blank
             comboBox1.Items.Add("Icosahedron");
             comboBox1.Items.Add("Dodecahedron");
             comboBox1.Items.Add("Import");
+            comboBox1.Items.Add("Chart");
+
+            comboBox_func.Items.Add("sin(x, y)");
+            comboBox_func.Items.Add("x^2 + y^2");
+            comboBox_func.Items.Add("1 / (x^2 + y^2)");
         }
 
         private Transform GetTransform()
@@ -347,6 +352,8 @@ namespace blank
                     return new Dodecahedron(GetTransform());
                 case 6:
                     return imported_model;
+                case 7:
+                    return new Chart(GetTransform(), comboBox_func.SelectedItem.ToString(), numericUpDown_x1.Text, numericUpDown_x2.Text, numericUpDown_y1.Text, numericUpDown_y2.Text, canvas.Width, canvas.Height);
             }
             return new Cube(GetTransform());
         }
@@ -549,6 +556,21 @@ namespace blank
                 comboBox1.SelectedIndex = 6;
                 _objects = new List<Object3D> { GetObject(comboBox1.SelectedIndex) };
                 DrawAll();
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedItem.ToString() == "Chart")
+            {
+                comboBox_func.Visible = true;
+                comboBox_func.SelectedIndex = 0;
+                groupBox_chart.Visible = true;
+            }
+            else
+            {
+                comboBox_func.Visible = false;
+                groupBox_chart.Visible = false;
             }
         }
     }

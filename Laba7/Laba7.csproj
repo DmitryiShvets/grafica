@@ -59,6 +59,7 @@
       <DependentUpon>GraphD.cs</DependentUpon>
     </Compile>
     <Compile Include="Primitives\Object3D.cs" />
+    <Compile Include="Shapes\Chart.cs" />
     <Compile Include="Shapes\Cube.cs" />
     <Compile Include="Shapes\Dodecahedron.cs" />
     <Compile Include="Shapes\Icosahedron.cs" />
