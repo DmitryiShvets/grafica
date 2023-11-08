@@ -612,15 +612,15 @@ namespace blank
             int count_x = (int)((x1 - x0) / delta);
             int count_y = (int)((y1 - y0) / delta);
 
-            float[,] z_values = new float[count_x, count_y];
+            float[,] z_values = new float[count_x + 1, count_y + 1];
 
             float min = float.MaxValue;
             float max = float.MinValue;
 
             // Вычисляем точки функции
-            for (int i = 0; i < count_x; i++)
+            for (int i = 0; i < count_x + 1; i++)
             {
-                for (int j = 0; j < count_y; j++)
+                for (int j = 0; j < count_y + 1; j++)
                 {
                     float x = x0 + i * delta;
                     float y = y0 + j * delta;
@@ -631,9 +631,9 @@ namespace blank
             }
 
             // СОЗДАНИЕ ТРЕУГОЛЬНИКОВ
-            for (int i = 0; i < count_x - 1; i++)
+            for (int i = 0; i < count_x; i++)
             {
-                for (int j = 0; j < count_y - 1; j++)
+                for (int j = 0; j < count_y; j++)
                 {
                     float xx1 = x0 + i * delta;
                     float xx2 = x0 + (i + 1) * delta;
@@ -641,18 +641,12 @@ namespace blank
                     float yy2 = y0 + (j + 1) * delta;
 
 
-                    // Первый треугольник
                     Vector4 v1 = new Vector4(xx1, yy1, z_values[i, j]);
                     Vector4 v2 = new Vector4(xx2, yy1, z_values[i + 1, j]);
                     Vector4 v3 = new Vector4(xx1, yy2, z_values[i, j + 1]);
-                    newTrianglesChart.Add(new Triangle3D(v1, v2, v3, Color.Black));
-
-                    // Второй треугольник
-
-                    v1 = new Vector4(xx1, yy2, z_values[i, j + 1]);
-                    v1 = new Vector4(xx2, yy1, z_values[i + 1, j]);
-                    v3 = new Vector4(xx2, yy2, z_values[i + 1, j + 1]);
-                    newTrianglesChart.Add(new Triangle3D(v1, v2, v3, Color.Black));
+                    Vector4 v4 = new Vector4(xx2, yy2, z_values[i + 1, j + 1]);
+                    newTrianglesChart.Add(new Triangle3D(v1, v2, v3, Color.Black)); // Первый треугольник
+                    newTrianglesChart.Add(new Triangle3D(v2, v3, v4, Color.Black)); // Второй треугольник
                 }
             }
 
