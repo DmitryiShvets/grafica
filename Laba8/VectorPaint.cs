@@ -9,7 +9,7 @@ namespace blank
     public partial class VectorPaint : UserControl
     {
         private List<Polygon> _polygons = new List<Polygon>();  //общее кол-во полигонов на холсте
-        private Polygon cur_edit_polygon = null;                //текущий полигон с котором выполнятется поворот, масштабировани
+        //private Polygon cur_edit_polygon = null;                //текущий полигон с котором выполнятется поворот, масштабировани
         private int count_vertex = 0;                           //кол-во вершин
         private Bitmap _bitmap;
         private Graphics _graphics;

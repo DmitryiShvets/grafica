@@ -25,7 +25,9 @@ namespace blank
         private Graphics _graphics_editor;
         private List<Object3D> _objects;
         private int zoom = 1;
+        private List<Vector4> editor_points;
         private PROJECTION_TYPE g_projection_type = PROJECTION_TYPE.ORTHO_Z_PLUS;
+        private RotationFigure rotation_figure;
         private Object3D imported_model;
         private List<Triangle3D> trianglesChart = new List<Triangle3D>();
 
@@ -34,13 +36,23 @@ namespace blank
             InitializeComponent();
 
             _bitmap = new Bitmap(canvas.Width, canvas.Height);
+            _bitmap_editor = new Bitmap(editor.Width, editor.Height);
             _graphics = Graphics.FromImage(_bitmap);
+            _graphics_editor = Graphics.FromImage(_bitmap_editor);
             _graphics.Clear(Color.White);
+            _graphics_editor.Clear(Color.White);
+
+            int divisions = count_partition.Text == "" ? 1 : Int32.Parse(count_partition.Text);
+            rotation_figure = new RotationFigure(GetTransform(), divisions, cb_active_mesh.SelectedIndex, GetAxisType());
 
             AddAllObjects();
             comboBox1.SelectedIndex = 0;
+            cb_active_mesh.SelectedIndex = 0;
 
             canvas.Image = _bitmap;
+            editor.Image = _bitmap_editor;
+
+            editor_points = new List<Vector4>();
 
             _objects = new List<Object3D>
             {
@@ -59,6 +71,10 @@ namespace blank
             comboBox1.Items.Add("Icosahedron");
             comboBox1.Items.Add("Dodecahedron");
             comboBox1.Items.Add("Import");
+            comboBox1.Items.Add("Chart");
+
+            comboBox_func.Items.Add("sin(x, y)");
+            comboBox_func.Items.Add("x^2 + y^2");
         }
 
         private Transform GetTransform()
@@ -76,6 +92,8 @@ namespace blank
             _graphics_editor.Clear(Color.White);
             DrawAxes();
 
+            if (editor_points.Count > 0) DrawEditor();
+
             foreach (var obj in _objects)
             {
                 foreach (var triangle in obj.mech.faces)
@@ -86,6 +104,8 @@ namespace blank
 
             canvas.Image = _bitmap;
             canvas.Invalidate();
+            editor.Image = _bitmap_editor;
+            editor.Invalidate();
         }
 
         private void DrawTriangle(Triangle3D triangle, Transform transform)
@@ -343,10 +363,10 @@ namespace blank
         private void btn_draw_Click(object sender, EventArgs e)
         {
             int variant = comboBox1.SelectedIndex;
-            //if(comboBox1.SelectedItem.ToString() == "Chart")
-            //{
-            //    trianglesChart = GetTriangleschart();
-            //}
+            if(comboBox1.SelectedItem.ToString() == "Chart")
+            {
+                trianglesChart = GetTriangleschart();
+            }
             _objects = new List<Object3D>
             {
                 GetObject(variant)
@@ -455,6 +475,15 @@ namespace blank
 
         }
 
+        private void editor_MouseMove(object sender, MouseEventArgs e)
+        {
+            float x = e.X - editor.Width / 2;
+            x = LinX(x, editor.Width) + 1;
+            float y = editor.Height / 2 - e.Y;
+            y = LinY(y, editor.Height);
+            cur_info.Text = "x = " + x.ToString() + " | y = " + y.ToString();
+        }
+
         private float LinX(float x, int b)
         {
             return 2 * (x / b) - 1;
@@ -465,7 +494,51 @@ namespace blank
             return 2 * (y / max);
         }
 
+        private void rb_axis_x_CheckedChanged(object sender, EventArgs e)
+        {
+            rotation_figure.rotation_axis = AXIS_TYPE.X;
+            rotation_figure.Build();
+            DrawAll();
+        }
 
+        private void rb_axis_y_CheckedChanged(object sender, EventArgs e)
+        {
+            rotation_figure.rotation_axis = AXIS_TYPE.Y;
+            rotation_figure.Build();
+            DrawAll();
+        }
+
+        private void rb_axis_z_CheckedChanged(object sender, EventArgs e)
+        {
+            rotation_figure.rotation_axis = AXIS_TYPE.Z;
+            rotation_figure.Build();
+            DrawAll();
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            rotation_figure.SetIndexActiveMesh(cb_active_mesh.SelectedIndex);
+            if (rotation_figure.PointCount > 0) DrawAll();
+        }
+
+        private void count_partition_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char el = e.KeyChar;
+            if (!Char.IsDigit(el) && el != (char)Keys.Back) // можно вводить только цифры и стирать
+                e.Handled = true;
+        }
+
+        private void count_partition_TextChanged(object sender, EventArgs e)
+        {
+            if (rotation_figure.PointCount > 0)
+            {
+                int divisions = count_partition.Text == "" ? 1 : Int32.Parse(count_partition.Text);
+                rotation_figure.SetDivisionsCount(divisions);
+                rotation_figure.Build();
+                DrawAll();
+            }
+
+        }
 
         private void btn_save_model_Click(object sender, EventArgs e)
         {
@@ -491,6 +564,94 @@ namespace blank
                 DrawAll();
             }
         }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedItem.ToString() == "Chart")
+            {
+                comboBox_func.Visible = true;
+                comboBox_func.SelectedIndex = 0;
+                groupBox_chart.Visible = true;
+            }
+            else
+            {
+                comboBox_func.Visible = false;
+                groupBox_chart.Visible = false;
+            }
+        }
+
+        private List<Triangle3D> GetTriangleschart()
+        {
+            List<Triangle3D> newTrianglesChart = new List<Triangle3D>();
+            Func<float, float, float> func;
+
+            switch (comboBox_func.SelectedItem.ToString())
+            {
+                case "sin(x, y)":
+                    func = (x, y) => (float)Math.Sin(x + y);
+                    break;
+                case "x^2 + y^2":
+                    func = (x, y) => x * x + y * y;
+                    break;
+                case "1 / (x^2 + y^2)":
+                    func = (x, y) => 1 / (x * x + y * y);
+                    break;
+                default:
+                    func = (x, y) => x + y;
+                    break;
+            }
+
+            // ВЫЧИСЛЕНИЕ КООРДИНАТ ГРАФИКА
+
+            // Парсим промт для x и y
+            var x0 = float.Parse(numericUpDown_x1.Text);
+            var x1 = float.Parse(numericUpDown_x2.Text);
+            var y0 = float.Parse(numericUpDown_y1.Text);
+            var y1 = float.Parse(numericUpDown_y2.Text);
+            var delta = float.Parse(textBox_step.Text);
+            int count_x = (int)((x1 - x0) / delta);
+            int count_y = (int)((y1 - y0) / delta);
+
+            float[,] z_values = new float[count_x + 1, count_y + 1];
+
+            float min = float.MaxValue;
+            float max = float.MinValue;
+
+            // Вычисляем точки функции
+            for (int i = 0; i < count_x + 1; i++)
+            {
+                for (int j = 0; j < count_y + 1; j++)
+                {
+                    float x = x0 + i * delta;
+                    float y = y0 + j * delta;
+                    z_values[i, j] = func(x, y);
+                    if (z_values[i, j] < min) min = z_values[i, j];
+                    if (z_values[i, j] > max) max = z_values[i, j];
+                }
+            }
+
+            // СОЗДАНИЕ ТРЕУГОЛЬНИКОВ
+            for (int i = 0; i < count_x; i++)
+            {
+                for (int j = 0; j < count_y; j++)
+                {
+                    float xx1 = x0 + i * delta;
+                    float xx2 = x0 + (i + 1) * delta;
+                    float yy1 = y0 + j * delta;
+                    float yy2 = y0 + (j + 1) * delta;
+
+
+                    Vector4 v1 = new Vector4(xx1, yy1, z_values[i, j]);
+                    Vector4 v2 = new Vector4(xx2, yy1, z_values[i + 1, j]);
+                    Vector4 v3 = new Vector4(xx1, yy2, z_values[i, j + 1]);
+                    Vector4 v4 = new Vector4(xx2, yy2, z_values[i + 1, j + 1]);
+                    newTrianglesChart.Add(new Triangle3D(v1, v2, v3, Color.Black)); // Первый треугольник
+                    newTrianglesChart.Add(new Triangle3D(v2, v3, v4, Color.Black)); // Второй треугольник
+                }
+            }
+
+
+            return newTrianglesChart;
+        }
     }
 }
-
