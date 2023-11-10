@@ -300,7 +300,7 @@ namespace blank.Utility
         public static Matrix3D GetReflectionMatrix(Vector4 reflection)
         {
             float[,] reflectionMatrix = new float[,]
-                
+
                 {
                             { reflection.x, 0, 0, 0 },
                             { 0, reflection.y, 0, 0 },
@@ -312,7 +312,7 @@ namespace blank.Utility
 
         public static Matrix3D GetLineRotationMatrix(Vector4 P1, Vector4 P2, float angle)
         {
-            if ((P1 == P2) || (angle==0)) return GetIdentityMatrix();
+            if ((P1 == P2) || (angle == 0)) return GetIdentityMatrix();
             Vector4 v = P2 - P1;
 
             Vector4 center = (P1 + P2) * 0.5f; // Находим центр прямой
@@ -459,7 +459,7 @@ namespace blank.Utility
                         return new Matrix3D(ortho_matrix);
                     }
             }
-           
+
         }
 
         public static Matrix3D GetProjectionMatrix1()
@@ -504,19 +504,19 @@ namespace blank.Utility
             y_axis = Vector4.CrossProduct(z_axis, x_axis);
 
             Matrix3D translation = GetIdentityMatrix();
-            translation[3, 0] = -position.x;
-            translation[3, 1] = -position.y;
-            translation[3, 2] = -position.z;
+            translation[0, 3] = -position.x;
+            translation[1, 3] = -position.y;
+            translation[2, 3] = -position.z;
 
             Matrix3D rotation = GetIdentityMatrix();
             rotation[0, 0] = x_axis.x; // First column, first row
-            rotation[1, 0] = x_axis.y;
-            rotation[2, 0] = x_axis.z;
-            rotation[0, 1] = y_axis.x; // First column, second row
+            rotation[0, 1] = x_axis.y;
+            rotation[0, 2] = x_axis.z;
+            rotation[1, 0] = y_axis.x; // First column, second row
             rotation[1, 1] = y_axis.y;
-            rotation[2, 1] = y_axis.z;
-            rotation[0, 2] = z_axis.x; // First column, third row
-            rotation[1, 2] = z_axis.y;
+            rotation[1, 2] = y_axis.z;
+            rotation[2, 0] = z_axis.x; // First column, third row
+            rotation[2, 1] = z_axis.y;
             rotation[2, 2] = z_axis.z;
 
             return rotation * translation;
@@ -572,14 +572,14 @@ namespace blank.Utility
                 sb.Append('\n');
             }
             else
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
+                for (int i = 0; i < rows; i++)
                 {
-                    sb.Append(Values[i, j] + " ");
+                    for (int j = 0; j < cols; j++)
+                    {
+                        sb.Append(Values[i, j] + " ");
+                    }
+                    sb.Append('\n');
                 }
-                sb.Append('\n');
-            }
             return sb.ToString();
         }
 

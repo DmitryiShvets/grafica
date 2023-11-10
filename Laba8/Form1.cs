@@ -27,6 +27,7 @@ namespace blank
         private void button_Task1_Click(object sender, EventArgs e)
         {
             task1.Show();
+          
         }
         private void button_Task2_Click(object sender, EventArgs e)
         {
@@ -36,6 +37,5 @@ namespace blank
         {
             task3.Show();
         }
-
     }
 }

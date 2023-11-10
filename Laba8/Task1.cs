@@ -26,10 +26,15 @@ namespace blank
         private List<Object3D> _objects;
         private int zoom = 1;
         private List<Vector4> editor_points;
-        private PROJECTION_TYPE g_projection_type = PROJECTION_TYPE.ORTHO_Z_PLUS;
+        private PROJECTION_TYPE g_projection_type = PROJECTION_TYPE.PERSPECTIVE;
         private RotationFigure rotation_figure;
         private Object3D imported_model;
         private List<Triangle3D> trianglesChart = new List<Triangle3D>();
+        private bool _interactive_mode = false;
+
+        Vector4 camera_pos = new Vector4(0.0f, 0.0f, -1.0f);
+        Vector4 camera_front = new Vector4(0.0f, 0.0f, 1.0f);
+        Vector4 camera_up = new Vector4(0.0f, -1.0f, 0.0f);
 
         public Task1()
         {
@@ -46,7 +51,7 @@ namespace blank
             rotation_figure = new RotationFigure(GetTransform(), divisions, cb_active_mesh.SelectedIndex, GetAxisType());
 
             AddAllObjects();
-            comboBox1.SelectedIndex = 0;
+            comboBox1.SelectedIndex = 1;
             cb_active_mesh.SelectedIndex = 0;
 
             canvas.Image = _bitmap;
@@ -84,7 +89,7 @@ namespace blank
 
         Matrix3D view_matrix = Matrix3D.LookAt(new Vector4(0, 0, -1), new Vector4(0, 0, 0), new Vector4(0, -1, 0));
 
-        Matrix3D projection_matrix = Matrix3D.GetProjectionMatrix(45.0f, 1.2f, 0.1f, 10.0f);
+        Matrix3D projection_matrix = Matrix3D.GetProjectionMatrix(45.0f, 1.2f, 0.1f, 100.0f);
 
         private void DrawAll()
         {
@@ -128,7 +133,7 @@ namespace blank
             for (int i = 0; i < triangle.Size; ++i)
             {
                 Matrix3D model = transform.ApplyTransform(triangle[i]);
-                if (model[2, 0] < 0) continue;
+                if (model[2, 0] - camera_pos.z < 0) continue;
                 Matrix3D view = view_matrix * model;
                 Matrix3D projection = projection_matrix * view;
                 projection /= projection[3, 0];
@@ -363,7 +368,7 @@ namespace blank
         private void btn_draw_Click(object sender, EventArgs e)
         {
             int variant = comboBox1.SelectedIndex;
-            if(comboBox1.SelectedItem.ToString() == "Chart")
+            if (comboBox1.SelectedItem.ToString() == "Chart")
             {
                 trianglesChart = GetTriangleschart();
             }
@@ -652,6 +657,50 @@ namespace blank
 
 
             return newTrianglesChart;
+        }
+
+        private void Task1_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            const float camera_speed = 0.05f;
+
+            if (_interactive_mode)
+            {
+                //клавиша w
+                if (e.KeyValue == 87)
+                {
+                    camera_pos += camera_speed * camera_front;
+                    //Console.WriteLine(e.KeyValue);
+                }
+                //клавиша a
+                if (e.KeyValue == 65)
+                {
+                    camera_pos -= Vector4.Normalize(Vector4.CrossProduct(camera_front, camera_up)) * camera_speed;
+
+                    //Console.WriteLine(e.KeyValue);
+                }
+                //клавиша s
+                if (e.KeyValue == 83)
+                {
+                    camera_pos -= camera_speed * camera_front;
+                    //Console.WriteLine(e.KeyValue);
+                }
+                //клавиша d
+                if (e.KeyValue == 68)
+                {
+                    camera_pos += Vector4.Normalize(Vector4.CrossProduct(camera_front, camera_up)) * camera_speed;
+                
+                    //Console.WriteLine(e.KeyValue);
+                }
+                view_matrix = Matrix3D.LookAt(camera_pos, camera_pos + camera_front, camera_up);
+                DrawAll();
+                //Console.WriteLine(e.KeyValue);
+            }
+        }
+
+        private void cb_interactive_mode_CheckedChanged(object sender, EventArgs e)
+        {
+            _interactive_mode = (sender as CheckBox).Checked;
         }
     }
 }
