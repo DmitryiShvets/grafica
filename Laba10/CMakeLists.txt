@@ -1,9 +1,27 @@
 ﻿set(PROJ_NAME Laba10)
 set(PROJ_SRC 
-				src/Laba10.cpp 
-				src/Laba10.hpp
-)
+				"main.cpp"
+				"src/application.cpp"
+				"src/application.h"		
+				"src/logger.hpp"
+				"src/callback_manager.h"
+				"src/callback_manager.cpp"
+				"src/renderer.cpp"
+				"src/renderer.h"
+				"src/shader_program.cpp"
+				"src/shader_program.h" 
+				"src/buffer_objects.cpp" 
+				"src/buffer_objects.h" 
+				"src/resource_manager.cpp" 
+				"src/resource_manager.h")
+
 add_executable (${PROJ_NAME} ${PROJ_SRC})
 
+target_include_directories(${PROJ_NAME} PRIVATE src)
+
 find_package(OpenGL REQUIRED)
-target_link_libraries(${PROJ_NAME} PRIVATE ${OPENGL_LIBRARIES} glfw glad)
+target_link_libraries(${PROJ_NAME} PRIVATE ${OPENGL_LIBRARIES} glfw glad glm)
+
+set_target_properties(${PROJ_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/)
+add_custom_command(TARGET ${PROJ_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Laba10/res $<TARGET_FILE_DIR:${PROJ_NAME}>/res)
