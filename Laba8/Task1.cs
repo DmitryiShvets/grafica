@@ -35,7 +35,10 @@ namespace blank
         Vector4 camera_pos = new Vector4(0.0f, 0.0f, -1.0f);
         Vector4 camera_front = new Vector4(0.0f, 0.0f, 1.0f);
         Vector4 camera_up = new Vector4(0.0f, -1.0f, 0.0f);
-
+        private float lastX = 525;
+        private float lastY = 300;
+        private float yaw = 90.0f;
+        private float pitch = 0.0f;
         public Task1()
         {
             InitializeComponent();
@@ -133,7 +136,7 @@ namespace blank
             for (int i = 0; i < triangle.Size; ++i)
             {
                 Matrix3D model = transform.ApplyTransform(triangle[i]);
-                if (model[2, 0] - camera_pos.z < 0) continue;
+                //if (model[2, 0] - camera_pos.z < 0) continue;
                 Matrix3D view = view_matrix * model;
                 Matrix3D projection = projection_matrix * view;
                 projection /= projection[3, 0];
@@ -663,34 +666,41 @@ namespace blank
         {
 
             const float camera_speed = 0.05f;
-
+            //клавиша i
+            if (e.KeyValue == 73)
+            {
+                cb_interactive_mode.Checked = !cb_interactive_mode.Checked;
+            }
             if (_interactive_mode)
             {
                 //клавиша w
                 if (e.KeyValue == 87)
                 {
                     camera_pos += camera_speed * camera_front;
-                    //Console.WriteLine(e.KeyValue);
+                    input_info.Text = "W";
                 }
                 //клавиша a
                 if (e.KeyValue == 65)
                 {
                     camera_pos -= Vector4.Normalize(Vector4.CrossProduct(camera_front, camera_up)) * camera_speed;
-
-                    //Console.WriteLine(e.KeyValue);
+                    input_info.Text = "A";
                 }
                 //клавиша s
                 if (e.KeyValue == 83)
                 {
                     camera_pos -= camera_speed * camera_front;
-                    //Console.WriteLine(e.KeyValue);
+                    input_info.Text = "S";
                 }
                 //клавиша d
                 if (e.KeyValue == 68)
                 {
                     camera_pos += Vector4.Normalize(Vector4.CrossProduct(camera_front, camera_up)) * camera_speed;
-                
-                    //Console.WriteLine(e.KeyValue);
+                    input_info.Text = "D";
+                }
+                //клавиша esc
+                if (e.KeyValue == 27)
+                {
+                    cb_interactive_mode.Checked = false;
                 }
                 view_matrix = Matrix3D.LookAt(camera_pos, camera_pos + camera_front, camera_up);
                 DrawAll();
@@ -701,6 +711,70 @@ namespace blank
         private void cb_interactive_mode_CheckedChanged(object sender, EventArgs e)
         {
             _interactive_mode = (sender as CheckBox).Checked;
+            Capture = _interactive_mode;
+
+            if (!_interactive_mode)
+            {
+                mouse_info.Text = "мышь";
+                input_info.Text = "ввод";
+            }
+            else
+            {
+                lastX = 525;
+                lastY = 300;
+            }
+        }
+
+        private void Task1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_interactive_mode)
+            {
+                float xpos = e.X;
+                float ypos = e.Y;
+
+                float xoffset = xpos - lastX;
+                float yoffset = lastY - ypos;
+
+                if (xpos < 0 || xpos > 1030)
+                {
+                    xpos = this.Location.X + 525;
+                    Cursor.Position = new Point((int)xpos, Cursor.Position.Y);
+                    xpos += xoffset;
+                }
+                if (ypos < 0 || ypos > 560)
+                {
+                    ypos = this.Location.Y + 300;
+                    Cursor.Position = new Point(Cursor.Position.X, (int)ypos);
+                    ypos -= yoffset;
+                }
+
+                lastX = xpos;
+                lastY = ypos;
+
+                const float sensitivity = 0.1f;
+                xoffset *= sensitivity;
+                yoffset *= sensitivity;
+
+                yaw -= xoffset;
+                pitch += yoffset;
+
+                if (pitch > 89.0f) pitch = 89.0f;
+                if (pitch < -89.0f) pitch = -89.0f;
+
+                Vector4 direction = new Vector4();
+
+                float ryaw = Matrix3D.ToRadians(yaw);
+                float rpitch = Matrix3D.ToRadians(pitch);
+                direction.x = (float)(Math.Cos(ryaw) * Math.Cos(rpitch));
+                direction.y = (float)Math.Sin(rpitch);
+                direction.z = (float)(Math.Sin(ryaw) * Math.Cos(rpitch));
+                camera_front = Vector4.Normalize(direction);
+
+                mouse_info.Text = "x = " + xpos + " | y = " + ypos;
+                view_matrix = Matrix3D.LookAt(camera_pos, camera_pos + camera_front, camera_up);
+                DrawAll();
+
+            }
         }
     }
 }

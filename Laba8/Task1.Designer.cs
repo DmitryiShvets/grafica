@@ -118,9 +118,11 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.mouse_info = new System.Windows.Forms.Label();
             this.cb_interactive_mode = new System.Windows.Forms.CheckBox();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.camera_stat = new System.Windows.Forms.Label();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.input_info = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.track_zoom)).BeginInit();
@@ -1129,6 +1131,8 @@
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.input_info);
+            this.groupBox8.Controls.Add(this.mouse_info);
             this.groupBox8.Controls.Add(this.cb_interactive_mode);
             this.groupBox8.Location = new System.Drawing.Point(5, 356);
             this.groupBox8.Name = "groupBox8";
@@ -1136,6 +1140,17 @@
             this.groupBox8.TabIndex = 6;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Режим";
+            // 
+            // mouse_info
+            // 
+            this.mouse_info.AutoSize = true;
+            this.mouse_info.Enabled = false;
+            this.mouse_info.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mouse_info.Location = new System.Drawing.Point(13, 78);
+            this.mouse_info.Name = "mouse_info";
+            this.mouse_info.Size = new System.Drawing.Size(50, 22);
+            this.mouse_info.TabIndex = 3;
+            this.mouse_info.Text = "мышь";
             // 
             // cb_interactive_mode
             // 
@@ -1147,6 +1162,16 @@
             this.cb_interactive_mode.Text = "Интерактивный режим";
             this.cb_interactive_mode.UseVisualStyleBackColor = true;
             this.cb_interactive_mode.CheckedChanged += new System.EventHandler(this.cb_interactive_mode_CheckedChanged);
+            // 
+            // camera_stat
+            // 
+            this.camera_stat.AutoSize = true;
+            this.camera_stat.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.camera_stat.Location = new System.Drawing.Point(234, 140);
+            this.camera_stat.Name = "camera_stat";
+            this.camera_stat.Size = new System.Drawing.Size(50, 22);
+            this.camera_stat.TabIndex = 2;
+            this.camera_stat.Text = "zoom";
             // 
             // tabPage1
             // 
@@ -1162,21 +1187,22 @@
             this.tabPage1.Text = "Редактор";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // camera_stat
+            // input_info
             // 
-            this.camera_stat.AutoSize = true;
-            this.camera_stat.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.camera_stat.Location = new System.Drawing.Point(234, 140);
-            this.camera_stat.Name = "camera_stat";
-            this.camera_stat.Size = new System.Drawing.Size(50, 22);
-            this.camera_stat.TabIndex = 2;
-            this.camera_stat.Text = "zoom";
+            this.input_info.AutoSize = true;
+            this.input_info.Enabled = false;
+            this.input_info.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.input_info.Location = new System.Drawing.Point(13, 56);
+            this.input_info.Name = "input_info";
+            this.input_info.Size = new System.Drawing.Size(50, 22);
+            this.input_info.TabIndex = 3;
+            this.input_info.Text = "ввод";
             // 
             // Task1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1037, 544);
+            this.ClientSize = new System.Drawing.Size(1034, 561);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox1);
@@ -1186,6 +1212,7 @@
             this.Text = "Task1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Task1_FormClosing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Task1_KeyDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Task1_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -1317,5 +1344,7 @@
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.CheckBox cb_interactive_mode;
         private System.Windows.Forms.Label camera_stat;
+        private System.Windows.Forms.Label mouse_info;
+        private System.Windows.Forms.Label input_info;
     }
 }
