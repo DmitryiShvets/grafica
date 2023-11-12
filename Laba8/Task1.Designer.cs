@@ -118,11 +118,12 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.input_info = new System.Windows.Forms.Label();
             this.mouse_info = new System.Windows.Forms.Label();
             this.cb_interactive_mode = new System.Windows.Forms.CheckBox();
             this.camera_stat = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.input_info = new System.Windows.Forms.Label();
+            this.btn_back_face_culling = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.track_zoom)).BeginInit();
@@ -1112,6 +1113,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.btn_back_face_culling);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.groupBox_chart);
             this.tabPage2.Controls.Add(this.groupBox3);
@@ -1140,6 +1142,17 @@
             this.groupBox8.TabIndex = 6;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Режим";
+            // 
+            // input_info
+            // 
+            this.input_info.AutoSize = true;
+            this.input_info.Enabled = false;
+            this.input_info.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.input_info.Location = new System.Drawing.Point(13, 56);
+            this.input_info.Name = "input_info";
+            this.input_info.Size = new System.Drawing.Size(50, 22);
+            this.input_info.TabIndex = 3;
+            this.input_info.Text = "ввод";
             // 
             // mouse_info
             // 
@@ -1187,16 +1200,16 @@
             this.tabPage1.Text = "Редактор";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // input_info
+            // btn_back_face_culling
             // 
-            this.input_info.AutoSize = true;
-            this.input_info.Enabled = false;
-            this.input_info.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.input_info.Location = new System.Drawing.Point(13, 56);
-            this.input_info.Name = "input_info";
-            this.input_info.Size = new System.Drawing.Size(50, 22);
-            this.input_info.TabIndex = 3;
-            this.input_info.Text = "ввод";
+            this.btn_back_face_culling.AutoSize = true;
+            this.btn_back_face_culling.Location = new System.Drawing.Point(214, 452);
+            this.btn_back_face_culling.Name = "btn_back_face_culling";
+            this.btn_back_face_culling.Size = new System.Drawing.Size(176, 17);
+            this.btn_back_face_culling.TabIndex = 81;
+            this.btn_back_face_culling.Text = "Отсечение нелицевых граней";
+            this.btn_back_face_culling.UseVisualStyleBackColor = true;
+            this.btn_back_face_culling.CheckedChanged += new System.EventHandler(this.btn_back_face_culling_CheckedChanged);
             // 
             // Task1
             // 
@@ -1346,5 +1359,6 @@
         private System.Windows.Forms.Label camera_stat;
         private System.Windows.Forms.Label mouse_info;
         private System.Windows.Forms.Label input_info;
+        private System.Windows.Forms.CheckBox btn_back_face_culling;
     }
 }

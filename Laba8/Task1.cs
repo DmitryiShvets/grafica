@@ -39,6 +39,8 @@ namespace blank
         private float lastY = 300;
         private float yaw = 90.0f;
         private float pitch = 0.0f;
+
+        private bool back_face_culling = false;
         public Task1()
         {
             InitializeComponent();
@@ -96,6 +98,18 @@ namespace blank
 
         private void DrawAll()
         {
+            if (back_face_culling)
+            {
+                DrawWithBackFaceCulling();
+            }
+            else
+            {
+                DrawDefault();
+            }
+        }
+
+        private void DrawDefault()
+        {
             _graphics.Clear(Color.White);
             _graphics_editor.Clear(Color.White);
             DrawAxes();
@@ -116,6 +130,33 @@ namespace blank
             editor.Invalidate();
         }
 
+        private void DrawWithBackFaceCulling()
+        {
+            _graphics.Clear(Color.White);
+            _graphics_editor.Clear(Color.White);
+            DrawAxes();
+
+            if (editor_points.Count > 0) DrawEditor();
+
+            foreach (var obj in _objects)
+            {
+                foreach (var triangle in obj.mech.faces)
+                {
+                    if (IsFrontFace(triangle, camera_front))
+                        DrawTriangle(triangle, obj.transform);
+                }
+            }
+
+            canvas.Image = _bitmap;
+            canvas.Invalidate();
+            editor.Image = _bitmap_editor;
+            editor.Invalidate();
+        }
+
+        private bool IsFrontFace(Triangle3D triangle, Vector4 view_direction)
+        {
+            return (Vector4.DotProduct(triangle.Normal, view_direction) > 0);
+        }
         private void DrawTriangle(Triangle3D triangle, Transform transform)
         {
             if (g_projection_type == PROJECTION_TYPE.PERSPECTIVE)
@@ -268,9 +309,8 @@ namespace blank
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                e.Cancel = true;
-                Hide();
-
+                //e.Cancel = true;
+                //Hide();
             }
         }
 
@@ -707,7 +747,7 @@ namespace blank
                 //Console.WriteLine(e.KeyValue);
             }
         }
-
+        Point fixed_pos;
         private void cb_interactive_mode_CheckedChanged(object sender, EventArgs e)
         {
             _interactive_mode = (sender as CheckBox).Checked;
@@ -720,36 +760,38 @@ namespace blank
             }
             else
             {
+                fixed_pos = Cursor.Position;
                 lastX = 525;
                 lastY = 300;
             }
         }
-
         private void Task1_MouseMove(object sender, MouseEventArgs e)
         {
             if (_interactive_mode)
             {
-                float xpos = e.X;
-                float ypos = e.Y;
+                float xpos = Cursor.Position.X;
+                float ypos = Cursor.Position.Y;
 
-                float xoffset = xpos - lastX;
-                float yoffset = lastY - ypos;
+                float xoffset = xpos - fixed_pos.X;
+                float yoffset = fixed_pos.Y - ypos;
 
-                if (xpos < 0 || xpos > 1030)
-                {
-                    xpos = this.Location.X + 525;
-                    Cursor.Position = new Point((int)xpos, Cursor.Position.Y);
-                    xpos += xoffset;
-                }
-                if (ypos < 0 || ypos > 560)
-                {
-                    ypos = this.Location.Y + 300;
-                    Cursor.Position = new Point(Cursor.Position.X, (int)ypos);
-                    ypos -= yoffset;
-                }
+                //if (xpos < 0 || xpos > 1030)
+                //{
+                //    xpos = this.Location.X + 525;
+                //    Cursor.Position = new Point((int)xpos, Cursor.Position.Y);
+                //    xpos += xoffset;
+                //}
+                //if (ypos < 0 || ypos > 560)
+                //{
+                //    ypos = this.Location.Y + 300;
+                //    Cursor.Position = new Point(Cursor.Position.X, (int)ypos);
+                //    ypos -= yoffset;
+                //}
 
-                lastX = xpos;
-                lastY = ypos;
+                //lastX = xpos;
+                //lastY = ypos;
+
+                Cursor.Position = fixed_pos;
 
                 const float sensitivity = 0.1f;
                 xoffset *= sensitivity;
@@ -775,6 +817,12 @@ namespace blank
                 DrawAll();
 
             }
+        }
+
+        private void btn_back_face_culling_CheckedChanged(object sender, EventArgs e)
+        {
+            back_face_culling = btn_back_face_culling.Checked;
+            DrawAll();
         }
     }
 }
