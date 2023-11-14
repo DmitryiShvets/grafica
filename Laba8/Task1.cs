@@ -98,18 +98,6 @@ namespace blank
 
         private void DrawAll()
         {
-            if (back_face_culling)
-            {
-                DrawWithBackFaceCulling();
-            }
-            else
-            {
-                DrawDefault();
-            }
-        }
-
-        private void DrawDefault()
-        {
             _graphics.Clear(Color.White);
             _graphics_editor.Clear(Color.White);
             DrawAxes();
@@ -129,43 +117,29 @@ namespace blank
             editor.Image = _bitmap_editor;
             editor.Invalidate();
         }
-
-        private void DrawWithBackFaceCulling()
-        {
-            _graphics.Clear(Color.White);
-            _graphics_editor.Clear(Color.White);
-            DrawAxes();
-
-            if (editor_points.Count > 0) DrawEditor();
-
-            foreach (var obj in _objects)
-            {
-                foreach (var triangle in obj.mech.faces)
-                {
-                    if (IsFrontFace(triangle, camera_front))
-                        DrawTriangle(triangle, obj.transform);
-                }
-            }
-
-            canvas.Image = _bitmap;
-            canvas.Invalidate();
-            editor.Image = _bitmap_editor;
-            editor.Invalidate();
-        }
-
-        private bool IsFrontFace(Triangle3D triangle, Vector4 view_direction)
-        {
-            return (Vector4.DotProduct(triangle.Normal, view_direction) > 0);
-        }
         private void DrawTriangle(Triangle3D triangle, Transform transform)
         {
-            if (g_projection_type == PROJECTION_TYPE.PERSPECTIVE)
+            if (back_face_culling)
             {
-                DrawTrianglePerspective(triangle, transform);
+                if (g_projection_type == PROJECTION_TYPE.PERSPECTIVE)
+                {
+                    DrawTrianglePerspectiveWithBackfaceCulling(triangle, transform);
+                }
+                else
+                {
+                    DrawTriangleOrthoWithBackfaceCulling(triangle, transform);
+                }
             }
             else
             {
-                DrawTriangleOrtho(triangle, transform);
+                if (g_projection_type == PROJECTION_TYPE.PERSPECTIVE)
+                {
+                    DrawTrianglePerspective(triangle, transform);
+                }
+                else
+                {
+                    DrawTriangleOrtho(triangle, transform);
+                }
             }
         }
 
@@ -209,6 +183,65 @@ namespace blank
             {
                 points.Add(points.First());
                 _graphics.DrawLines(new Pen(triangle.color, 1.0f), points.ToArray());
+            }
+        }
+
+        private void DrawTrianglePerspectiveWithBackfaceCulling(Triangle3D triangle, Transform transform)
+        {
+            List<PointF> points = new List<PointF>();
+            Matrix3D viewport_matrix = Matrix3D.GetViewPortMatrix(zoom, zoom, canvas.Width / 2, canvas.Height / 2);
+
+            List<Vector4> v = new List<Vector4>();
+            for (int i = 0; i < triangle.Size; ++i)
+            {
+                Matrix3D model = transform.ApplyTransform(triangle[i]);
+                //if (model[2, 0] - camera_pos.z < 0) continue;
+                Matrix3D view = view_matrix * model;
+                Matrix3D projection = projection_matrix * view;
+                projection /= projection[3, 0];
+                Matrix3D canvas = viewport_matrix * projection;
+                v.Add(canvas.ToVector4());
+                points.Add(canvas.ToVector4().ToPointF());
+            }
+            var normal = Vector4.CrossProduct(v[1] - v[0], v[2] - v[0]);
+
+            // new Vector4(0.0f, 0.0f, -1.0f) это начальная позиция камеры
+            if (Vector4.DotProduct(normal, new Vector4(0.0f, 0.0f, -1.0f)) > 0)
+            {
+                if (points.Count >= 3)
+                {
+                    points.Add(points.First());
+                    _graphics.DrawLines(new Pen(triangle.color, 1.0f), points.ToArray());
+                }
+            }
+        }
+
+        private void DrawTriangleOrthoWithBackfaceCulling(Triangle3D triangle, Transform transform)
+        {
+            List<PointF> points = new List<PointF>();
+            Matrix3D viewport_matrix = Matrix3D.GetViewPortMatrix(zoom, zoom, canvas.Width / 2, canvas.Height / 2);
+            Matrix3D projection_m = Matrix3D.GetOrtho(g_projection_type);
+
+            List<Vector4> v = new List<Vector4>();
+            for (int i = 0; i < triangle.Size; ++i)
+            {
+                Matrix3D model = transform.ApplyTransform(triangle[i]);
+                Matrix3D view = view_matrix * model;
+                Matrix3D projection = projection_m * view;
+                Matrix3D canvas = viewport_matrix * projection.ToVector3(g_projection_type);
+                v.Add(canvas.ToVector4());
+                points.Add(canvas.ToVector4().ToPointF());
+            }
+            var normal = Vector4.CrossProduct(v[1] - v[0], v[2] - v[0]);
+
+            // new Vector4(0.0f, 0.0f, -1.0f) это начальная позиция камеры
+            if (Vector4.DotProduct(normal, new Vector4(0.0f, 0.0f, -1.0f)) > 0)
+            {
+                if (points.Count >= 3)
+                {
+                    points.Add(points.First());
+                    _graphics.DrawLines(new Pen(triangle.color, 1.0f), points.ToArray());
+                }
             }
         }
 
@@ -823,6 +856,15 @@ namespace blank
         {
             back_face_culling = btn_back_face_culling.Checked;
             DrawAll();
+        }
+
+        private void Task1_MouseCaptureChanged(object sender, EventArgs e)
+        {
+            if (_interactive_mode)
+            {
+                _interactive_mode = false;
+                cb_interactive_mode.Checked = false;
+            }
         }
     }
 }

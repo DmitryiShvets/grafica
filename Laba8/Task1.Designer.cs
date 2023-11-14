@@ -117,13 +117,13 @@
             this.label19 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btn_back_face_culling = new System.Windows.Forms.CheckBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.input_info = new System.Windows.Forms.Label();
             this.mouse_info = new System.Windows.Forms.Label();
             this.cb_interactive_mode = new System.Windows.Forms.CheckBox();
             this.camera_stat = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.btn_back_face_culling = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.track_zoom)).BeginInit();
@@ -1131,6 +1131,17 @@
             this.tabPage2.Text = "Свойства";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // btn_back_face_culling
+            // 
+            this.btn_back_face_culling.AutoSize = true;
+            this.btn_back_face_culling.Location = new System.Drawing.Point(214, 452);
+            this.btn_back_face_culling.Name = "btn_back_face_culling";
+            this.btn_back_face_culling.Size = new System.Drawing.Size(176, 17);
+            this.btn_back_face_culling.TabIndex = 81;
+            this.btn_back_face_culling.Text = "Отсечение нелицевых граней";
+            this.btn_back_face_culling.UseVisualStyleBackColor = true;
+            this.btn_back_face_culling.CheckedChanged += new System.EventHandler(this.btn_back_face_culling_CheckedChanged);
+            // 
             // groupBox8
             // 
             this.groupBox8.Controls.Add(this.input_info);
@@ -1200,17 +1211,6 @@
             this.tabPage1.Text = "Редактор";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // btn_back_face_culling
-            // 
-            this.btn_back_face_culling.AutoSize = true;
-            this.btn_back_face_culling.Location = new System.Drawing.Point(214, 452);
-            this.btn_back_face_culling.Name = "btn_back_face_culling";
-            this.btn_back_face_culling.Size = new System.Drawing.Size(176, 17);
-            this.btn_back_face_culling.TabIndex = 81;
-            this.btn_back_face_culling.Text = "Отсечение нелицевых граней";
-            this.btn_back_face_culling.UseVisualStyleBackColor = true;
-            this.btn_back_face_culling.CheckedChanged += new System.EventHandler(this.btn_back_face_culling_CheckedChanged);
-            // 
             // Task1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1225,6 +1225,7 @@
             this.Text = "Task1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Task1_FormClosing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Task1_KeyDown);
+            this.MouseCaptureChanged += new System.EventHandler(this.Task1_MouseCaptureChanged);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Task1_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).EndInit();
             this.groupBox1.ResumeLayout(false);

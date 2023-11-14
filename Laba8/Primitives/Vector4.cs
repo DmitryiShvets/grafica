@@ -62,6 +62,10 @@ namespace blank.Primitives
         {
             return new Vector4(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z);
         }
+        public static Vector4 operator -(Vector4 lhs)
+        {
+            return new Vector4(-lhs.x, -lhs.y, -lhs.z);
+        }
         public static float DotProduct(Vector4 lhs, Vector4 rhs)
         {
             return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
@@ -77,6 +81,14 @@ namespace blank.Primitives
         public static Vector4 operator *(float lhs, Vector4 rhs)
         {
             return new Vector4(lhs * rhs.x, lhs * rhs.y, lhs * rhs.z);
+        }
+        public static Vector4 operator /(Vector4 lhs, float rhs)
+        {
+            return new Vector4(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs);
+        }
+        public static Vector4 operator /(float lhs, Vector4 rhs)
+        {
+            return new Vector4(lhs / rhs.x, lhs / rhs.y, lhs / rhs.z);
         }
         public static bool operator <(Vector4 lhs, Vector4 rhs)
         {
