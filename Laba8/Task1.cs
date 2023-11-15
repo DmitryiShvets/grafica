@@ -41,6 +41,9 @@ namespace blank
         private float pitch = 0.0f;
 
         private bool back_face_culling = false;
+        private bool zbuffer = false;
+        private float[] arrzbuffer;
+
         public Task1()
         {
             InitializeComponent();
@@ -68,6 +71,12 @@ namespace blank
             {
                 GetObject(0)
             };
+
+            arrzbuffer = new float[canvas.Width * canvas.Height];
+            for (int i = 0; i < arrzbuffer.Count()-1; i++)
+            {
+                arrzbuffer[i] = Int32.MinValue;
+            }
 
             DrawAll();
         }
@@ -102,6 +111,11 @@ namespace blank
             _graphics_editor.Clear(Color.White);
             DrawAxes();
 
+            for (int i = 0; i < arrzbuffer.Count() - 1; i++)
+            {
+                arrzbuffer[i] = Int32.MinValue;
+            }
+
             if (editor_points.Count > 0) DrawEditor();
 
             foreach (var obj in _objects)
@@ -119,7 +133,18 @@ namespace blank
         }
         private void DrawTriangle(Triangle3D triangle, Transform transform)
         {
-            if (back_face_culling)
+            if (zbuffer)
+            {
+                if (g_projection_type == PROJECTION_TYPE.PERSPECTIVE)
+                {
+                    DrawTriangleZBufferPerspective(triangle, transform);
+                }
+                else
+                {
+                    DrawTriangleZBufferOrtho(triangle, transform);
+                }
+            }
+            else if (back_face_culling)
             {
                 if (g_projection_type == PROJECTION_TYPE.PERSPECTIVE)
                 {
@@ -242,6 +267,215 @@ namespace blank
                     points.Add(points.First());
                     _graphics.DrawLines(new Pen(triangle.color, 1.0f), points.ToArray());
                 }
+            }
+        }
+
+        private void ZBuffer(Vector4 t0, Vector4 t1, Vector4 t2, Color c)
+        {
+            if (t0.y == t1.y && t0.y == t2.y) return;
+            if (t0.y > t1.y) (t0, t1) = (t1, t0);
+            if (t0.y > t2.y) (t0, t2) = (t2, t0);
+            if (t1.y > t2.y) (t1, t2) = (t2, t1);
+
+            Func<double, double> func1 = y => (y - t0.y) / (t1.y - t0.y + 1) * (t1.x - t0.x + 1) + t0.x; // 0->1
+            Func<double, double> func2 = y => (y - t0.y) / (t2.y - t0.y + 1) * (t2.x - t0.x + 1) + t0.x; // 0->2
+            Func<double, double> func3 = y => (y - t1.y) / (t2.y - t1.y + 1) * (t2.x - t1.x + 1) + t1.x; // 1->2
+
+            using (var fastBitmap = new FastBitmap(_bitmap))
+            {
+                int yMin = (int)t0.y;
+                int yMax = (int)t1.y;
+
+                int x1, x2;
+                float zVal1, zVal2, zVal3;
+                for (int i = (int)t0.y; i <= (int)t1.y; i++)
+                {
+                    x1 = (int)func1(i);
+                    x2 = (int)func2(i);
+
+                    yMin = (int)t0.y;
+                    yMax = (int)t1.y;
+
+                    zVal1 = LinY(i, yMin, yMax, t0.z, t1.z);
+
+                    int idx = x1 + i * canvas.Width;
+                    if (arrzbuffer[idx] <= zVal1)
+                    {
+                        arrzbuffer[idx] = zVal1;
+                        fastBitmap[x1, i] = c;
+                    }
+
+                    yMin = (int)t0.y;
+                    yMax = (int)t2.y;
+
+                    zVal2 = LinY(i, yMin, yMax, t0.z, t2.z);
+
+                    idx = x2 + i * canvas.Width;
+                    if (arrzbuffer[idx] <= zVal2)
+                    {
+                        arrzbuffer[idx] = zVal2;
+                        fastBitmap[x2, i] = c;
+                    }
+
+                    int minX = Math.Min(x1, x2);
+                    int maxX = Math.Max(x1, x2);
+
+                    if (minX == x1)
+                    {
+                        for (int j = minX; j < maxX; j++)
+                        {
+                            idx = j + i * canvas.Width;
+                            zVal3 = LinY(j, minX, maxX, zVal1, zVal2);
+                            if (arrzbuffer[idx] <= zVal3)
+                            {
+                                arrzbuffer[idx] = zVal3;
+                                fastBitmap[j, i] = c;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int j = minX; j < maxX; j++)
+                        {
+                            idx = j + i * canvas.Width;
+                            zVal3 = LinY(j, minX, maxX, zVal2, zVal1);
+                            if (arrzbuffer[idx] <= zVal3)
+                            {
+                                arrzbuffer[idx] = zVal3;
+                                fastBitmap[j, i] = c;
+                            }
+                        }
+                    }
+                }
+                for (int i = (int)t1.y; i <= (int)t2.y; i++)
+                {
+                    yMin = (int)t0.y;
+                    yMax = (int)t2.y;
+                    x1 = (int)func3(i);
+                    x2 = (int)func2(i);
+
+                    zVal1 = LinY(i, yMin, yMax, t0.z, t2.z);
+
+                    int idx = x1 + i * canvas.Width;
+                    if (arrzbuffer[idx] <= zVal1)
+                    {
+                        arrzbuffer[idx] = zVal1;
+                        fastBitmap[x1, i] = c;
+                    }
+
+                    yMin = (int)t1.y;
+                    yMax = (int)t2.y;
+
+                    zVal2 = LinY(i, yMin, yMax, t1.z, t2.z);
+
+                    idx = x2 + i * canvas.Width;
+                    if (arrzbuffer[idx] <= zVal2)
+                    {
+                        arrzbuffer[idx] = zVal2;
+                        fastBitmap[x2, i] = c;
+                    }
+
+                    int minX = Math.Min(x1, x2);
+                    int maxX = Math.Max(x1, x2);
+
+                    if (minX == x1)
+                    {
+                        for (int j = minX; j < maxX; j++)
+                        {
+                            idx = j + i * canvas.Width;
+                            zVal3 = LinY(j, minX, maxX, zVal2, zVal1);
+                            if (arrzbuffer[idx] <= zVal3)
+                            {
+                                arrzbuffer[idx] = zVal3;
+                                fastBitmap[j, i] = c;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int j = minX; j < maxX; j++)
+                        {
+                            idx = j + i * canvas.Width;
+                            zVal3 = LinY(j, minX, maxX, zVal1, zVal2);
+                            if (arrzbuffer[idx] <= zVal3)
+                            {
+                                arrzbuffer[idx] = zVal3;
+                                fastBitmap[j, i] = c;
+                            }
+                        }
+                    }
+                }
+            }
+            canvas.Image = _bitmap;
+        }
+
+        private void DrawTriangleZBufferPerspective(Triangle3D triangle, Transform transform)
+        {
+            List<Vector4> points = new List<Vector4>();
+            Matrix3D viewport_matrix = Matrix3D.GetViewPortMatrix(zoom, zoom, canvas.Width / 2, canvas.Height / 2);
+
+            for (int i = 0; i < triangle.Size; ++i)
+            {
+                Matrix3D model = transform.ApplyTransform(triangle[i]);
+                //if (model[2, 0] - camera_pos.z < 0) continue;
+                Matrix3D view = view_matrix * model;
+                Matrix3D projection = projection_matrix * view;
+                projection /= projection[3, 0];
+                Matrix3D canvas = viewport_matrix * projection;
+                points.Add(canvas.ToVector4());
+            }
+
+            ZBuffer(points[0], points[1], points[2], triangle.color);
+
+        }
+
+        private void DrawTriangleZBufferOrtho(Triangle3D triangle, Transform transform)
+        {
+            List<Vector4> points = new List<Vector4>();
+            Matrix3D viewport_matrix = Matrix3D.GetViewPortMatrix(zoom, zoom, canvas.Width / 2, canvas.Height / 2);
+            Matrix3D projection_m = Matrix3D.GetOrtho(g_projection_type);
+
+            for (int i = 0; i < triangle.Size; ++i)
+            {
+                Matrix3D model = transform.ApplyTransform(triangle[i]);
+                Matrix3D view = view_matrix * model;
+                Matrix3D projection = projection_m * view;
+                Matrix3D canvas = viewport_matrix * projection.ToVector3(g_projection_type);
+                points.Add(canvas.ToVector4());
+            }
+
+            ZBuffer(points[0], points[1], points[2], triangle.color);
+
+        }
+
+        private float LinX(int x, float a, float b, float c1, float c2)
+        {
+            if (c2 > c1)
+            {
+                return c1 + (x - a) * (c2 - c1) / (b - a + 1);
+            }
+            else
+            {
+                return c1 - (x - a) * (c1 - c2) / (b - a + 1);
+            }
+        }
+        private float LinY(int y, float a, float b, float c1, float c2)
+        {
+            if (c2 > c1)
+            {
+                if (b - a == 0)
+                {
+                    b++;
+                }
+                return c1 + (y - a) * (c2 - c1) / (b - a);
+            }
+            else
+            {
+                if (b - a == 0)
+                {
+                    b++;
+                }
+                return c1 - (y - a) * (c1 - c2) / (b - a);
             }
         }
 
@@ -855,6 +1089,11 @@ namespace blank
         private void btn_back_face_culling_CheckedChanged(object sender, EventArgs e)
         {
             back_face_culling = btn_back_face_culling.Checked;
+            if (back_face_culling)
+            {
+                zbuffer = !btn_back_face_culling.Checked;
+                btn_zbuffer.Checked = !btn_back_face_culling.Checked;
+            }
             DrawAll();
         }
 
@@ -865,6 +1104,17 @@ namespace blank
                 _interactive_mode = false;
                 cb_interactive_mode.Checked = false;
             }
+        }
+
+        private void btn_zbuffer_CheckedChanged(object sender, EventArgs e)
+        {
+            zbuffer = btn_zbuffer.Checked;
+            if (zbuffer)
+            {
+                back_face_culling = !btn_zbuffer.Checked;
+                btn_back_face_culling.Checked = !btn_zbuffer.Checked;
+            }
+            DrawAll();
         }
     }
 }

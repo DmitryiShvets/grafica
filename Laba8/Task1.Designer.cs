@@ -124,6 +124,7 @@
             this.cb_interactive_mode = new System.Windows.Forms.CheckBox();
             this.camera_stat = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btn_zbuffer = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.track_zoom)).BeginInit();
@@ -1113,6 +1114,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.btn_zbuffer);
             this.tabPage2.Controls.Add(this.btn_back_face_culling);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.groupBox_chart);
@@ -1210,6 +1212,17 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Редактор";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // btn_zbuffer
+            // 
+            this.btn_zbuffer.AutoSize = true;
+            this.btn_zbuffer.Location = new System.Drawing.Point(214, 429);
+            this.btn_zbuffer.Name = "btn_zbuffer";
+            this.btn_zbuffer.Size = new System.Drawing.Size(63, 17);
+            this.btn_zbuffer.TabIndex = 82;
+            this.btn_zbuffer.Text = "Z-buffer";
+            this.btn_zbuffer.UseVisualStyleBackColor = true;
+            this.btn_zbuffer.CheckedChanged += new System.EventHandler(this.btn_zbuffer_CheckedChanged);
             // 
             // Task1
             // 
@@ -1361,5 +1374,6 @@
         private System.Windows.Forms.Label mouse_info;
         private System.Windows.Forms.Label input_info;
         private System.Windows.Forms.CheckBox btn_back_face_culling;
+        private System.Windows.Forms.CheckBox btn_zbuffer;
     }
 }
