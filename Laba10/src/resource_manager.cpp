@@ -17,7 +17,6 @@ static std::string readFile(const std::string& path) {
 
 ResourceManager::ResourceManager() {
     std::cout << "Constructor ResourceManager (" << this << ") called " << std::endl;
-
 }
 
 ResourceManager::~ResourceManager() {

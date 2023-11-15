@@ -1,8 +1,6 @@
 #include "buffer_objects.h"
 
-VBO::VBO() : mVBO(0) {
-
-}
+VBO::VBO() : mVBO(0) {}
 
 VBO::~VBO() {
     glDeleteBuffers(1, &mVBO);

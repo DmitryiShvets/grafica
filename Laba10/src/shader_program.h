@@ -48,6 +48,8 @@ public:
 
     ShaderProgram(ShaderProgram&& program) noexcept;
 
+    ShaderProgram(const ShaderProgram&) = delete;
+
 
 private:
     bool createShader(const char* source, const GLenum type, GLuint& hShader);

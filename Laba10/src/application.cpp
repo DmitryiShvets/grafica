@@ -57,7 +57,6 @@ void Application::init()
 
 	resourceManager = &ResourceManager::getInstance();
 	resourceManager->init();
-
 }
 
 void Application::start()
@@ -65,10 +64,8 @@ void Application::start()
 	Renderer::setClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	VAO* mVAO = &ResourceManager::getInstance().baseVAO;
 	ShaderProgram* mProgram = &ResourceManager::getInstance().getProgram("default");
+
 	// Game loop
-
-
-
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
 
@@ -81,6 +78,7 @@ void Application::start()
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
 	}
+	resourceManager->destroy();
 	glfwTerminate();
 }
 
@@ -94,6 +92,5 @@ Application::~Application()
 
 }
 
-Application::Application(std::string name, int width, int height) : name(std::move(name)), width(width),
-height(height) {}
+Application::Application(std::string name, int width, int height) : name(std::move(name)), width(width), height(height) {}
 
