@@ -17,6 +17,9 @@ public:
     ShaderProgram& getProgram(const std::string& progName);
 
     VAO baseVAO;
+    VAO quadVAO;
+    VAO veerVAO;
+    VAO figureVAO;
 
 private:
     ResourceManager();
