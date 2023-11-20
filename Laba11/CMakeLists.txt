@@ -24,4 +24,4 @@ target_link_libraries(${PROJ_NAME} PRIVATE ${OPENGL_LIBRARIES} glfw glad glm)
 
 set_target_properties(${PROJ_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/)
 add_custom_command(TARGET ${PROJ_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Laba10/res $<TARGET_FILE_DIR:${PROJ_NAME}>/res)
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Laba11/res $<TARGET_FILE_DIR:${PROJ_NAME}>/res)

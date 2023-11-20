@@ -72,6 +72,7 @@ void Application::start()
 		Renderer::clear();
 
 		mProgram->use();
+		//mProgram->setUniform("customColor", glm::vec4(ResourceManager::getInstance().colors["randomColor"], 1.0));
 		Renderer::draw(mVAO);
 		mProgram->unbind();
 

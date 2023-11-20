@@ -21,6 +21,8 @@ public:
     VAO veerVAO;
     VAO figureVAO;
 
+    std::map<std::string, glm::vec3> colors;
+
 private:
     ResourceManager();
 
@@ -33,5 +35,4 @@ private:
     ResourceManager(ResourceManager&& program) = delete;
 
     std::map<std::string, ShaderProgram> shaderPrograms;
-
 };
