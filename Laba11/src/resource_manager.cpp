@@ -17,7 +17,7 @@ static std::string readFile(const std::string& path) {
     return std::string{ (std::istreambuf_iterator<char>(input_file)), std::istreambuf_iterator<char>() };
 }
 
-// Функция для генерации случайного числа в диапазоне [min, max)
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РіРµРЅРµСЂР°С†РёРё СЃР»СѓС‡Р°Р№РЅРѕРіРѕ С‡РёСЃР»Р° РІ РґРёР°РїР°Р·РѕРЅРµ [min, max)
 float randomFloat(float min, float max) {
     static auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
     static std::mt19937 rng(static_cast<unsigned>(seed));
@@ -28,7 +28,7 @@ float randomFloat(float min, float max) {
 ResourceManager::ResourceManager() {
     std::cout << "Constructor ResourceManager (" << this << ") called " << std::endl;
     colors["randomColor"] = glm::vec3(randomFloat(0.0f, 1.0f), randomFloat(0.0f, 1.0f), randomFloat(0.0f, 1.0f));
-    std::cout << colors["randomColor"].x << " " << colors["randomColor"].y << " " << colors["randomColor"].z << std::endl;
+    //std::cout << colors["randomColor"].x << " " << colors["randomColor"].y << " " << colors["randomColor"].z << std::endl;
 }
 
 ResourceManager::~ResourceManager() {

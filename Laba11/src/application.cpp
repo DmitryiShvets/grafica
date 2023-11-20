@@ -62,8 +62,9 @@ void Application::init()
 void Application::start()
 {
 	Renderer::setClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	VAO* mVAO = &ResourceManager::getInstance().baseVAO;
-	ShaderProgram* mProgram = &ResourceManager::getInstance().getProgram("default");
+	VAO* mVAO = &ResourceManager::getInstance().quadVAO;
+	//ShaderProgram* mProgram = &ResourceManager::getInstance().getProgram("default");
+	ShaderProgram* mProgram = &ResourceManager::getInstance().getProgram("custom");
 
 	// Game loop
 	while (!glfwWindowShouldClose(window)) {
@@ -72,7 +73,7 @@ void Application::start()
 		Renderer::clear();
 
 		mProgram->use();
-		//mProgram->setUniform("customColor", glm::vec4(ResourceManager::getInstance().colors["randomColor"], 1.0));
+		mProgram->setUniform("customColor", glm::vec4(ResourceManager::getInstance().colors["randomColor"], 1.0));
 		Renderer::draw(mVAO);
 		mProgram->unbind();
 
