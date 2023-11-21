@@ -29,6 +29,17 @@ namespace blank.Utility
                 }
             }
         }
+        public static float GetIntensive(double lamb)
+        {
+            return (float)(lamb + 1) / 2;
+        }
+
+        public static double GetLambertLightnes(Vector4 vertex, Vector4 light, Vector4 normal)
+        {
+            var ray_to_vertex = new Vector4(light.x - vertex.x, light.y - vertex.y, light.z - vertex.z).Normalize();
+            return Math.Max((double)Vector4.DotProduct(normal.Normalize(), ray_to_vertex), 0.0);
+        }
+
         public void ClearZBuff()
         {
             for (int i = 0; i < bmp.Width; i++)
@@ -39,8 +50,11 @@ namespace blank.Utility
                 }
             }
         }
-        public static List<float> Interpolate(float x0, float y0, float x1, float y1)
+        public static List<float> Interpolate(float fx0, float y0, float fx1, float y1)
         {
+            int x0 = (int)fx0;
+            int x1 = (int)fx1;
+
             if (x0 == x1) return new List<float> { y0 };
             List<float> values = new List<float>();
             float a = (y1 - y0) / (x1 - x0);
@@ -70,28 +84,38 @@ namespace blank.Utility
             if (p1.y < p0.y) (p0, p1) = (p1, p0);
             if (p2.y < p0.y) (p0, p2) = (p2, p0);
             if (p2.y < p1.y) (p1, p2) = (p2, p1);
-            float h0 = 1.0f, h1 = 0.5f, h2 = 0.5f;
+            //float h0 = 1.0f, h1 = 0.5f, h2 = 0.5f;
             List<float> x01 = Interpolate(p0.y, p0.x, p1.y, p1.x);
-            List<float> h01 = Interpolate(p0.y, h0, p1.y, h1);
+            List<float> h01 = Interpolate(p0.y, p0.h, p1.y, p1.h);
             List<float> z01 = Interpolate(p0.y, 1 / (p0.z + 1), p1.y, 1 / (p1.z + 1));
             List<float> x12 = Interpolate(p1.y, p1.x, p2.y, p2.x);
-            List<float> h12 = Interpolate(p1.y, h1, p2.y, h2);
+            List<float> h12 = Interpolate(p1.y, p1.h, p2.y, p2.h);
             List<float> z12 = Interpolate(p1.y, 1 / (p1.z + 1), p2.y, 1 / (p2.z + 1));
             List<float> x02 = Interpolate(p0.y, p0.x, p2.y, p2.x);
-            List<float> h02 = Interpolate(p0.y, h0, p2.y, h2);
+            List<float> h02 = Interpolate(p0.y, p0.h, p2.y, p2.h);
             List<float> z02 = Interpolate(p0.y, 1 / (p0.z + 1), p2.y, 1 / (p2.z + 1));
 
-            //x01.Remove(x01.Last());
             List<float> x012 = new List<float>();
+            List<float> h012 = new List<float>();
+            List<float> z012 = new List<float>();
+
+
+            x01.Remove(x01.Last());
+            h01.Remove(h01.Last());
+            z01.Remove(z01.Last());
+
+            if(x01.Count + x12.Count != x02.Count)
+            {
+                Console.WriteLine("Ошибка! индексы не совпадают!\n");
+                Console.WriteLine(x01.Count + x12.Count + " " + x02.Count);
+            }
+
             x012.AddRange(x01);
             x012.AddRange(x12);
 
-            //h01.Remove(h01.Last());
-            List<float> h012 = new List<float>();
             h012.AddRange(h01);
             h012.AddRange(h12);
 
-            List<float> z012 = new List<float>();
             z012.AddRange(z01);
             z012.AddRange(z12);
 

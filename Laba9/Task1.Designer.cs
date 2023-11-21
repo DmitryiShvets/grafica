@@ -129,19 +129,20 @@
             this.btn_clear_zbuff = new System.Windows.Forms.Button();
             this.btn_zbuffer = new System.Windows.Forms.CheckBox();
             this.btn_back_face_culling = new System.Windows.Forms.CheckBox();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.cb_light_cull_back = new System.Windows.Forms.CheckBox();
+            this.cb_light_zbuff = new System.Windows.Forms.CheckBox();
+            this.btn_move_light_pos = new System.Windows.Forms.Button();
+            this.label22 = new System.Windows.Forms.Label();
+            this.light_z = new System.Windows.Forms.TextBox();
+            this.light_y = new System.Windows.Forms.TextBox();
+            this.light_x = new System.Windows.Forms.TextBox();
+            this.cb_lightning = new System.Windows.Forms.CheckBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.input_info = new System.Windows.Forms.Label();
             this.mouse_info = new System.Windows.Forms.Label();
             this.cb_interactive_mode = new System.Windows.Forms.CheckBox();
-            this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.btn_move_light_pos = new System.Windows.Forms.Button();
-            this.label22 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.cb_lightning = new System.Windows.Forms.CheckBox();
-            this.cb_light_zbuff = new System.Windows.Forms.CheckBox();
-            this.cb_light_cull_back = new System.Windows.Forms.CheckBox();
+            this.light_info = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.track_zoom)).BeginInit();
@@ -165,8 +166,8 @@
             this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.groupBox9.SuspendLayout();
-            this.groupBox8.SuspendLayout();
             this.groupBox11.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // canvas
@@ -1287,6 +1288,100 @@
             this.btn_back_face_culling.UseVisualStyleBackColor = true;
             this.btn_back_face_culling.CheckedChanged += new System.EventHandler(this.btn_back_face_culling_CheckedChanged);
             // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.light_info);
+            this.groupBox11.Controls.Add(this.cb_light_cull_back);
+            this.groupBox11.Controls.Add(this.cb_light_zbuff);
+            this.groupBox11.Controls.Add(this.btn_move_light_pos);
+            this.groupBox11.Controls.Add(this.label22);
+            this.groupBox11.Controls.Add(this.light_z);
+            this.groupBox11.Controls.Add(this.light_y);
+            this.groupBox11.Controls.Add(this.light_x);
+            this.groupBox11.Controls.Add(this.cb_lightning);
+            this.groupBox11.Location = new System.Drawing.Point(3, 122);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(203, 156);
+            this.groupBox11.TabIndex = 6;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "Освещение";
+            // 
+            // cb_light_cull_back
+            // 
+            this.cb_light_cull_back.AutoSize = true;
+            this.cb_light_cull_back.Location = new System.Drawing.Point(4, 42);
+            this.cb_light_cull_back.Name = "cb_light_cull_back";
+            this.cb_light_cull_back.Size = new System.Drawing.Size(116, 17);
+            this.cb_light_cull_back.TabIndex = 84;
+            this.cb_light_cull_back.Text = "Нелицевые грани";
+            this.cb_light_cull_back.UseVisualStyleBackColor = true;
+            this.cb_light_cull_back.CheckedChanged += new System.EventHandler(this.cb_light_cull_back_CheckedChanged);
+            // 
+            // cb_light_zbuff
+            // 
+            this.cb_light_zbuff.AutoSize = true;
+            this.cb_light_zbuff.Location = new System.Drawing.Point(123, 19);
+            this.cb_light_zbuff.Name = "cb_light_zbuff";
+            this.cb_light_zbuff.Size = new System.Drawing.Size(63, 17);
+            this.cb_light_zbuff.TabIndex = 83;
+            this.cb_light_zbuff.Text = "Z-buffer";
+            this.cb_light_zbuff.UseVisualStyleBackColor = true;
+            this.cb_light_zbuff.CheckedChanged += new System.EventHandler(this.cb_light_zbuff_CheckedChanged);
+            // 
+            // btn_move_light_pos
+            // 
+            this.btn_move_light_pos.Location = new System.Drawing.Point(98, 84);
+            this.btn_move_light_pos.Name = "btn_move_light_pos";
+            this.btn_move_light_pos.Size = new System.Drawing.Size(75, 23);
+            this.btn_move_light_pos.TabIndex = 9;
+            this.btn_move_light_pos.Text = "Применить";
+            this.btn_move_light_pos.UseVisualStyleBackColor = true;
+            this.btn_move_light_pos.Click += new System.EventHandler(this.btn_move_light_pos_Click);
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(1, 68);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(152, 13);
+            this.label22.TabIndex = 8;
+            this.label22.Text = "Положение источника света";
+            // 
+            // light_z
+            // 
+            this.light_z.Location = new System.Drawing.Point(69, 84);
+            this.light_z.Name = "light_z";
+            this.light_z.Size = new System.Drawing.Size(23, 20);
+            this.light_z.TabIndex = 3;
+            this.light_z.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.t_transform_dx_KeyPress);
+            // 
+            // light_y
+            // 
+            this.light_y.Location = new System.Drawing.Point(36, 84);
+            this.light_y.Name = "light_y";
+            this.light_y.Size = new System.Drawing.Size(23, 20);
+            this.light_y.TabIndex = 4;
+            this.light_y.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.t_transform_dx_KeyPress);
+            // 
+            // light_x
+            // 
+            this.light_x.Location = new System.Drawing.Point(4, 84);
+            this.light_x.Name = "light_x";
+            this.light_x.Size = new System.Drawing.Size(23, 20);
+            this.light_x.TabIndex = 5;
+            this.light_x.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.t_transform_dx_KeyPress);
+            // 
+            // cb_lightning
+            // 
+            this.cb_lightning.AutoSize = true;
+            this.cb_lightning.Location = new System.Drawing.Point(4, 19);
+            this.cb_lightning.Name = "cb_lightning";
+            this.cb_lightning.Size = new System.Drawing.Size(85, 17);
+            this.cb_lightning.TabIndex = 0;
+            this.cb_lightning.Text = "Освещение";
+            this.cb_lightning.UseVisualStyleBackColor = true;
+            this.cb_lightning.CheckedChanged += new System.EventHandler(this.cb_lightning_CheckedChanged);
+            // 
             // groupBox8
             // 
             this.groupBox8.Controls.Add(this.input_info);
@@ -1332,98 +1427,16 @@
             this.cb_interactive_mode.UseVisualStyleBackColor = true;
             this.cb_interactive_mode.CheckedChanged += new System.EventHandler(this.cb_interactive_mode_CheckedChanged);
             // 
-            // groupBox11
+            // light_info
             // 
-            this.groupBox11.Controls.Add(this.cb_light_cull_back);
-            this.groupBox11.Controls.Add(this.cb_light_zbuff);
-            this.groupBox11.Controls.Add(this.btn_move_light_pos);
-            this.groupBox11.Controls.Add(this.label22);
-            this.groupBox11.Controls.Add(this.textBox1);
-            this.groupBox11.Controls.Add(this.textBox2);
-            this.groupBox11.Controls.Add(this.textBox3);
-            this.groupBox11.Controls.Add(this.cb_lightning);
-            this.groupBox11.Location = new System.Drawing.Point(3, 122);
-            this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(203, 113);
-            this.groupBox11.TabIndex = 6;
-            this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "Освещение";
-            // 
-            // btn_move_light_pos
-            // 
-            this.btn_move_light_pos.Location = new System.Drawing.Point(98, 84);
-            this.btn_move_light_pos.Name = "btn_move_light_pos";
-            this.btn_move_light_pos.Size = new System.Drawing.Size(75, 23);
-            this.btn_move_light_pos.TabIndex = 9;
-            this.btn_move_light_pos.Text = "Применить";
-            this.btn_move_light_pos.UseVisualStyleBackColor = true;
-            this.btn_move_light_pos.Click += new System.EventHandler(this.btn_move_light_pos_Click);
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(1, 68);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(152, 13);
-            this.label22.TabIndex = 8;
-            this.label22.Text = "Положение источника света";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(69, 84);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(23, 20);
-            this.textBox1.TabIndex = 3;
-            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.count_partition_KeyPress);
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(36, 84);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(23, 20);
-            this.textBox2.TabIndex = 4;
-            this.textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.count_partition_KeyPress);
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(4, 84);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(23, 20);
-            this.textBox3.TabIndex = 5;
-            this.textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.count_partition_KeyPress);
-            // 
-            // cb_lightning
-            // 
-            this.cb_lightning.AutoSize = true;
-            this.cb_lightning.Location = new System.Drawing.Point(4, 19);
-            this.cb_lightning.Name = "cb_lightning";
-            this.cb_lightning.Size = new System.Drawing.Size(85, 17);
-            this.cb_lightning.TabIndex = 0;
-            this.cb_lightning.Text = "Освещение";
-            this.cb_lightning.UseVisualStyleBackColor = true;
-            this.cb_lightning.CheckedChanged += new System.EventHandler(this.cb_lightning_CheckedChanged);
-            // 
-            // cb_light_zbuff
-            // 
-            this.cb_light_zbuff.AutoSize = true;
-            this.cb_light_zbuff.Location = new System.Drawing.Point(123, 19);
-            this.cb_light_zbuff.Name = "cb_light_zbuff";
-            this.cb_light_zbuff.Size = new System.Drawing.Size(63, 17);
-            this.cb_light_zbuff.TabIndex = 83;
-            this.cb_light_zbuff.Text = "Z-buffer";
-            this.cb_light_zbuff.UseVisualStyleBackColor = true;
-            this.cb_light_zbuff.CheckedChanged += new System.EventHandler(this.cb_light_zbuff_CheckedChanged);
-            // 
-            // cb_light_cull_back
-            // 
-            this.cb_light_cull_back.AutoSize = true;
-            this.cb_light_cull_back.Location = new System.Drawing.Point(4, 42);
-            this.cb_light_cull_back.Name = "cb_light_cull_back";
-            this.cb_light_cull_back.Size = new System.Drawing.Size(116, 17);
-            this.cb_light_cull_back.TabIndex = 84;
-            this.cb_light_cull_back.Text = "Нелицевые грани";
-            this.cb_light_cull_back.UseVisualStyleBackColor = true;
-            this.cb_light_cull_back.CheckedChanged += new System.EventHandler(this.cb_light_cull_back_CheckedChanged);
+            this.light_info.AutoSize = true;
+            this.light_info.Enabled = false;
+            this.light_info.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.light_info.Location = new System.Drawing.Point(9, 119);
+            this.light_info.Name = "light_info";
+            this.light_info.Size = new System.Drawing.Size(50, 22);
+            this.light_info.TabIndex = 4;
+            this.light_info.Text = "свет";
             // 
             // Task1
             // 
@@ -1475,10 +1488,10 @@
             this.tabPage4.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
-            this.groupBox8.ResumeLayout(false);
-            this.groupBox8.PerformLayout();
             this.groupBox11.ResumeLayout(false);
             this.groupBox11.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1593,11 +1606,12 @@
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.Button btn_move_light_pos;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox light_z;
+        private System.Windows.Forms.TextBox light_y;
+        private System.Windows.Forms.TextBox light_x;
         private System.Windows.Forms.CheckBox cb_lightning;
         private System.Windows.Forms.CheckBox cb_light_cull_back;
         private System.Windows.Forms.CheckBox cb_light_zbuff;
+        private System.Windows.Forms.Label light_info;
     }
 }

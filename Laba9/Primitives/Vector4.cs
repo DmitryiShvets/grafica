@@ -11,7 +11,8 @@ namespace blank.Primitives
         public float y;
         public float z;
         public float w;
-
+        public float h;
+        
         public Vector4(Vector4 other)
         {
             this.x = other.x;
