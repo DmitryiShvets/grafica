@@ -117,16 +117,23 @@
             this.label19 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.btn_clear_zbuff = new System.Windows.Forms.Button();
             this.btn_zbuffer = new System.Windows.Forms.CheckBox();
             this.btn_back_face_culling = new System.Windows.Forms.CheckBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.input_info = new System.Windows.Forms.Label();
             this.mouse_info = new System.Windows.Forms.Label();
             this.cb_interactive_mode = new System.Windows.Forms.CheckBox();
-            this.camera_stat = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.btn_clear_zbuff = new System.Windows.Forms.Button();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.btn_add_obj = new System.Windows.Forms.Button();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.btn_delete_obj = new System.Windows.Forms.Button();
+            this.btn_setting_obj = new System.Windows.Forms.Button();
+            this.btn_hide_obj = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.track_zoom)).BeginInit();
@@ -145,9 +152,12 @@
             this.groupBox_chart.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.groupBox9.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // canvas
@@ -1106,8 +1116,10 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(615, 21);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
@@ -1117,15 +1129,12 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.groupBox9);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.groupBox_chart);
             this.tabPage2.Controls.Add(this.groupBox3);
             this.tabPage2.Controls.Add(this.groupBox4);
-            this.tabPage2.Controls.Add(this.groupBox8);
             this.tabPage2.Controls.Add(this.groupBox_line_rotation);
             this.tabPage2.Controls.Add(this.groupBox5);
-            this.tabPage2.Controls.Add(this.camera_stat);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
@@ -1134,6 +1143,28 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Свойства";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.btn_clear_zbuff);
+            this.groupBox9.Controls.Add(this.btn_zbuffer);
+            this.groupBox9.Controls.Add(this.btn_back_face_culling);
+            this.groupBox9.Location = new System.Drawing.Point(212, 3);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(176, 113);
+            this.groupBox9.TabIndex = 83;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Удаление невидимых граней";
+            // 
+            // btn_clear_zbuff
+            // 
+            this.btn_clear_zbuff.Location = new System.Drawing.Point(73, 25);
+            this.btn_clear_zbuff.Name = "btn_clear_zbuff";
+            this.btn_clear_zbuff.Size = new System.Drawing.Size(101, 23);
+            this.btn_clear_zbuff.TabIndex = 83;
+            this.btn_clear_zbuff.Text = "Очистить z-buffer";
+            this.btn_clear_zbuff.UseVisualStyleBackColor = true;
+            this.btn_clear_zbuff.Click += new System.EventHandler(this.btn_clear_zbuff_Click);
             // 
             // btn_zbuffer
             // 
@@ -1162,7 +1193,7 @@
             this.groupBox8.Controls.Add(this.input_info);
             this.groupBox8.Controls.Add(this.mouse_info);
             this.groupBox8.Controls.Add(this.cb_interactive_mode);
-            this.groupBox8.Location = new System.Drawing.Point(5, 356);
+            this.groupBox8.Location = new System.Drawing.Point(3, 3);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(203, 113);
             this.groupBox8.TabIndex = 6;
@@ -1202,16 +1233,6 @@
             this.cb_interactive_mode.UseVisualStyleBackColor = true;
             this.cb_interactive_mode.CheckedChanged += new System.EventHandler(this.cb_interactive_mode_CheckedChanged);
             // 
-            // camera_stat
-            // 
-            this.camera_stat.AutoSize = true;
-            this.camera_stat.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.camera_stat.Location = new System.Drawing.Point(234, 140);
-            this.camera_stat.Name = "camera_stat";
-            this.camera_stat.Size = new System.Drawing.Size(50, 22);
-            this.camera_stat.TabIndex = 2;
-            this.camera_stat.Text = "zoom";
-            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.groupBox6);
@@ -1226,27 +1247,100 @@
             this.tabPage1.Text = "Редактор";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // groupBox9
+            // tabPage3
             // 
-            this.groupBox9.Controls.Add(this.btn_clear_zbuff);
-            this.groupBox9.Controls.Add(this.btn_zbuffer);
-            this.groupBox9.Controls.Add(this.btn_back_face_culling);
-            this.groupBox9.Location = new System.Drawing.Point(214, 356);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(176, 113);
-            this.groupBox9.TabIndex = 83;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "Удаление невидимых граней";
+            this.tabPage3.Controls.Add(this.groupBox10);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(393, 480);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Сцена";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // btn_clear_zbuff
+            // listBox1
             // 
-            this.btn_clear_zbuff.Location = new System.Drawing.Point(73, 25);
-            this.btn_clear_zbuff.Name = "btn_clear_zbuff";
-            this.btn_clear_zbuff.Size = new System.Drawing.Size(101, 23);
-            this.btn_clear_zbuff.TabIndex = 83;
-            this.btn_clear_zbuff.Text = "Очистить z-buffer";
-            this.btn_clear_zbuff.UseVisualStyleBackColor = true;
-            this.btn_clear_zbuff.Click += new System.EventHandler(this.btn_clear_zbuff_Click);
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Items.AddRange(new object[] {
+            "Item1",
+            "Item1",
+            "Item1",
+            "Item1",
+            "Item1",
+            "Item1",
+            "Item1",
+            "Item1",
+            "",
+            "Item1Item1",
+            "",
+            "Item1",
+            "Item1v",
+            "Item1"});
+            this.listBox1.Location = new System.Drawing.Point(6, 19);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(288, 108);
+            this.listBox1.TabIndex = 0;
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.btn_hide_obj);
+            this.groupBox10.Controls.Add(this.btn_setting_obj);
+            this.groupBox10.Controls.Add(this.btn_delete_obj);
+            this.groupBox10.Controls.Add(this.btn_add_obj);
+            this.groupBox10.Controls.Add(this.listBox1);
+            this.groupBox10.Location = new System.Drawing.Point(6, 3);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(381, 140);
+            this.groupBox10.TabIndex = 1;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Обьекты на сцене";
+            // 
+            // btn_add_obj
+            // 
+            this.btn_add_obj.Location = new System.Drawing.Point(300, 19);
+            this.btn_add_obj.Name = "btn_add_obj";
+            this.btn_add_obj.Size = new System.Drawing.Size(75, 23);
+            this.btn_add_obj.TabIndex = 1;
+            this.btn_add_obj.Text = "Добавить";
+            this.btn_add_obj.UseVisualStyleBackColor = true;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.groupBox9);
+            this.tabPage4.Controls.Add(this.groupBox8);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(393, 480);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Настройки";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // btn_delete_obj
+            // 
+            this.btn_delete_obj.Location = new System.Drawing.Point(300, 48);
+            this.btn_delete_obj.Name = "btn_delete_obj";
+            this.btn_delete_obj.Size = new System.Drawing.Size(75, 23);
+            this.btn_delete_obj.TabIndex = 1;
+            this.btn_delete_obj.Text = "Удалить";
+            this.btn_delete_obj.UseVisualStyleBackColor = true;
+            // 
+            // btn_setting_obj
+            // 
+            this.btn_setting_obj.Location = new System.Drawing.Point(300, 77);
+            this.btn_setting_obj.Name = "btn_setting_obj";
+            this.btn_setting_obj.Size = new System.Drawing.Size(75, 23);
+            this.btn_setting_obj.TabIndex = 1;
+            this.btn_setting_obj.Text = "Изменить";
+            this.btn_setting_obj.UseVisualStyleBackColor = true;
+            // 
+            // btn_hide_obj
+            // 
+            this.btn_hide_obj.Location = new System.Drawing.Point(300, 106);
+            this.btn_hide_obj.Name = "btn_hide_obj";
+            this.btn_hide_obj.Size = new System.Drawing.Size(75, 23);
+            this.btn_hide_obj.TabIndex = 1;
+            this.btn_hide_obj.Text = "Скрыть";
+            this.btn_hide_obj.UseVisualStyleBackColor = true;
             // 
             // Task1
             // 
@@ -1291,13 +1385,15 @@
             this.groupBox_chart.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            this.groupBox9.ResumeLayout(false);
-            this.groupBox9.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1396,12 +1492,19 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.CheckBox cb_interactive_mode;
-        private System.Windows.Forms.Label camera_stat;
         private System.Windows.Forms.Label mouse_info;
         private System.Windows.Forms.Label input_info;
         private System.Windows.Forms.CheckBox btn_back_face_culling;
         private System.Windows.Forms.CheckBox btn_zbuffer;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.Button btn_clear_zbuff;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Button btn_add_obj;
+        private System.Windows.Forms.Button btn_delete_obj;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.Button btn_setting_obj;
+        private System.Windows.Forms.Button btn_hide_obj;
     }
 }

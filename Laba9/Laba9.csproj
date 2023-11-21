@@ -7,7 +7,7 @@
     <ProjectGuid>{B6EF1E22-5249-4F25-B5A5-AB7059590D8B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>blank</RootNamespace>
-    <AssemblyName>Laba8</AssemblyName>
+    <AssemblyName>Laba9</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -230,6 +230,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\icons8_classify2.png" />
+    <Content Include="Scene\bucket.txt" />
+    <Content Include="Scene\conus.txt" />
+    <Content Include="Scene\cylinder.txt" />
+    <Content Include="Scene\height_cube.txt" />
+    <Content Include="Scene\sphere.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
