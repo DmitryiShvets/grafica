@@ -14,6 +14,7 @@ using System.Reflection;
 using static blank.Utility.Matrix3D;
 using blank.Shapes;
 using static blank.Vertex2D;
+using System.Xml.Linq;
 
 namespace blank
 {
@@ -24,6 +25,8 @@ namespace blank
         private Graphics _graphics;
         private Graphics _graphics_editor;
         private List<Object3D> _objects;
+        private List<Object3D> _objects_loaded;
+        private Object3D edit_object = null;
         private int zoom = 1;
         private List<Vector4> editor_points;
         private PROJECTION_TYPE g_projection_type = PROJECTION_TYPE.PERSPECTIVE;
@@ -59,7 +62,7 @@ namespace blank
             rotation_figure = new RotationFigure(GetTransform(), divisions, cb_active_mesh.SelectedIndex, GetAxisType());
 
             AddAllObjects();
-            comboBox1.SelectedIndex = 1;
+            comboBox1.SelectedIndex = 8;
             cb_active_mesh.SelectedIndex = 0;
 
             canvas.Image = _bitmap;
@@ -71,6 +74,7 @@ namespace blank
             {
                 GetObject(0)
             };
+            _objects_loaded = new List<Object3D>();
 
             arrzbuffer = new float[canvas.Width * canvas.Height];
             for (int i = 0; i < arrzbuffer.Count(); i++)
@@ -91,6 +95,7 @@ namespace blank
             comboBox1.Items.Add("Dodecahedron");
             comboBox1.Items.Add("Import");
             comboBox1.Items.Add("Chart");
+            comboBox1.Items.Add("Scene");
 
             comboBox_func.Items.Add("sin(x, y)");
             comboBox_func.Items.Add("x^2 + y^2");
@@ -627,23 +632,30 @@ namespace blank
 
         private void btn_transform_apply_Click(object sender, EventArgs e)
         {
-            Vector4 offset = new Vector4();
-            if (t_transform_dx.Text != "") offset.x = Int32.Parse(t_transform_dx.Text);
-            if (t_transform_dy.Text != "") offset.y = Int32.Parse(t_transform_dy.Text);
-            if (t_transform_dz.Text != "") offset.z = Int32.Parse(t_transform_dz.Text);
-            _objects.Last().transform.Translate(offset);
-            DrawAll();
+            if (edit_object != null)
+            {
+                Vector4 offset = new Vector4();
+                if (t_transform_dx.Text != "") offset.x = Int32.Parse(t_transform_dx.Text);
+                if (t_transform_dy.Text != "") offset.y = Int32.Parse(t_transform_dy.Text);
+                if (t_transform_dz.Text != "") offset.z = Int32.Parse(t_transform_dz.Text);
+                //_objects.Last().transform.Translate(offset);
+                edit_object.transform.Translate(offset);
+                DrawAll();
+            }
         }
 
         private void btn_rotation_apply_Click(object sender, EventArgs e)
         {
-            Vector4 offset = new Vector4();
-            if (t_rotation_dx.Text != "") offset.x = Int32.Parse(t_rotation_dx.Text);
-            if (t_rotation_dy.Text != "") offset.y = Int32.Parse(t_rotation_dy.Text);
-            if (t_rotation_dz.Text != "") offset.z = Int32.Parse(t_rotation_dz.Text);
-
-            _objects.Last().transform.Rotate(offset);
-            DrawAll();
+            if (edit_object != null)
+            {
+                Vector4 offset = new Vector4();
+                if (t_rotation_dx.Text != "") offset.x = Int32.Parse(t_rotation_dx.Text);
+                if (t_rotation_dy.Text != "") offset.y = Int32.Parse(t_rotation_dy.Text);
+                if (t_rotation_dz.Text != "") offset.z = Int32.Parse(t_rotation_dz.Text);
+                //_objects.Last().transform.Rotate(offset);
+                edit_object.transform.Rotate(offset);
+                DrawAll();
+            }
         }
 
         Object3D GetObject(int v)
@@ -677,10 +689,22 @@ namespace blank
             {
                 trianglesChart = GetTriangleschart();
             }
-            _objects = new List<Object3D>
+
+            if (comboBox1.SelectedItem.ToString() == "Scene")
             {
-                GetObject(variant)
-            };
+                _objects = new List<Object3D>(_objects_loaded);
+                if (scene_list.SelectedItems.Count == 1)
+                {
+                    edit_object = scene_list.SelectedItems[0] as Object3D;
+                }
+            }
+            else
+            {
+                _objects = new List<Object3D> { GetObject(variant) };
+                edit_object = _objects.Last();
+
+            }
+
             DrawAll();
         }
 
@@ -693,8 +717,20 @@ namespace blank
             int divisions = count_partition.Text == "" ? 1 : Int32.Parse(count_partition.Text);
 
             rotation_figure = new RotationFigure(GetTransform(), divisions, cb_active_mesh.SelectedIndex, GetAxisType());
-
-            _objects = new List<Object3D> { GetObject(variant) };
+            if (comboBox1.SelectedItem.ToString() == "Scene")
+            {
+                _objects = new List<Object3D>(_objects_loaded);
+                scene_list.Items.Clear();
+                foreach (var item in _objects)
+                {
+                    scene_list.Items.Add(item);
+                }
+            }
+            else
+            {
+                _objects = new List<Object3D> { GetObject(variant) };
+                edit_object = _objects.Last();
+            }
 
             DrawAll();
         }
@@ -715,42 +751,54 @@ namespace blank
 
         private void btn_scale_apply_Click(object sender, EventArgs e)
         {
-            Vector4 offset = new Vector4();
-            if (t_scale_dx.Text != "") offset.x = Int32.Parse(t_scale_dx.Text);
-            if (t_scale_dy.Text != "") offset.y = Int32.Parse(t_scale_dy.Text);
-            if (t_scale_dz.Text != "") offset.z = Int32.Parse(t_scale_dz.Text);
-            _objects.Last().transform.Scale(offset);
-            DrawAll();
+            if (edit_object != null)
+            {
+                Vector4 offset = new Vector4();
+                if (t_scale_dx.Text != "") offset.x = Int32.Parse(t_scale_dx.Text);
+                if (t_scale_dy.Text != "") offset.y = Int32.Parse(t_scale_dy.Text);
+                if (t_scale_dz.Text != "") offset.z = Int32.Parse(t_scale_dz.Text);
+                //_objects.Last().transform.Scale(offset);
+                edit_object.transform.Scale(offset);
+                DrawAll();
+            }
         }
 
         private void btn_reflection_apply_Click(object sender, EventArgs e)
         {
-            Vector4 offset = new Vector4(1, 1, 1);
-            if (t_reflection_xy.Checked) offset.z *= -1;
-            if (t_reflection_xz.Checked) offset.y *= -1;
-            if (t_reflection_yz.Checked) offset.x *= -1;
-            _objects.Last().transform.Reflection(offset);
-            DrawAll();
+            if (edit_object != null)
+            {
+                Vector4 offset = new Vector4(1, 1, 1);
+                if (t_reflection_xy.Checked) offset.z *= -1;
+                if (t_reflection_xz.Checked) offset.y *= -1;
+                if (t_reflection_yz.Checked) offset.x *= -1;
+                //_objects.Last().transform.Reflection(offset);
+                edit_object.transform.Reflection(offset);
+                DrawAll();
+            }
         }
 
         private void btn_line_rotation_apply_Click(object sender, EventArgs e)
         {
-            Vector4 point1 = new Vector4();
-            Vector4 point2 = new Vector4();
-            float angle = 0;
+            if (edit_object != null)
+            {
+                Vector4 point1 = new Vector4();
+                Vector4 point2 = new Vector4();
+                float angle = 0;
 
-            if (tb_line_x1.Text != "") point1.x = Int32.Parse(tb_line_x1.Text);
-            if (tb_line_y1.Text != "") point1.y = Int32.Parse(tb_line_y1.Text);
-            if (tb_line_z1.Text != "") point1.z = Int32.Parse(tb_line_z1.Text);
+                if (tb_line_x1.Text != "") point1.x = Int32.Parse(tb_line_x1.Text);
+                if (tb_line_y1.Text != "") point1.y = Int32.Parse(tb_line_y1.Text);
+                if (tb_line_z1.Text != "") point1.z = Int32.Parse(tb_line_z1.Text);
 
-            if (tb_line_x2.Text != "") point2.x = Int32.Parse(tb_line_x2.Text);
-            if (tb_line_y2.Text != "") point2.y = Int32.Parse(tb_line_y2.Text);
-            if (tb_line_z2.Text != "") point2.z = Int32.Parse(tb_line_z2.Text);
+                if (tb_line_x2.Text != "") point2.x = Int32.Parse(tb_line_x2.Text);
+                if (tb_line_y2.Text != "") point2.y = Int32.Parse(tb_line_y2.Text);
+                if (tb_line_z2.Text != "") point2.z = Int32.Parse(tb_line_z2.Text);
 
-            if (tb_line_rotation_angle.Text != "") angle = Int32.Parse(tb_line_rotation_angle.Text);
+                if (tb_line_rotation_angle.Text != "") angle = Int32.Parse(tb_line_rotation_angle.Text);
 
-            _objects.Last().transform.RotateRelativeLine(point1, point2, angle);
-            DrawAll();
+                //_objects.Last().transform.RotateRelativeLine(point1, point2, angle);
+                edit_object.transform.RotateRelativeLine(point1, point2, angle);
+                DrawAll();
+            }
         }
 
         private void editor_MouseClick(object sender, MouseEventArgs e)
@@ -871,6 +919,7 @@ namespace blank
                 imported_model = FileStorage.ImportModel(saveFileDialog1.FileName);
                 comboBox1.SelectedIndex = 6;
                 _objects = new List<Object3D> { GetObject(comboBox1.SelectedIndex) };
+                edit_object = _objects.Last();
                 DrawAll();
             }
         }
@@ -1037,22 +1086,6 @@ namespace blank
                 float xoffset = xpos - fixed_pos.X;
                 float yoffset = fixed_pos.Y - ypos;
 
-                //if (xpos < 0 || xpos > 1030)
-                //{
-                //    xpos = this.Location.X + 525;
-                //    Cursor.Position = new Point((int)xpos, Cursor.Position.Y);
-                //    xpos += xoffset;
-                //}
-                //if (ypos < 0 || ypos > 560)
-                //{
-                //    ypos = this.Location.Y + 300;
-                //    Cursor.Position = new Point(Cursor.Position.X, (int)ypos);
-                //    ypos -= yoffset;
-                //}
-
-                //lastX = xpos;
-                //lastY = ypos;
-
                 Cursor.Position = fixed_pos;
 
                 const float sensitivity = 0.1f;
@@ -1123,6 +1156,61 @@ namespace blank
         private void btn_clear_zbuff_Click(object sender, EventArgs e)
         {
             ClearZbuffer();
+        }
+
+        private void btn_add_obj_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog saveFileDialog1 = new OpenFileDialog();
+            saveFileDialog1.RestoreDirectory = true;
+            saveFileDialog1.Filter = "Text Files(*.txt)|*.txt|All files (*.*)|*.*";
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                imported_model = FileStorage.ImportModel(saveFileDialog1.FileName);
+                string file_name = saveFileDialog1.FileName.Split('\\').Last();
+                imported_model.obj_name = file_name.Substring(0, file_name.Length - 4);
+                _objects_loaded.Add(imported_model);
+                scene_list.Items.Add(imported_model);
+                DrawAll();
+            }
+        }
+
+        private void btn_delete_obj_Click(object sender, EventArgs e)
+        {
+            if (scene_list.SelectedItems.Count > 0)
+            {
+                foreach (Object3D item in scene_list.SelectedItems)
+                {
+                    _objects_loaded.Remove(item);
+                }
+                scene_list.Items.Clear();
+                foreach (var item in _objects_loaded)
+                {
+                    scene_list.Items.Add(item);
+                }
+                DrawAll();
+            }
+        }
+
+        private void btn_hide_obj_Click(object sender, EventArgs e)
+        {
+            if (scene_list.SelectedItems.Count > 0)
+            {
+                foreach (Object3D item in scene_list.SelectedItems)
+                {
+                    if (_objects.Contains(item))_objects.Remove(item);
+                    else _objects.Add(item);
+                }
+                DrawAll(); 
+            }
+        }
+
+        private void scene_list_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (scene_list.SelectedItems.Count == 1)
+            {
+                edit_object = scene_list.SelectedItems[0] as Object3D;
+            }
+            else edit_object = null;
         }
     }
 }

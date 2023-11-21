@@ -11,6 +11,7 @@ namespace blank.Primitives
     {
         public Mech mech;
         public Transform transform;
+        public string obj_name;
 
         public Object3D()
         {
@@ -22,6 +23,11 @@ namespace blank.Primitives
         {
             mech = new Mech();
             this.transform = transform;
+        }
+
+        public override string ToString()
+        {
+            return obj_name;
         }
     }
 }

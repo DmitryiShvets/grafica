@@ -127,12 +127,11 @@
             this.cb_interactive_mode = new System.Windows.Forms.CheckBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.scene_list = new System.Windows.Forms.ListBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.btn_add_obj = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.btn_delete_obj = new System.Windows.Forms.Button();
-            this.btn_setting_obj = new System.Windows.Forms.Button();
             this.btn_hide_obj = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -1258,36 +1257,22 @@
             this.tabPage3.Text = "Сцена";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // listBox1
+            // scene_list
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Items.AddRange(new object[] {
-            "Item1",
-            "Item1",
-            "Item1",
-            "Item1",
-            "Item1",
-            "Item1",
-            "Item1",
-            "Item1",
-            "",
-            "Item1Item1",
-            "",
-            "Item1",
-            "Item1v",
-            "Item1"});
-            this.listBox1.Location = new System.Drawing.Point(6, 19);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(288, 108);
-            this.listBox1.TabIndex = 0;
+            this.scene_list.FormattingEnabled = true;
+            this.scene_list.Location = new System.Drawing.Point(6, 19);
+            this.scene_list.Name = "scene_list";
+            this.scene_list.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.scene_list.Size = new System.Drawing.Size(288, 108);
+            this.scene_list.TabIndex = 0;
+            this.scene_list.SelectedIndexChanged += new System.EventHandler(this.scene_list_SelectedIndexChanged);
             // 
             // groupBox10
             // 
             this.groupBox10.Controls.Add(this.btn_hide_obj);
-            this.groupBox10.Controls.Add(this.btn_setting_obj);
             this.groupBox10.Controls.Add(this.btn_delete_obj);
             this.groupBox10.Controls.Add(this.btn_add_obj);
-            this.groupBox10.Controls.Add(this.listBox1);
+            this.groupBox10.Controls.Add(this.scene_list);
             this.groupBox10.Location = new System.Drawing.Point(6, 3);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(381, 140);
@@ -1303,6 +1288,7 @@
             this.btn_add_obj.TabIndex = 1;
             this.btn_add_obj.Text = "Добавить";
             this.btn_add_obj.UseVisualStyleBackColor = true;
+            this.btn_add_obj.Click += new System.EventHandler(this.btn_add_obj_Click);
             // 
             // tabPage4
             // 
@@ -1323,24 +1309,17 @@
             this.btn_delete_obj.TabIndex = 1;
             this.btn_delete_obj.Text = "Удалить";
             this.btn_delete_obj.UseVisualStyleBackColor = true;
-            // 
-            // btn_setting_obj
-            // 
-            this.btn_setting_obj.Location = new System.Drawing.Point(300, 77);
-            this.btn_setting_obj.Name = "btn_setting_obj";
-            this.btn_setting_obj.Size = new System.Drawing.Size(75, 23);
-            this.btn_setting_obj.TabIndex = 1;
-            this.btn_setting_obj.Text = "Изменить";
-            this.btn_setting_obj.UseVisualStyleBackColor = true;
+            this.btn_delete_obj.Click += new System.EventHandler(this.btn_delete_obj_Click);
             // 
             // btn_hide_obj
             // 
-            this.btn_hide_obj.Location = new System.Drawing.Point(300, 106);
+            this.btn_hide_obj.Location = new System.Drawing.Point(300, 77);
             this.btn_hide_obj.Name = "btn_hide_obj";
             this.btn_hide_obj.Size = new System.Drawing.Size(75, 23);
             this.btn_hide_obj.TabIndex = 1;
             this.btn_hide_obj.Text = "Скрыть";
             this.btn_hide_obj.UseVisualStyleBackColor = true;
+            this.btn_hide_obj.Click += new System.EventHandler(this.btn_hide_obj_Click);
             // 
             // Task1
             // 
@@ -1500,11 +1479,10 @@
         private System.Windows.Forms.Button btn_clear_zbuff;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.GroupBox groupBox10;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox scene_list;
         private System.Windows.Forms.Button btn_add_obj;
         private System.Windows.Forms.Button btn_delete_obj;
         private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.Button btn_setting_obj;
         private System.Windows.Forms.Button btn_hide_obj;
     }
 }
