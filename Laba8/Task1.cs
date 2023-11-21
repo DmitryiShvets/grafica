@@ -73,7 +73,7 @@ namespace blank
             };
 
             arrzbuffer = new float[canvas.Width * canvas.Height];
-            for (int i = 0; i < arrzbuffer.Count()-1; i++)
+            for (int i = 0; i < arrzbuffer.Count(); i++)
             {
                 arrzbuffer[i] = Int32.MinValue;
             }
@@ -110,11 +110,6 @@ namespace blank
             _graphics.Clear(Color.White);
             _graphics_editor.Clear(Color.White);
             DrawAxes();
-
-            for (int i = 0; i < arrzbuffer.Count() - 1; i++)
-            {
-                arrzbuffer[i] = Int32.MinValue;
-            }
 
             if (editor_points.Count > 0) DrawEditor();
 
@@ -1115,6 +1110,19 @@ namespace blank
                 btn_back_face_culling.Checked = !btn_zbuffer.Checked;
             }
             DrawAll();
+        }
+
+        private void ClearZbuffer()
+        {
+            for (int i = 0; i < arrzbuffer.Count(); i++)
+            {
+                arrzbuffer[i] = Int32.MinValue;
+            }
+        }
+
+        private void btn_clear_zbuff_Click(object sender, EventArgs e)
+        {
+            ClearZbuffer();
         }
     }
 }

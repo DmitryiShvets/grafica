@@ -117,6 +117,7 @@
             this.label19 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btn_zbuffer = new System.Windows.Forms.CheckBox();
             this.btn_back_face_culling = new System.Windows.Forms.CheckBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.input_info = new System.Windows.Forms.Label();
@@ -124,7 +125,8 @@
             this.cb_interactive_mode = new System.Windows.Forms.CheckBox();
             this.camera_stat = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.btn_zbuffer = new System.Windows.Forms.CheckBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.btn_clear_zbuff = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.track_zoom)).BeginInit();
@@ -145,6 +147,7 @@
             this.tabPage2.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.SuspendLayout();
             // 
             // canvas
@@ -1114,8 +1117,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.btn_zbuffer);
-            this.tabPage2.Controls.Add(this.btn_back_face_culling);
+            this.tabPage2.Controls.Add(this.groupBox9);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.groupBox_chart);
             this.tabPage2.Controls.Add(this.groupBox3);
@@ -1133,14 +1135,25 @@
             this.tabPage2.Text = "Свойства";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // btn_zbuffer
+            // 
+            this.btn_zbuffer.AutoSize = true;
+            this.btn_zbuffer.Location = new System.Drawing.Point(6, 29);
+            this.btn_zbuffer.Name = "btn_zbuffer";
+            this.btn_zbuffer.Size = new System.Drawing.Size(63, 17);
+            this.btn_zbuffer.TabIndex = 82;
+            this.btn_zbuffer.Text = "Z-buffer";
+            this.btn_zbuffer.UseVisualStyleBackColor = true;
+            this.btn_zbuffer.CheckedChanged += new System.EventHandler(this.btn_zbuffer_CheckedChanged);
+            // 
             // btn_back_face_culling
             // 
             this.btn_back_face_culling.AutoSize = true;
-            this.btn_back_face_culling.Location = new System.Drawing.Point(214, 452);
+            this.btn_back_face_culling.Location = new System.Drawing.Point(6, 52);
             this.btn_back_face_culling.Name = "btn_back_face_culling";
-            this.btn_back_face_culling.Size = new System.Drawing.Size(176, 17);
+            this.btn_back_face_culling.Size = new System.Drawing.Size(116, 17);
             this.btn_back_face_culling.TabIndex = 81;
-            this.btn_back_face_culling.Text = "Отсечение нелицевых граней";
+            this.btn_back_face_culling.Text = "Нелицевые грани";
             this.btn_back_face_culling.UseVisualStyleBackColor = true;
             this.btn_back_face_culling.CheckedChanged += new System.EventHandler(this.btn_back_face_culling_CheckedChanged);
             // 
@@ -1154,7 +1167,7 @@
             this.groupBox8.Size = new System.Drawing.Size(203, 113);
             this.groupBox8.TabIndex = 6;
             this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Режим";
+            this.groupBox8.Text = "Камера";
             // 
             // input_info
             // 
@@ -1213,16 +1226,27 @@
             this.tabPage1.Text = "Редактор";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // btn_zbuffer
+            // groupBox9
             // 
-            this.btn_zbuffer.AutoSize = true;
-            this.btn_zbuffer.Location = new System.Drawing.Point(214, 429);
-            this.btn_zbuffer.Name = "btn_zbuffer";
-            this.btn_zbuffer.Size = new System.Drawing.Size(63, 17);
-            this.btn_zbuffer.TabIndex = 82;
-            this.btn_zbuffer.Text = "Z-buffer";
-            this.btn_zbuffer.UseVisualStyleBackColor = true;
-            this.btn_zbuffer.CheckedChanged += new System.EventHandler(this.btn_zbuffer_CheckedChanged);
+            this.groupBox9.Controls.Add(this.btn_clear_zbuff);
+            this.groupBox9.Controls.Add(this.btn_zbuffer);
+            this.groupBox9.Controls.Add(this.btn_back_face_culling);
+            this.groupBox9.Location = new System.Drawing.Point(214, 356);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(176, 113);
+            this.groupBox9.TabIndex = 83;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Удаление невидимых граней";
+            // 
+            // btn_clear_zbuff
+            // 
+            this.btn_clear_zbuff.Location = new System.Drawing.Point(73, 25);
+            this.btn_clear_zbuff.Name = "btn_clear_zbuff";
+            this.btn_clear_zbuff.Size = new System.Drawing.Size(101, 23);
+            this.btn_clear_zbuff.TabIndex = 83;
+            this.btn_clear_zbuff.Text = "Очистить z-buffer";
+            this.btn_clear_zbuff.UseVisualStyleBackColor = true;
+            this.btn_clear_zbuff.Click += new System.EventHandler(this.btn_clear_zbuff_Click);
             // 
             // Task1
             // 
@@ -1272,6 +1296,8 @@
             this.groupBox8.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1375,5 +1401,7 @@
         private System.Windows.Forms.Label input_info;
         private System.Windows.Forms.CheckBox btn_back_face_culling;
         private System.Windows.Forms.CheckBox btn_zbuffer;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.Button btn_clear_zbuff;
     }
 }
