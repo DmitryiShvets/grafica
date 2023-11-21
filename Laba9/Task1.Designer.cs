@@ -116,7 +116,15 @@
             this.textBox_step = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.btn_hide_obj = new System.Windows.Forms.Button();
+            this.btn_delete_obj = new System.Windows.Forms.Button();
+            this.btn_add_obj = new System.Windows.Forms.Button();
+            this.scene_list = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.btn_clear_zbuff = new System.Windows.Forms.Button();
             this.btn_zbuffer = new System.Windows.Forms.CheckBox();
@@ -125,14 +133,15 @@
             this.input_info = new System.Windows.Forms.Label();
             this.mouse_info = new System.Windows.Forms.Label();
             this.cb_interactive_mode = new System.Windows.Forms.CheckBox();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.scene_list = new System.Windows.Forms.ListBox();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.btn_add_obj = new System.Windows.Forms.Button();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.btn_delete_obj = new System.Windows.Forms.Button();
-            this.btn_hide_obj = new System.Windows.Forms.Button();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.btn_move_light_pos = new System.Windows.Forms.Button();
+            this.label22 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.cb_lightning = new System.Windows.Forms.CheckBox();
+            this.cb_light_zbuff = new System.Windows.Forms.CheckBox();
+            this.cb_light_cull_back = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.track_zoom)).BeginInit();
@@ -150,13 +159,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_x1)).BeginInit();
             this.groupBox_chart.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            this.groupBox9.SuspendLayout();
-            this.groupBox8.SuspendLayout();
-            this.tabPage1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox10.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.groupBox9.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            this.groupBox11.SuspendLayout();
             this.SuspendLayout();
             // 
             // canvas
@@ -1126,6 +1136,70 @@
             this.tabControl1.Size = new System.Drawing.Size(401, 506);
             this.tabControl1.TabIndex = 81;
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.groupBox10);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(393, 480);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Сцена";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.btn_hide_obj);
+            this.groupBox10.Controls.Add(this.btn_delete_obj);
+            this.groupBox10.Controls.Add(this.btn_add_obj);
+            this.groupBox10.Controls.Add(this.scene_list);
+            this.groupBox10.Location = new System.Drawing.Point(6, 3);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(381, 140);
+            this.groupBox10.TabIndex = 1;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Обьекты на сцене";
+            // 
+            // btn_hide_obj
+            // 
+            this.btn_hide_obj.Location = new System.Drawing.Point(300, 77);
+            this.btn_hide_obj.Name = "btn_hide_obj";
+            this.btn_hide_obj.Size = new System.Drawing.Size(75, 23);
+            this.btn_hide_obj.TabIndex = 1;
+            this.btn_hide_obj.Text = "Скрыть";
+            this.btn_hide_obj.UseVisualStyleBackColor = true;
+            this.btn_hide_obj.Click += new System.EventHandler(this.btn_hide_obj_Click);
+            // 
+            // btn_delete_obj
+            // 
+            this.btn_delete_obj.Location = new System.Drawing.Point(300, 48);
+            this.btn_delete_obj.Name = "btn_delete_obj";
+            this.btn_delete_obj.Size = new System.Drawing.Size(75, 23);
+            this.btn_delete_obj.TabIndex = 1;
+            this.btn_delete_obj.Text = "Удалить";
+            this.btn_delete_obj.UseVisualStyleBackColor = true;
+            this.btn_delete_obj.Click += new System.EventHandler(this.btn_delete_obj_Click);
+            // 
+            // btn_add_obj
+            // 
+            this.btn_add_obj.Location = new System.Drawing.Point(300, 19);
+            this.btn_add_obj.Name = "btn_add_obj";
+            this.btn_add_obj.Size = new System.Drawing.Size(75, 23);
+            this.btn_add_obj.TabIndex = 1;
+            this.btn_add_obj.Text = "Добавить";
+            this.btn_add_obj.UseVisualStyleBackColor = true;
+            this.btn_add_obj.Click += new System.EventHandler(this.btn_add_obj_Click);
+            // 
+            // scene_list
+            // 
+            this.scene_list.FormattingEnabled = true;
+            this.scene_list.Location = new System.Drawing.Point(6, 19);
+            this.scene_list.Name = "scene_list";
+            this.scene_list.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.scene_list.Size = new System.Drawing.Size(288, 108);
+            this.scene_list.TabIndex = 0;
+            this.scene_list.SelectedIndexChanged += new System.EventHandler(this.scene_list_SelectedIndexChanged);
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.groupBox2);
@@ -1142,6 +1216,32 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Свойства";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.groupBox6);
+            this.tabPage1.Controls.Add(this.editor);
+            this.tabPage1.Controls.Add(this.cur_info);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage1.Size = new System.Drawing.Size(393, 480);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Редактор";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.groupBox9);
+            this.tabPage4.Controls.Add(this.groupBox11);
+            this.tabPage4.Controls.Add(this.groupBox8);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(393, 480);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Настройки";
+            this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // groupBox9
             // 
@@ -1232,94 +1332,98 @@
             this.cb_interactive_mode.UseVisualStyleBackColor = true;
             this.cb_interactive_mode.CheckedChanged += new System.EventHandler(this.cb_interactive_mode_CheckedChanged);
             // 
-            // tabPage1
+            // groupBox11
             // 
-            this.tabPage1.Controls.Add(this.groupBox6);
-            this.tabPage1.Controls.Add(this.editor);
-            this.tabPage1.Controls.Add(this.cur_info);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Size = new System.Drawing.Size(393, 480);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Редактор";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.groupBox11.Controls.Add(this.cb_light_cull_back);
+            this.groupBox11.Controls.Add(this.cb_light_zbuff);
+            this.groupBox11.Controls.Add(this.btn_move_light_pos);
+            this.groupBox11.Controls.Add(this.label22);
+            this.groupBox11.Controls.Add(this.textBox1);
+            this.groupBox11.Controls.Add(this.textBox2);
+            this.groupBox11.Controls.Add(this.textBox3);
+            this.groupBox11.Controls.Add(this.cb_lightning);
+            this.groupBox11.Location = new System.Drawing.Point(3, 122);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(203, 113);
+            this.groupBox11.TabIndex = 6;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "Освещение";
             // 
-            // tabPage3
+            // btn_move_light_pos
             // 
-            this.tabPage3.Controls.Add(this.groupBox10);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(393, 480);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Сцена";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.btn_move_light_pos.Location = new System.Drawing.Point(98, 84);
+            this.btn_move_light_pos.Name = "btn_move_light_pos";
+            this.btn_move_light_pos.Size = new System.Drawing.Size(75, 23);
+            this.btn_move_light_pos.TabIndex = 9;
+            this.btn_move_light_pos.Text = "Применить";
+            this.btn_move_light_pos.UseVisualStyleBackColor = true;
+            this.btn_move_light_pos.Click += new System.EventHandler(this.btn_move_light_pos_Click);
             // 
-            // scene_list
+            // label22
             // 
-            this.scene_list.FormattingEnabled = true;
-            this.scene_list.Location = new System.Drawing.Point(6, 19);
-            this.scene_list.Name = "scene_list";
-            this.scene_list.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.scene_list.Size = new System.Drawing.Size(288, 108);
-            this.scene_list.TabIndex = 0;
-            this.scene_list.SelectedIndexChanged += new System.EventHandler(this.scene_list_SelectedIndexChanged);
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(1, 68);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(152, 13);
+            this.label22.TabIndex = 8;
+            this.label22.Text = "Положение источника света";
             // 
-            // groupBox10
+            // textBox1
             // 
-            this.groupBox10.Controls.Add(this.btn_hide_obj);
-            this.groupBox10.Controls.Add(this.btn_delete_obj);
-            this.groupBox10.Controls.Add(this.btn_add_obj);
-            this.groupBox10.Controls.Add(this.scene_list);
-            this.groupBox10.Location = new System.Drawing.Point(6, 3);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(381, 140);
-            this.groupBox10.TabIndex = 1;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Обьекты на сцене";
+            this.textBox1.Location = new System.Drawing.Point(69, 84);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(23, 20);
+            this.textBox1.TabIndex = 3;
+            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.count_partition_KeyPress);
             // 
-            // btn_add_obj
+            // textBox2
             // 
-            this.btn_add_obj.Location = new System.Drawing.Point(300, 19);
-            this.btn_add_obj.Name = "btn_add_obj";
-            this.btn_add_obj.Size = new System.Drawing.Size(75, 23);
-            this.btn_add_obj.TabIndex = 1;
-            this.btn_add_obj.Text = "Добавить";
-            this.btn_add_obj.UseVisualStyleBackColor = true;
-            this.btn_add_obj.Click += new System.EventHandler(this.btn_add_obj_Click);
+            this.textBox2.Location = new System.Drawing.Point(36, 84);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(23, 20);
+            this.textBox2.TabIndex = 4;
+            this.textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.count_partition_KeyPress);
             // 
-            // tabPage4
+            // textBox3
             // 
-            this.tabPage4.Controls.Add(this.groupBox9);
-            this.tabPage4.Controls.Add(this.groupBox8);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(393, 480);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Настройки";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.textBox3.Location = new System.Drawing.Point(4, 84);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(23, 20);
+            this.textBox3.TabIndex = 5;
+            this.textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.count_partition_KeyPress);
             // 
-            // btn_delete_obj
+            // cb_lightning
             // 
-            this.btn_delete_obj.Location = new System.Drawing.Point(300, 48);
-            this.btn_delete_obj.Name = "btn_delete_obj";
-            this.btn_delete_obj.Size = new System.Drawing.Size(75, 23);
-            this.btn_delete_obj.TabIndex = 1;
-            this.btn_delete_obj.Text = "Удалить";
-            this.btn_delete_obj.UseVisualStyleBackColor = true;
-            this.btn_delete_obj.Click += new System.EventHandler(this.btn_delete_obj_Click);
+            this.cb_lightning.AutoSize = true;
+            this.cb_lightning.Location = new System.Drawing.Point(4, 19);
+            this.cb_lightning.Name = "cb_lightning";
+            this.cb_lightning.Size = new System.Drawing.Size(85, 17);
+            this.cb_lightning.TabIndex = 0;
+            this.cb_lightning.Text = "Освещение";
+            this.cb_lightning.UseVisualStyleBackColor = true;
+            this.cb_lightning.CheckedChanged += new System.EventHandler(this.cb_lightning_CheckedChanged);
             // 
-            // btn_hide_obj
+            // cb_light_zbuff
             // 
-            this.btn_hide_obj.Location = new System.Drawing.Point(300, 77);
-            this.btn_hide_obj.Name = "btn_hide_obj";
-            this.btn_hide_obj.Size = new System.Drawing.Size(75, 23);
-            this.btn_hide_obj.TabIndex = 1;
-            this.btn_hide_obj.Text = "Скрыть";
-            this.btn_hide_obj.UseVisualStyleBackColor = true;
-            this.btn_hide_obj.Click += new System.EventHandler(this.btn_hide_obj_Click);
+            this.cb_light_zbuff.AutoSize = true;
+            this.cb_light_zbuff.Location = new System.Drawing.Point(123, 19);
+            this.cb_light_zbuff.Name = "cb_light_zbuff";
+            this.cb_light_zbuff.Size = new System.Drawing.Size(63, 17);
+            this.cb_light_zbuff.TabIndex = 83;
+            this.cb_light_zbuff.Text = "Z-buffer";
+            this.cb_light_zbuff.UseVisualStyleBackColor = true;
+            this.cb_light_zbuff.CheckedChanged += new System.EventHandler(this.cb_light_zbuff_CheckedChanged);
+            // 
+            // cb_light_cull_back
+            // 
+            this.cb_light_cull_back.AutoSize = true;
+            this.cb_light_cull_back.Location = new System.Drawing.Point(4, 42);
+            this.cb_light_cull_back.Name = "cb_light_cull_back";
+            this.cb_light_cull_back.Size = new System.Drawing.Size(116, 17);
+            this.cb_light_cull_back.TabIndex = 84;
+            this.cb_light_cull_back.Text = "Нелицевые грани";
+            this.cb_light_cull_back.UseVisualStyleBackColor = true;
+            this.cb_light_cull_back.CheckedChanged += new System.EventHandler(this.cb_light_cull_back_CheckedChanged);
             // 
             // Task1
             // 
@@ -1363,16 +1467,18 @@
             this.groupBox_chart.ResumeLayout(false);
             this.groupBox_chart.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
-            this.groupBox10.ResumeLayout(false);
-            this.tabPage4.ResumeLayout(false);
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox11.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1484,5 +1590,14 @@
         private System.Windows.Forms.Button btn_delete_obj;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.Button btn_hide_obj;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.Button btn_move_light_pos;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.CheckBox cb_lightning;
+        private System.Windows.Forms.CheckBox cb_light_cull_back;
+        private System.Windows.Forms.CheckBox cb_light_zbuff;
     }
 }

@@ -34,7 +34,7 @@ namespace blank
         private Object3D imported_model;
         private List<Triangle3D> trianglesChart = new List<Triangle3D>();
         private bool _interactive_mode = false;
-
+        private Vector4 light_source = new Vector4();
         Vector4 camera_pos = new Vector4(0.0f, 0.0f, -1.0f);
         Vector4 camera_front = new Vector4(0.0f, 0.0f, 1.0f);
         Vector4 camera_up = new Vector4(0.0f, -1.0f, 0.0f);
@@ -45,8 +45,10 @@ namespace blank
 
         private bool back_face_culling = false;
         private bool zbuffer = false;
+        private bool lightning = false;
         private float[] arrzbuffer;
 
+        private Render render;
         public Task1()
         {
             InitializeComponent();
@@ -81,6 +83,8 @@ namespace blank
             {
                 arrzbuffer[i] = Int32.MinValue;
             }
+
+            render = new Render(canvas, _bitmap);
 
             DrawAll();
         }
@@ -154,6 +158,34 @@ namespace blank
                 {
                     DrawTriangleOrthoWithBackfaceCulling(triangle, transform);
                 }
+            }
+            else if (lightning)
+            {
+                Matrix3D viewport_matrix = Matrix3D.GetViewPortMatrix(zoom, zoom, canvas.Width / 2, canvas.Height / 2);
+                List<Vector4> v = new List<Vector4>();
+                for (int i = 0; i < triangle.Size; ++i)
+                {
+                    Matrix3D projection = projection_matrix * view_matrix * transform.ApplyTransform(triangle[i]);
+                    projection /= projection[3, 0];
+                    Matrix3D canvas = viewport_matrix * projection;
+                    v.Add(canvas.ToVector4());
+                }
+
+                if (v.Count == 3)
+                {
+                    if (render.cull_backfaces)
+                    {
+                        var normal = Vector4.CrossProduct(v[1] - v[0], v[2] - v[0]);
+                        if ((double)Vector4.DotProduct(normal, camera_pos) > 0){
+                            render.DrawTriangle(v[0], v[1], v[2], triangle.color);
+                        }
+                    }
+                    else
+                    {
+                        render.DrawTriangle(v[0], v[1], v[2], triangle.color);
+                    }
+                }
+
             }
             else
             {
@@ -1121,6 +1153,8 @@ namespace blank
             {
                 zbuffer = !btn_back_face_culling.Checked;
                 btn_zbuffer.Checked = !btn_back_face_culling.Checked;
+                lightning = !btn_back_face_culling.Checked;
+                cb_lightning.Checked = !btn_back_face_culling.Checked;
             }
             DrawAll();
         }
@@ -1141,6 +1175,8 @@ namespace blank
             {
                 back_face_culling = !btn_zbuffer.Checked;
                 btn_back_face_culling.Checked = !btn_zbuffer.Checked;
+                lightning = !btn_zbuffer.Checked;
+                cb_lightning.Checked = !btn_zbuffer.Checked;
             }
             DrawAll();
         }
@@ -1156,6 +1192,7 @@ namespace blank
         private void btn_clear_zbuff_Click(object sender, EventArgs e)
         {
             ClearZbuffer();
+            render.ClearZBuff();
         }
 
         private void btn_add_obj_Click(object sender, EventArgs e)
@@ -1197,10 +1234,10 @@ namespace blank
             {
                 foreach (Object3D item in scene_list.SelectedItems)
                 {
-                    if (_objects.Contains(item))_objects.Remove(item);
+                    if (_objects.Contains(item)) _objects.Remove(item);
                     else _objects.Add(item);
                 }
-                DrawAll(); 
+                DrawAll();
             }
         }
 
@@ -1211,6 +1248,47 @@ namespace blank
                 edit_object = scene_list.SelectedItems[0] as Object3D;
             }
             else edit_object = null;
+        }
+
+        private void cb_lightning_CheckedChanged(object sender, EventArgs e)
+        {
+            lightning = cb_lightning.Checked;
+            if (lightning)
+            {
+                zbuffer = !cb_lightning.Checked;
+                btn_zbuffer.Checked = !cb_lightning.Checked;
+                back_face_culling = !cb_lightning.Checked;
+                btn_back_face_culling.Checked = !cb_lightning.Checked;
+
+            }
+            render.ClearZBuff();
+            DrawAll();
+        }
+
+        private void btn_move_light_pos_Click(object sender, EventArgs e)
+        {
+            Vector4 offset = new Vector4();
+            if (t_scale_dx.Text != "") offset.x = Int32.Parse(t_scale_dx.Text);
+            if (t_scale_dy.Text != "") offset.y = Int32.Parse(t_scale_dy.Text);
+            if (t_scale_dz.Text != "") offset.z = Int32.Parse(t_scale_dz.Text);
+            light_source = offset;
+            //DrawAll();
+            render.DrawTriangle(new Vector4(500, 200, 0), new Vector4(0, 0, 0), new Vector4(0, 200, 0), Color.Green);
+
+        }
+
+        private void cb_light_cull_back_CheckedChanged(object sender, EventArgs e)
+        {
+            render.cull_backfaces = cb_light_cull_back.Checked;
+            render.ClearZBuff();
+            DrawAll();
+        }
+
+        private void cb_light_zbuff_CheckedChanged(object sender, EventArgs e)
+        {
+            render.zbuffer = cb_light_zbuff.Checked;
+            render.ClearZBuff();
+            DrawAll();
         }
     }
 }

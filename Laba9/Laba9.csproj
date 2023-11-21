@@ -69,6 +69,7 @@
     <Compile Include="Utility\FileStorage.cs" />
     <Compile Include="Utility\Matrix3D.cs" />
     <Compile Include="Utility\Mech.cs" />
+    <Compile Include="Utility\Render.cs" />
     <Compile Include="Utility\Transform.cs" />
     <Compile Include="Primitives\Triangle3D.cs" />
     <Compile Include="Utility\AffineTransformations.cs" />
