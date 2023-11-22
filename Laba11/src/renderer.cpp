@@ -21,6 +21,15 @@ void Renderer::draw(VAO* vao) {
     vao->unbind();
 }
 
+void Renderer::draw(VAO* vao, EBO* ebo)
+{
+    vao->bind();
+    ebo->bind();
+    glDrawElements(GL_TRIANGLES, ebo->count(), GL_UNSIGNED_INT, 0);
+    vao->unbind();
+    ebo->unbind();
+}
+
 void Renderer::setClearColor(float r, float g, float b, float a) {
     glClearColor(r, g, b, a);
 }

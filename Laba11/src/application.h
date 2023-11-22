@@ -8,28 +8,29 @@
 
 class Application {
 public:
-    static Application& get_instance();
+	static Application& get_instance();
 
-    void init();
+	void init();
 
-    void start();
+	void start();
 
-    void close();
+	void close();
 
-    ~Application();
+	~Application();
 
-    Application() = delete;
+	Application() = delete;
 
-    Application(const Application&) = delete;
+	Application(const Application&) = delete;
 
-    Application& operator=(const Application&) = delete;
+	Application& operator=(const Application&) = delete;
 
+	void select_task(int value);
 private:
-    Application(std::string name, int width, int height);
-
-    std::string name;
-    int width;
-    int height;
-    GLFWwindow* window = nullptr;
-    ResourceManager* resourceManager = nullptr;
+	Application(std::string name, int width, int height);
+	int m_current_task = 1;
+	std::string name;
+	int width;
+	int height;
+	GLFWwindow* window = nullptr;
+	ResourceManager* resourceManager = nullptr;
 };

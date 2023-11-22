@@ -10,6 +10,8 @@ public:
 
     static void draw(VAO* vao);
 
+    static void draw(VAO* vao, EBO* ebo);
+
     static void setClearColor(float r, float g, float b, float a);
 
     static void clear();

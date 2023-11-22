@@ -9,12 +9,6 @@ Application& Application::get_instance()
 	return instance;
 }
 
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, GLFW_TRUE);
-}
-
 void Application::init()
 {
 	if (!glfwInit()) {
@@ -59,12 +53,13 @@ void Application::init()
 	resourceManager->init();
 }
 
+void DrawQuad();
+void DrawVeer();
+void DrawPentagon();
+
 void Application::start()
 {
 	Renderer::setClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	VAO* mVAO = &ResourceManager::getInstance().quadVAO;
-	//ShaderProgram* mProgram = &ResourceManager::getInstance().getProgram("default");
-	ShaderProgram* mProgram = &ResourceManager::getInstance().getProgram("custom");
 
 	// Game loop
 	while (!glfwWindowShouldClose(window)) {
@@ -72,10 +67,21 @@ void Application::start()
 
 		Renderer::clear();
 
-		mProgram->use();
-		mProgram->setUniform("customColor", glm::vec4(ResourceManager::getInstance().colors["randomColor"], 1.0));
-		Renderer::draw(mVAO);
-		mProgram->unbind();
+		switch (m_current_task)
+		{
+		case 1:
+			DrawQuad();
+			break;
+		case 2:
+			DrawVeer();
+			break;
+		case 3:
+			DrawPentagon();
+			break;
+		default:
+			DrawQuad();
+			break;
+		}
 
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
@@ -94,5 +100,42 @@ Application::~Application()
 
 }
 
+void Application::select_task(int value)
+{
+	if (value < 1 || value > 3)return;
+	m_current_task = value;
+}
+
 Application::Application(std::string name, int width, int height) : name(std::move(name)), width(width), height(height) {}
 
+void DrawQuad() {
+	ResourceManager* resources = &ResourceManager::getInstance();
+	ShaderProgram* mProgram = &resources->getProgram("custom");
+	VAO* vao = &resources->getVAO("quad");
+	glm::vec3 color = resources->getColor("randomColor");
+
+	mProgram->use();
+	mProgram->setUniform("customColor", glm::vec4(color, 1.0));
+	Renderer::draw(vao);
+	mProgram->unbind();
+}
+
+void DrawVeer() {
+	ResourceManager* resources = &ResourceManager::getInstance();
+	ShaderProgram* mProgram = &resources->getProgram("veer");
+	VAO* vao = &resources->getVAO("veer");
+	EBO* ebo = &resources->getEBO("veer");
+	mProgram->use();
+	Renderer::draw(vao,ebo);
+	mProgram->unbind();
+}
+
+void DrawPentagon() {
+	ResourceManager* resources = &ResourceManager::getInstance();
+	ShaderProgram* mProgram = &resources->getProgram("default");
+	VAO* vao = &resources->getVAO("pentagon");
+	EBO* ebo = &resources->getEBO("pentagon");
+	mProgram->use();
+	Renderer::draw(vao,ebo);
+	mProgram->unbind();
+}

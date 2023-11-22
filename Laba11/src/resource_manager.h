@@ -15,13 +15,9 @@ public:
     void destroy();
 
     ShaderProgram& getProgram(const std::string& progName);
-
-    VAO baseVAO;
-    VAO quadVAO;
-    VAO veerVAO;
-    VAO figureVAO;
-
-    std::map<std::string, glm::vec3> colors;
+    VAO& getVAO(const std::string& vaoName);
+    EBO& getEBO(const std::string& vaoName);
+    glm::vec3& getColor(const std::string& colorName);
 
 private:
     ResourceManager();
@@ -35,4 +31,8 @@ private:
     ResourceManager(ResourceManager&& program) = delete;
 
     std::map<std::string, ShaderProgram> shaderPrograms;
+    std::map<std::string, VAO> m_vao;
+    std::map<std::string, EBO> m_ebo;
+    std::map<std::string, glm::vec3> m_colors;
+
 };
