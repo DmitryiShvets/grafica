@@ -122,7 +122,7 @@ void DrawQuad() {
 
 void DrawVeer() {
 	ResourceManager* resources = &ResourceManager::getInstance();
-	ShaderProgram* mProgram = &resources->getProgram("veer");
+	ShaderProgram* mProgram = &resources->getProgram("gradient");
 	VAO* vao = &resources->getVAO("veer");
 	EBO* ebo = &resources->getEBO("veer");
 	mProgram->use();

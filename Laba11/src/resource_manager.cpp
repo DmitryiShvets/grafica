@@ -39,7 +39,7 @@ void ResourceManager::init() {
 
 	shaderPrograms.emplace("default", ShaderProgram(readFile("res/shaders/v_default.glsl"), readFile("res/shaders/f_default.glsl")));
 	shaderPrograms.emplace("custom", ShaderProgram(readFile("res/shaders/v_default.glsl"), readFile("res/shaders/f_custom_color.glsl")));
-	shaderPrograms.emplace("veer", ShaderProgram(readFile("res/shaders/v_veer.glsl"), readFile("res/shaders/f_veer.glsl")));
+	shaderPrograms.emplace("gradient", ShaderProgram(readFile("res/shaders/v_veer.glsl"), readFile("res/shaders/f_veer.glsl")));
 
 	VBOLayout menuVBOLayout;
 	menuVBOLayout.addLayoutElement(2, GL_FLOAT, GL_FALSE);
