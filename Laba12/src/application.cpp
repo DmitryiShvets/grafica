@@ -59,7 +59,12 @@ void DrawPentagon();
 
 void Application::start()
 {
-	Renderer::setClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	Renderer::setClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+	ShaderProgram& p = resourceManager->getProgram("texture");
+	p.use();
+	p.setUniform("texture1", 0);
+	p.setUniform("texture2", 1);
+	p.unbind();
 
 	// Game loop
 	while (!glfwWindowShouldClose(window)) {
@@ -122,11 +127,20 @@ void DrawQuad() {
 
 void DrawVeer() {
 	ResourceManager* resources = &ResourceManager::getInstance();
-	ShaderProgram* mProgram = &resources->getProgram("gradient");
+	ShaderProgram* mProgram = &resources->getProgram("texture");
+	Texture2D* mTexture1 = &resources->getTexture("default");
+	Texture2D* mTexture2 = &resources->getTexture("container");
 	VAO* vao = &resources->getVAO("veer");
 	EBO* ebo = &resources->getEBO("veer");
+
 	mProgram->use();
+	glActiveTexture(GL_TEXTURE0);
+	mTexture1->bind();
+	glActiveTexture(GL_TEXTURE1);
+	mTexture2->bind();
 	Renderer::draw(vao,ebo);
+	mTexture2->unbind();
+	mTexture1->unbind();
 	mProgram->unbind();
 }
 

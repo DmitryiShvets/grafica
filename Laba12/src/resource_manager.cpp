@@ -6,7 +6,7 @@
 #include <cmath>
 #include <random>
 #include <chrono>
-
+#include "logger.hpp"
 static std::string readFile(const std::string& path) {
 	std::ifstream input_file(path);
 	if (!input_file.is_open()) {
@@ -40,6 +40,17 @@ void ResourceManager::init() {
 	shaderPrograms.emplace("default", ShaderProgram(readFile("res/shaders/v_default.glsl"), readFile("res/shaders/f_default.glsl")));
 	shaderPrograms.emplace("custom", ShaderProgram(readFile("res/shaders/v_default.glsl"), readFile("res/shaders/f_custom_color.glsl")));
 	shaderPrograms.emplace("gradient", ShaderProgram(readFile("res/shaders/v_veer.glsl"), readFile("res/shaders/f_veer.glsl")));
+	shaderPrograms.emplace("texture", ShaderProgram(readFile("res/shaders/v_texture.glsl"), readFile("res/shaders/f_texture.glsl")));
+	try
+	{
+		m_textures.emplace("default", Texture2D("res/textures/awesomeface.png"));
+		m_textures.emplace("container", Texture2D("res/textures/container.jpg"));
+	}
+	catch (const std::exception& e)
+	{
+		Logger::error_log(e.what());
+	}
+	
 
 	VBOLayout menuVBOLayout;
 	menuVBOLayout.addLayoutElement(2, GL_FLOAT, GL_FALSE);
@@ -83,25 +94,24 @@ void ResourceManager::init() {
 	m_vao.emplace("quad", std::move(quadVAO));
 
 	const GLfloat vertexVeer[] = {
-		//x     y     r     g     b
-		-0.6f, 0.3f, 1.0f, 0.0f, 0.0f,
-		0.6f, 0.3f, 1.0f, 0.0f, 0.0f,
-		0.0f, 0.5f, 0.0f, 1.0f, 0.0f,
-		-0.3f, 0.5f, 0.0f, 0.0f, 1.0f,
-		0.3f, 0.5f, 0.0f, 0.0f, 1.0f,
-		0.0f, -0.5f, 0.5f, 0.5f, 0.5f
+
+	 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+	 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+	-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+	-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
 	};
 
 	VBOLayout veer_layout;
-	veer_layout.addLayoutElement(2, GL_FLOAT, GL_FALSE);
 	veer_layout.addLayoutElement(3, GL_FLOAT, GL_FALSE);
+	veer_layout.addLayoutElement(3, GL_FLOAT, GL_FALSE);
+	veer_layout.addLayoutElement(2, GL_FLOAT, GL_FALSE);
 
 	VAO veerVAO;
 	VBO veerVBO;
 
 	veerVAO.bind();
-	veerVBO.init(vertexVeer, 5 * 6 * sizeof(GLfloat));
-	veerVAO.addBuffer(veerVBO, veer_layout, 6);
+	veerVBO.init(vertexVeer, 8 * 4 * sizeof(GLfloat));
+	veerVAO.addBuffer(veerVBO, veer_layout, 4);
 	veerVBO.unbind();
 	veerVAO.unbind();
 
@@ -109,10 +119,8 @@ void ResourceManager::init() {
 
 	EBO veerEBO;
 	const GLuint indexVeer[] = {
-		0,3,5,
-		3,2,5,
-		2,4,5,
-		4,1,5,
+		3,0,1,
+		1,2,3,
 	};
 	veerEBO.init(indexVeer, 12);
 	m_ebo.emplace("veer", std::move(veerEBO));
@@ -148,9 +156,6 @@ void ResourceManager::init() {
 	};
 	pentaEBO.init(indexPentagon, 15);
 	m_ebo.emplace("pentagon", std::move(pentaEBO));
-
-
-	m_textures.emplace("default", Texture2D("res/textures/awesomeface.png"));
 }
 
 void ResourceManager::destroy() {
