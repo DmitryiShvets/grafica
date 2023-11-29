@@ -10,20 +10,24 @@ Tetra::Tetra()
 
 	const GLfloat vertexTetra[] = {
 		//x(s)  y(t)  r    g     b
-		0.0f, 0.5f, 1.0f, 0.0f, 0.0f,
-		0.1f, -0.5f, 0.0f, 1.0f, 0.0f,
-		-0.5f, -0.1f, 0.0f, 0.0f, 1.0f,
+		0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+		-0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+		0.15f, -0.4f, 0.0f, 1.0f, 0.0f,
 
-		0.0f, 0.5f, 0.8f, 0.0f, 0.0f,
-		0.1f, -0.5f, 0.0f, 0.8f, 0.0f,
-		0.3f, 0.1f, 0.0f, 0.0f, 0.8f,
+		0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+		0.15f, -0.4f, 0.0f, 1.0f, 0.0f,
+		0.15f, 0.4f, 0.0f, 0.0f, 1.0f,
+
+		0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+		0.15f, 0.4f, 0.0f, 0.0f, 1.0f,
+		-0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
 	};
 	VAO tetraVAO;
 	VBO tetraVBO;
 
 	tetraVAO.bind();
-	tetraVBO.init(vertexTetra, 5 * 6 * sizeof(GLfloat));
-	tetraVAO.addBuffer(tetraVBO, gradient_layout, 6);
+	tetraVBO.init(vertexTetra, 5 * 9 * sizeof(GLfloat));
+	tetraVAO.addBuffer(tetraVBO, gradient_layout, 9);
 	tetraVBO.unbind();
 	tetraVAO.unbind();
 
