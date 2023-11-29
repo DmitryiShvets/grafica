@@ -123,6 +123,13 @@
             this.btn_add_obj = new System.Windows.Forms.Button();
             this.scene_list = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox_chartFH = new System.Windows.Forms.GroupBox();
+            this.trackBarZ = new System.Windows.Forms.TrackBar();
+            this.trackBarY = new System.Windows.Forms.TrackBar();
+            this.trackBarX = new System.Windows.Forms.TrackBar();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
@@ -130,6 +137,7 @@
             this.btn_zbuffer = new System.Windows.Forms.CheckBox();
             this.btn_back_face_culling = new System.Windows.Forms.CheckBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.light_info = new System.Windows.Forms.Label();
             this.cb_light_cull_back = new System.Windows.Forms.CheckBox();
             this.cb_light_zbuff = new System.Windows.Forms.CheckBox();
             this.btn_move_light_pos = new System.Windows.Forms.Button();
@@ -142,7 +150,6 @@
             this.input_info = new System.Windows.Forms.Label();
             this.mouse_info = new System.Windows.Forms.Label();
             this.cb_interactive_mode = new System.Windows.Forms.CheckBox();
-            this.light_info = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.track_zoom)).BeginInit();
@@ -163,6 +170,10 @@
             this.tabPage3.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.groupBox_chartFH.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarZ)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarX)).BeginInit();
             this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.groupBox9.SuspendLayout();
@@ -984,6 +995,12 @@
             // 
             // numericUpDown_y2
             // 
+            this.numericUpDown_y2.DecimalPlaces = 1;
+            this.numericUpDown_y2.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            65536});
             this.numericUpDown_y2.Location = new System.Drawing.Point(104, 44);
             this.numericUpDown_y2.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDown_y2.Minimum = new decimal(new int[] {
@@ -995,7 +1012,7 @@
             this.numericUpDown_y2.Size = new System.Drawing.Size(36, 20);
             this.numericUpDown_y2.TabIndex = 16;
             this.numericUpDown_y2.Value = new decimal(new int[] {
-            3,
+            5,
             0,
             0,
             0});
@@ -1012,6 +1029,12 @@
             // 
             // numericUpDown_y1
             // 
+            this.numericUpDown_y1.DecimalPlaces = 1;
+            this.numericUpDown_y1.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            65536});
             this.numericUpDown_y1.Location = new System.Drawing.Point(104, 19);
             this.numericUpDown_y1.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDown_y1.Minimum = new decimal(new int[] {
@@ -1023,7 +1046,7 @@
             this.numericUpDown_y1.Size = new System.Drawing.Size(36, 20);
             this.numericUpDown_y1.TabIndex = 15;
             this.numericUpDown_y1.Value = new decimal(new int[] {
-            3,
+            5,
             0,
             0,
             -2147483648});
@@ -1040,6 +1063,12 @@
             // 
             // numericUpDown_x2
             // 
+            this.numericUpDown_x2.DecimalPlaces = 1;
+            this.numericUpDown_x2.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            65536});
             this.numericUpDown_x2.Location = new System.Drawing.Point(34, 42);
             this.numericUpDown_x2.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDown_x2.Minimum = new decimal(new int[] {
@@ -1051,7 +1080,7 @@
             this.numericUpDown_x2.Size = new System.Drawing.Size(36, 20);
             this.numericUpDown_x2.TabIndex = 12;
             this.numericUpDown_x2.Value = new decimal(new int[] {
-            3,
+            5,
             0,
             0,
             0});
@@ -1068,6 +1097,12 @@
             // 
             // numericUpDown_x1
             // 
+            this.numericUpDown_x1.DecimalPlaces = 1;
+            this.numericUpDown_x1.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            65536});
             this.numericUpDown_x1.Location = new System.Drawing.Point(34, 18);
             this.numericUpDown_x1.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDown_x1.Minimum = new decimal(new int[] {
@@ -1079,7 +1114,7 @@
             this.numericUpDown_x1.Size = new System.Drawing.Size(36, 20);
             this.numericUpDown_x1.TabIndex = 11;
             this.numericUpDown_x1.Value = new decimal(new int[] {
-            3,
+            5,
             0,
             0,
             -2147483648});
@@ -1112,7 +1147,7 @@
             this.textBox_step.Name = "textBox_step";
             this.textBox_step.Size = new System.Drawing.Size(41, 20);
             this.textBox_step.TabIndex = 21;
-            this.textBox_step.Text = "0,5";
+            this.textBox_step.Text = "0,1";
             // 
             // label19
             // 
@@ -1203,6 +1238,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox_chartFH);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.groupBox_chart);
             this.tabPage2.Controls.Add(this.groupBox3);
@@ -1217,6 +1253,84 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Свойства";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox_chartFH
+            // 
+            this.groupBox_chartFH.Controls.Add(this.trackBarZ);
+            this.groupBox_chartFH.Controls.Add(this.trackBarY);
+            this.groupBox_chartFH.Controls.Add(this.trackBarX);
+            this.groupBox_chartFH.Controls.Add(this.label23);
+            this.groupBox_chartFH.Controls.Add(this.label21);
+            this.groupBox_chartFH.Controls.Add(this.label20);
+            this.groupBox_chartFH.Location = new System.Drawing.Point(214, 130);
+            this.groupBox_chartFH.Name = "groupBox_chartFH";
+            this.groupBox_chartFH.Size = new System.Drawing.Size(172, 135);
+            this.groupBox_chartFH.TabIndex = 81;
+            this.groupBox_chartFH.TabStop = false;
+            this.groupBox_chartFH.Text = "chartFH";
+            // 
+            // trackBarZ
+            // 
+            this.trackBarZ.Location = new System.Drawing.Point(27, 141);
+            this.trackBarZ.Maximum = 360;
+            this.trackBarZ.Name = "trackBarZ";
+            this.trackBarZ.Size = new System.Drawing.Size(139, 45);
+            this.trackBarZ.TabIndex = 84;
+            this.trackBarZ.Visible = false;
+            this.trackBarZ.ValueChanged += new System.EventHandler(this.trackBarZ_ValueChanged);
+            // 
+            // trackBarY
+            // 
+            this.trackBarY.Location = new System.Drawing.Point(27, 83);
+            this.trackBarY.Maximum = 360;
+            this.trackBarY.Name = "trackBarY";
+            this.trackBarY.Size = new System.Drawing.Size(139, 45);
+            this.trackBarY.SmallChange = 10;
+            this.trackBarY.TabIndex = 83;
+            this.trackBarY.Value = 15;
+            this.trackBarY.ValueChanged += new System.EventHandler(this.trackBarY_ValueChanged);
+            // 
+            // trackBarX
+            // 
+            this.trackBarX.Location = new System.Drawing.Point(27, 32);
+            this.trackBarX.Maximum = 360;
+            this.trackBarX.Name = "trackBarX";
+            this.trackBarX.Size = new System.Drawing.Size(139, 45);
+            this.trackBarX.SmallChange = 10;
+            this.trackBarX.TabIndex = 82;
+            this.trackBarX.Value = 30;
+            this.trackBarX.ValueChanged += new System.EventHandler(this.trackBarX_ValueChanged);
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.label23.Location = new System.Drawing.Point(1, 141);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(27, 24);
+            this.label23.TabIndex = 5;
+            this.label23.Text = "Z:";
+            this.label23.Visible = false;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.label21.Location = new System.Drawing.Point(1, 94);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(27, 24);
+            this.label21.TabIndex = 4;
+            this.label21.Text = "Y:";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.label20.Location = new System.Drawing.Point(1, 42);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(29, 24);
+            this.label20.TabIndex = 3;
+            this.label20.Text = "X:";
             // 
             // tabPage1
             // 
@@ -1305,6 +1419,17 @@
             this.groupBox11.TabIndex = 6;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Освещение";
+            // 
+            // light_info
+            // 
+            this.light_info.AutoSize = true;
+            this.light_info.Enabled = false;
+            this.light_info.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.light_info.Location = new System.Drawing.Point(9, 119);
+            this.light_info.Name = "light_info";
+            this.light_info.Size = new System.Drawing.Size(50, 22);
+            this.light_info.TabIndex = 4;
+            this.light_info.Text = "свет";
             // 
             // cb_light_cull_back
             // 
@@ -1427,17 +1552,6 @@
             this.cb_interactive_mode.UseVisualStyleBackColor = true;
             this.cb_interactive_mode.CheckedChanged += new System.EventHandler(this.cb_interactive_mode_CheckedChanged);
             // 
-            // light_info
-            // 
-            this.light_info.AutoSize = true;
-            this.light_info.Enabled = false;
-            this.light_info.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.light_info.Location = new System.Drawing.Point(9, 119);
-            this.light_info.Name = "light_info";
-            this.light_info.Size = new System.Drawing.Size(50, 22);
-            this.light_info.TabIndex = 4;
-            this.light_info.Text = "свет";
-            // 
             // Task1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1483,6 +1597,11 @@
             this.tabPage3.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.groupBox_chartFH.ResumeLayout(false);
+            this.groupBox_chartFH.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarZ)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarX)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage4.ResumeLayout(false);
@@ -1613,5 +1732,12 @@
         private System.Windows.Forms.CheckBox cb_light_cull_back;
         private System.Windows.Forms.CheckBox cb_light_zbuff;
         private System.Windows.Forms.Label light_info;
+        private System.Windows.Forms.GroupBox groupBox_chartFH;
+        private System.Windows.Forms.TrackBar trackBarZ;
+        private System.Windows.Forms.TrackBar trackBarY;
+        private System.Windows.Forms.TrackBar trackBarX;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label20;
     }
 }

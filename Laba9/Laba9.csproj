@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChartFH.cs" />
     <Compile Include="GraphD.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -59,6 +60,8 @@
       <DependentUpon>GraphD.cs</DependentUpon>
     </Compile>
     <Compile Include="Primitives\Object3D.cs" />
+    <Compile Include="Primitives\Point2DV.cs" />
+    <Compile Include="Primitives\Point3D.cs" />
     <Compile Include="Shapes\Chart.cs" />
     <Compile Include="Shapes\Cube.cs" />
     <Compile Include="Shapes\Dodecahedron.cs" />

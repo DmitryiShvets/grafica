@@ -49,6 +49,9 @@ namespace blank
         private float[] arrzbuffer;
 
         private Render render;
+
+        ChartFH chartFH = null;
+        List<Func<double, double, double>> functions = new List<Func<double, double, double>>();
         public Task1()
         {
             InitializeComponent();
@@ -64,7 +67,7 @@ namespace blank
             rotation_figure = new RotationFigure(GetTransform(), divisions, cb_active_mesh.SelectedIndex, GetAxisType());
 
             AddAllObjects();
-            comboBox1.SelectedIndex = 8;
+            comboBox1.SelectedIndex = 9;
             cb_active_mesh.SelectedIndex = 0;
 
             canvas.Image = _bitmap;
@@ -99,10 +102,17 @@ namespace blank
             comboBox1.Items.Add("Dodecahedron");
             comboBox1.Items.Add("Import");
             comboBox1.Items.Add("Chart");
+            comboBox1.Items.Add("ChartFH");
             comboBox1.Items.Add("Scene");
 
-            comboBox_func.Items.Add("sin(x, y)");
-            comboBox_func.Items.Add("x^2 + y^2");
+            // Добавить все функции из презентации
+            comboBox_func.Items.Add("sin(x + y)");
+            comboBox_func.Items.Add("cos(cos(y) - cos(x))");
+            comboBox_func.Items.Add("e^(sin(sqrt(x*x + y*y)))");
+
+            functions.Add((x, y) => (float)Math.Sin(x + y));
+            functions.Add((x, y) => (float)Math.Cos(Math.Cos(y) - Math.Cos(x)));
+            functions.Add((x, y) => (float)Math.Exp(Math.Sin(Math.Sqrt(x*x + y*y))));
         }
 
         private Transform GetTransform()
@@ -118,7 +128,7 @@ namespace blank
         {
             _graphics.Clear(Color.White);
             _graphics_editor.Clear(Color.White);
-            render.ClearZBuff();
+            //render.ClearZBuff();
             DrawAxes();
 
             if (editor_points.Count > 0) DrawEditor();
@@ -734,7 +744,18 @@ namespace blank
             {
                 trianglesChart = GetTriangleschart();
             }
-
+            if (comboBox1.SelectedItem.ToString() == "ChartFH")
+            {
+                chartFH = new ChartFH(canvas.Width, canvas.Height, Color.Blue, Color.Black);
+                double x1 = double.Parse(numericUpDown_x1.Text);
+                double x2 = double.Parse(numericUpDown_x2.Text);
+                double y1 = double.Parse(numericUpDown_y1.Text);
+                double y2 = double.Parse(numericUpDown_y2.Text);
+                double step = double.Parse(textBox_step.Text);
+                chartFH.SetParameters(x1, x2, y1, y2, step, trackBarX.Value, trackBarY.Value, trackBarZ.Value);
+                DrawChartFH();
+                return;
+            }
             if (comboBox1.SelectedItem.ToString() == "Scene")
             {
                 _objects = new List<Object3D>(_objects_loaded);
@@ -747,7 +768,6 @@ namespace blank
             {
                 _objects = new List<Object3D> { GetObject(variant) };
                 edit_object = _objects.Last();
-
             }
 
             DrawAll();
@@ -971,7 +991,7 @@ namespace blank
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem.ToString() == "Chart")
+            if (comboBox1.SelectedItem.ToString() == "Chart" || comboBox1.SelectedItem.ToString() == "ChartFH")
             {
                 comboBox_func.Visible = true;
                 comboBox_func.SelectedIndex = 0;
@@ -1018,8 +1038,6 @@ namespace blank
 
             float[,] z_values = new float[count_x + 1, count_y + 1];
 
-            float min = float.MaxValue;
-            float max = float.MinValue;
 
             // Вычисляем точки функции
             for (int i = 0; i < count_x + 1; i++)
@@ -1029,8 +1047,6 @@ namespace blank
                     float x = x0 + i * delta;
                     float y = y0 + j * delta;
                     z_values[i, j] = func(x, y);
-                    if (z_values[i, j] < min) min = z_values[i, j];
-                    if (z_values[i, j] > max) max = z_values[i, j];
                 }
             }
 
@@ -1300,5 +1316,28 @@ namespace blank
             DrawAll();
         }
 
+        private void DrawChartFH()
+        { 
+            Graphics chartGraphics = canvas.CreateGraphics();
+            chartFH.Draw(chartGraphics, functions[comboBox_func.SelectedIndex]);
+        }
+
+        private void trackBarX_ValueChanged(object sender, EventArgs e)
+        {
+            chartFH.SetAngleX(trackBarX.Value);
+            DrawChartFH();
+        }
+
+        private void trackBarY_ValueChanged(object sender, EventArgs e)
+        {
+            chartFH.SetAngleY(trackBarY.Value);
+            DrawChartFH();
+        }
+
+        private void trackBarZ_ValueChanged(object sender, EventArgs e)
+        {
+            chartFH.SetAngleZ(trackBarZ.Value);
+            DrawChartFH();
+        }
     }
 }
