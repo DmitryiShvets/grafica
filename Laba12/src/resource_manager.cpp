@@ -191,6 +191,7 @@ void ResourceManager::destroy() {
 	m_colors.clear();
 	m_vao.clear();
 	m_ebo.clear();
+	m_textures.clear();
 }
 
 

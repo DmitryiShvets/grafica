@@ -2,7 +2,7 @@
 #include "logger.hpp"
 #include "callback_manager.h"
 #include "renderer.h"
-
+#include "cub_mixed_textures.h"
 Application& Application::get_instance()
 {
 	static Application instance("Window", 900, 900);
@@ -51,10 +51,11 @@ void Application::init()
 
 	resourceManager = &ResourceManager::getInstance();
 	resourceManager->init();
+	glEnable(GL_DEPTH_TEST);
 }
 
 void DrawQuad();
-void DrawVeer();
+void RenderObj(Renderable* obj);
 void DrawPentagon();
 void DrawTetra();
 
@@ -66,6 +67,8 @@ void Application::start()
 	p.setUniform("texture1", 0);
 	p.setUniform("texture2", 1);
 	p.unbind();
+
+	CubMixedTextures task3;
 
 	// Game loop
 	while (!glfwWindowShouldClose(window)) {
@@ -80,9 +83,12 @@ void Application::start()
 			DrawTetra();
 			break;
 		case 2:
-			DrawVeer();
+			RenderObj(&task3);
 			break;
 		case 3:
+			RenderObj(&task3);
+			break;
+		case 4:
 			DrawPentagon();
 			break;
 		default:
@@ -109,7 +115,7 @@ Application::~Application()
 
 void Application::select_task(int value)
 {
-	if (value < 1 || value > 3)return;
+	if (value < 1 || value > 4)return;
 	m_current_task = value;
 }
 
@@ -171,6 +177,8 @@ void DrawVeer() {
 	mTexture2->unbind();
 	mTexture1->unbind();
 	mProgram->unbind();
+void RenderObj(Renderable* obj) {
+	obj->render();
 }
 
 void DrawPentagon() {
@@ -179,6 +187,6 @@ void DrawPentagon() {
 	VAO* vao = &resources->getVAO("pentagon");
 	EBO* ebo = &resources->getEBO("pentagon");
 	mProgram->use();
-	Renderer::draw(vao,ebo);
+	Renderer::draw(vao, ebo);
 	mProgram->unbind();
 }
