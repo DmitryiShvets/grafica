@@ -13,7 +13,18 @@ set(PROJ_SRC
 				"src/buffer_objects.cpp" 
 				"src/buffer_objects.h" 
 				"src/resource_manager.cpp" 
-				"src/resource_manager.h" "src/texture.h" "src/texture.cpp" "src/sub_texture.h" "src/sub_texture.cpp" "src/stb_image.h")
+				"src/resource_manager.h"
+				"src/texture.h"
+				"src/texture.cpp"
+				"src/sub_texture.h"
+				"src/sub_texture.cpp"
+				"src/stb_image.h"
+				"src/object.h"
+				"src/cube.h"
+				"src/cube.cpp"
+				"src/cub_mixed_textures.h"
+				"src/cub_mixed_textures.cpp"
+)
 
 add_executable (${PROJ_NAME} ${PROJ_SRC})
 

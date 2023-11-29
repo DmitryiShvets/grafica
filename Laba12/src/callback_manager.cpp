@@ -19,19 +19,10 @@ void CallbackManager::key_callback(GLFWwindow* window, int key, int scancode, in
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS) {
-
 	}
-	if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
-		std::cout << "click - 1"<< std::endl;
-		Application::get_instance().select_task(1);
-	}
-	if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
-		std::cout << "click - 2" << std::endl;
-		Application::get_instance().select_task(2);
-	}
-	if (key == GLFW_KEY_3 && action == GLFW_PRESS) {
-		std::cout << "click - 3" << std::endl;
-		Application::get_instance().select_task(3);
+	if ((key == GLFW_KEY_1 || key == GLFW_KEY_2 || key == GLFW_KEY_3 || key == GLFW_KEY_4)&& action == GLFW_PRESS) {
+		std::cout << "click - "<< key - 48 <<std::endl;
+		Application::get_instance().select_task(key - 48);
 	}
 }
 

@@ -2,7 +2,7 @@
 #include "logger.hpp"
 #include "callback_manager.h"
 #include "renderer.h"
-
+#include "cub_mixed_textures.h"
 Application& Application::get_instance()
 {
 	static Application instance("Window", 900, 900);
@@ -51,20 +51,24 @@ void Application::init()
 
 	resourceManager = &ResourceManager::getInstance();
 	resourceManager->init();
+	glEnable(GL_DEPTH_TEST);
 }
 
 void DrawQuad();
-void DrawVeer();
+void RenderObj(Renderable* obj);
 void DrawPentagon();
 
 void Application::start()
 {
-	Renderer::setClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+
+	Renderer::setClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	ShaderProgram& p = resourceManager->getProgram("texture");
 	p.use();
 	p.setUniform("texture1", 0);
 	p.setUniform("texture2", 1);
 	p.unbind();
+
+	CubMixedTextures task3;
 
 	// Game loop
 	while (!glfwWindowShouldClose(window)) {
@@ -78,9 +82,12 @@ void Application::start()
 			DrawQuad();
 			break;
 		case 2:
-			DrawVeer();
+			RenderObj(&task3);
 			break;
 		case 3:
+			RenderObj(&task3);
+			break;
+		case 4:
 			DrawPentagon();
 			break;
 		default:
@@ -107,7 +114,7 @@ Application::~Application()
 
 void Application::select_task(int value)
 {
-	if (value < 1 || value > 3)return;
+	if (value < 1 || value > 4)return;
 	m_current_task = value;
 }
 
@@ -125,23 +132,8 @@ void DrawQuad() {
 	mProgram->unbind();
 }
 
-void DrawVeer() {
-	ResourceManager* resources = &ResourceManager::getInstance();
-	ShaderProgram* mProgram = &resources->getProgram("texture");
-	Texture2D* mTexture1 = &resources->getTexture("default");
-	Texture2D* mTexture2 = &resources->getTexture("container");
-	VAO* vao = &resources->getVAO("veer");
-	EBO* ebo = &resources->getEBO("veer");
-
-	mProgram->use();
-	glActiveTexture(GL_TEXTURE0);
-	mTexture1->bind();
-	glActiveTexture(GL_TEXTURE1);
-	mTexture2->bind();
-	Renderer::draw(vao,ebo);
-	mTexture2->unbind();
-	mTexture1->unbind();
-	mProgram->unbind();
+void RenderObj(Renderable* obj) {
+	obj->render();
 }
 
 void DrawPentagon() {
@@ -150,6 +142,6 @@ void DrawPentagon() {
 	VAO* vao = &resources->getVAO("pentagon");
 	EBO* ebo = &resources->getEBO("pentagon");
 	mProgram->use();
-	Renderer::draw(vao,ebo);
+	Renderer::draw(vao, ebo);
 	mProgram->unbind();
 }
