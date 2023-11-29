@@ -22,6 +22,8 @@ set(PROJ_SRC
 				"src/object.h"
 				"src/cube.h"
 				"src/cube.cpp"
+				"src/tetra.h"
+				"src/tetra.cpp"
 				"src/cub_mixed_textures.h"
 				"src/cub_mixed_textures.cpp"
 )

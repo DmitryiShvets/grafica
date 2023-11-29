@@ -9,5 +9,5 @@ void main()
 {
     color_vertex = color;
     vec2 newPos = position + vec2(delta);
-    gl_Position = vec4(newPos[0], newPos[1], 0.0, 1.0);// Напрямую передаем vec3 в vec4
+    gl_Position = vec4(newPos, 0.0, 1.0);// Напрямую передаем vec3 в vec4
 }
