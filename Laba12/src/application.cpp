@@ -56,10 +56,11 @@ void Application::init()
 void DrawQuad();
 void DrawVeer();
 void DrawPentagon();
+void DrawTetra();
 
 void Application::start()
 {
-	Renderer::setClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+	Renderer::setClearColor(175.0f/255.0f, 218.0f/255.0f, 252.0f/255.0f, 1.0f);
 	ShaderProgram& p = resourceManager->getProgram("texture");
 	p.use();
 	p.setUniform("texture1", 0);
@@ -75,7 +76,8 @@ void Application::start()
 		switch (m_current_task)
 		{
 		case 1:
-			DrawQuad();
+			//DrawQuad();
+			DrawTetra();
 			break;
 		case 2:
 			DrawVeer();
@@ -121,6 +123,33 @@ void DrawQuad() {
 
 	mProgram->use();
 	mProgram->setUniform("customColor", glm::vec4(color, 1.0));
+	Renderer::draw(vao);
+	mProgram->unbind();
+}
+
+glm::vec3 Application::getVecMove()
+{
+	return glm::vec3(deltaX, deltaY, 0.0f);
+}
+
+void Application::changeX(float x)
+{
+	deltaX += x;
+}
+
+void Application::changeY(float y)
+{
+	deltaY += y;
+}
+
+void DrawTetra()
+{
+	ResourceManager* resources = &ResourceManager::getInstance();
+	ShaderProgram* mProgram = &resources->getProgram("move");
+	VAO* vao = &resources->getVAO("tetra");
+
+	mProgram->use();
+	mProgram->setUniform("delta", Application::get_instance().getVecMove());
 	Renderer::draw(vao);
 	mProgram->unbind();
 }

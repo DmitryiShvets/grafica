@@ -35,5 +35,4 @@ private:
     std::map<std::string, EBO> m_ebo;
     std::map<std::string, glm::vec3> m_colors;
     std::map<std::string, Texture2D> m_textures;
-
 };

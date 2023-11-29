@@ -122,20 +122,26 @@ void DrawQuad() {
 
 void DrawVeer() {
 	ResourceManager* resources = &ResourceManager::getInstance();
-	ShaderProgram* mProgram = &resources->getProgram("gradient");
+	ShaderProgram* mProgram = &resources->getProgram("custom");
 	VAO* vao = &resources->getVAO("veer");
 	EBO* ebo = &resources->getEBO("veer");
+	glm::vec3 color = resources->getColor("randomColor");
+
 	mProgram->use();
+	mProgram->setUniform("customColor", glm::vec4(color, 1.0));
 	Renderer::draw(vao,ebo);
 	mProgram->unbind();
 }
 
 void DrawPentagon() {
 	ResourceManager* resources = &ResourceManager::getInstance();
-	ShaderProgram* mProgram = &resources->getProgram("default");
+	ShaderProgram* mProgram = &resources->getProgram("custom");
 	VAO* vao = &resources->getVAO("pentagon");
 	EBO* ebo = &resources->getEBO("pentagon");
+	glm::vec3 color = resources->getColor("randomColor");
+
 	mProgram->use();
+	mProgram->setUniform("customColor", glm::vec4(color, 1.0));
 	Renderer::draw(vao,ebo);
 	mProgram->unbind();
 }

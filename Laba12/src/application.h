@@ -25,6 +25,10 @@ public:
 	Application& operator=(const Application&) = delete;
 
 	void select_task(int value);
+
+	glm::vec3 getVecMove();
+	void changeX(float x);
+	void changeY(float y);
 private:
 	Application(std::string name, int width, int height);
 	int m_current_task = 1;
@@ -33,4 +37,6 @@ private:
 	int height;
 	GLFWwindow* window = nullptr;
 	ResourceManager* resourceManager = nullptr;
+	float deltaX = 0.0f;
+	float deltaY = 0.0f;
 };

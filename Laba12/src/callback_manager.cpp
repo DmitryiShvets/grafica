@@ -33,6 +33,22 @@ void CallbackManager::key_callback(GLFWwindow* window, int key, int scancode, in
 		std::cout << "click - 3" << std::endl;
 		Application::get_instance().select_task(3);
 	}
+	if (key == GLFW_KEY_UP) {
+		//std::cout << "click - UP" << std::endl;
+		Application::get_instance().changeY(0.05f);
+	}
+	if (key == GLFW_KEY_RIGHT) {
+		//std::cout << "click - RIGHT" << std::endl;
+		Application::get_instance().changeX(0.05f);
+	}
+	if (key == GLFW_KEY_DOWN) {
+		//std::cout << "click - DOWN" << std::endl;
+		Application::get_instance().changeY(-0.05f);
+	}
+	if (key == GLFW_KEY_LEFT) {
+		//std::cout << "click - LEFT" << std::endl;
+		Application::get_instance().changeX(-0.05f);
+	}
 }
 
 void CallbackManager::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
