@@ -128,7 +128,7 @@ namespace blank
         {
             _graphics.Clear(Color.White);
             _graphics_editor.Clear(Color.White);
-            //render.ClearZBuff();
+            if(lightning)render.ClearZBuff();
             DrawAxes();
 
             if (editor_points.Count > 0) DrawEditor();
@@ -491,7 +491,7 @@ namespace blank
 
                 if (render.cull_backfaces)
                 {
-                    if ((double)Vector4.DotProduct(normal, camera_pos) > 0)
+                    if ((double)Vector4.DotProduct(normal, new Vector4(0.0f, 0.0f, -1.0f)) > 0)
                     {
                         render.DrawTriangle(v[0], v[1], v[2], triangle.color);
                     }
