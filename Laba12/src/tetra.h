@@ -9,14 +9,15 @@ public:
 	VAO m_vao;
 	EBO m_ebo;
 
-	// Унаследовано через Renderable
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ Renderable
 	virtual void render() override;
-	glm::vec3 getVecMove();
-	void changeX(float x);
-	void changeY(float y);
+	// РЈРЅР°СЃР»РµРґРѕРІР°РЅРѕ С‡РµСЂРµР· Renderable
+	void update(Event e) override;
+
 private:
 	float deltaX = 0.0f;
 	float deltaY = 0.0f;
+	glm::vec3 getVecMove();
 };
 
 

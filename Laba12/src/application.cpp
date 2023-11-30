@@ -55,7 +55,8 @@ void Application::init()
 	resourceManager->init();
 	glEnable(GL_DEPTH_TEST);
 
-	tetra = new Tetra();
+	primitives["tetra"] = new Tetra();
+	primitives["cube"] = new CubMixedTextures();
 }
 
 void DrawQuad();
@@ -72,7 +73,6 @@ void Application::start()
 	p.setUniform("texture2", 1);
 	p.unbind();
 
-	CubMixedTextures task3;
 
 	// Game loop
 	while (!glfwWindowShouldClose(window)) {
@@ -83,13 +83,13 @@ void Application::start()
 		switch (m_current_task)
 		{
 		case 1:
-			RenderObj(tetra);
+			RenderObj(primitives["tetra"]);
 			break;
 		case 2:
-			RenderObj(&task3);
+			RenderObj(primitives["cube"]);
 			break;
 		case 3:
-			RenderObj(&task3);
+			RenderObj(primitives["cube"]);
 			break;
 		case 4:
 			DrawPentagon();
@@ -113,7 +113,7 @@ void Application::close()
 
 Application::~Application()
 {
-
+	for (auto x : primitives)delete(x.second);
 }
 
 void Application::select_task(int value)

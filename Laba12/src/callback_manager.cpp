@@ -25,20 +25,29 @@ void CallbackManager::key_callback(GLFWwindow* window, int key, int scancode, in
 		Application::get_instance().select_task(key - 48);
 	}
 	if (key == GLFW_KEY_UP) {
-		//std::cout << "click - UP" << std::endl;
-		Application::get_instance().tetra->changeY(0.05f);
+		Application::get_instance().primitives["tetra"]->update(
+			Event(EVENT_TYPE::TRANSFORM, std::make_tuple(0.f, 0.05f, 0.f)));
+		std::cout << "click -  " << key << std::endl;
 	}
 	if (key == GLFW_KEY_RIGHT) {
-		//std::cout << "click - RIGHT" << std::endl;
-		Application::get_instance().tetra->changeX(0.05f);
+		Application::get_instance().primitives["tetra"]->update(
+			Event(EVENT_TYPE::TRANSFORM, std::make_tuple(0.05f, 0.f, 0.f)));
 	}
 	if (key == GLFW_KEY_DOWN) {
-		//std::cout << "click - DOWN" << std::endl;
-		Application::get_instance().tetra->changeY(-0.05f);
+		Application::get_instance().primitives["tetra"]->update(
+			Event(EVENT_TYPE::TRANSFORM, std::make_tuple(0.f, -0.05f, 0.f)));
 	}
 	if (key == GLFW_KEY_LEFT) {
-		//std::cout << "click - LEFT" << std::endl;
-		Application::get_instance().tetra->changeX(-0.05f);
+		Application::get_instance().primitives["tetra"]->update(
+			Event(EVENT_TYPE::TRANSFORM, std::make_tuple(-0.05f, 0.f, 0.f)));
+	}
+	if (key == GLFW_KEY_MINUS && action == GLFW_PRESS) {
+		Application::get_instance().primitives["cube"]->update(
+			Event(EVENT_TYPE::RATIO, std::make_tuple(-0.1f, 0.f, 0.f)));
+	}
+	if (key == GLFW_KEY_EQUAL && action == GLFW_PRESS) {
+		Application::get_instance().primitives["cube"]->update(
+			Event(EVENT_TYPE::RATIO, std::make_tuple(0.1f, 0.f, 0.f)));
 	}
 }
 

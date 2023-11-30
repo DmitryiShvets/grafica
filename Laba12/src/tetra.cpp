@@ -50,12 +50,11 @@ glm::vec3 Tetra::getVecMove()
 	return glm::vec3(deltaX, deltaY, 0.0f);
 }
 
-void Tetra::changeX(float x)
+void Tetra::update(Event e)
 {
-	deltaX += x;
-}
-
-void Tetra::changeY(float y)
-{
-	deltaY += y;
+	if (e.type == EVENT_TYPE::TRANSFORM) {
+		auto [ x, y, z] = e.data;
+		deltaX += x;
+		deltaY += y;
+	}
 }

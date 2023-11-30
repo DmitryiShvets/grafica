@@ -3,7 +3,7 @@
 #include "renderer.h"
 #include <glm/gtc/matrix_transform.hpp>
 
-CubMixedTextures::CubMixedTextures() :Cube()
+CubMixedTextures::CubMixedTextures() :ratio(0.5f), Cube()
 {
 }
 void CubMixedTextures::render()
@@ -29,14 +29,24 @@ void CubMixedTextures::render()
 	program->setUniform("view", view);
 	program->setUniform("projection", projection);
 	program->setUniform("model", model);
+	program->setUniform("ratio", ratio);
 
 	glActiveTexture(GL_TEXTURE0);
 	texture1->bind();
 	glActiveTexture(GL_TEXTURE1);
 	texture2->bind();
-	//Renderer::draw(&m_vao, &m_ebo);
 	Renderer::draw(&m_vao);
 	texture2->unbind();
 	texture1->unbind();
 	program->unbind();
+}
+
+void CubMixedTextures::update(Event e)
+{
+	if (e.type == EVENT_TYPE::RATIO) {
+		auto [x, y, z] = e.data;
+		ratio += x;
+		if (ratio < 0)ratio = 0.f;
+		if (ratio > 1)ratio = 1.f;
+	}
 }

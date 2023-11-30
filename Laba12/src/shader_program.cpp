@@ -115,6 +115,9 @@ void ShaderProgram::setUniform(const std::string& uniformName, const glm::vec3& 
     glUniform3f(glGetUniformLocation(hProgram, uniformName.c_str()), vec3Value.x, vec3Value.y, vec3Value.z);
 }
 
+void ShaderProgram::setUniform(const std::string& uniformName, float value) {
+    glUniform1f(glGetUniformLocation(hProgram, uniformName.c_str()), value);
+}
 
 void ShaderProgram::setUniform(const std::string& uniformName, int value) {
     glUniform1i(glGetUniformLocation(hProgram, uniformName.c_str()), value);

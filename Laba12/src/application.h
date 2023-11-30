@@ -5,7 +5,7 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include "resource_manager.h"
-#include "tetra.h"
+#include "object.h"
 
 class Application {
 public:
@@ -26,7 +26,8 @@ public:
 	Application& operator=(const Application&) = delete;
 
 	void select_task(int value);
-	Tetra* tetra = nullptr;
+	Renderable* tetra = nullptr;
+	std::map<std::string, Renderable*> primitives;
 private:
 	Application(std::string name, int width, int height);
 	int m_current_task = 1;
