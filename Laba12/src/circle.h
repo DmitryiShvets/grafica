@@ -17,7 +17,7 @@ private:
 	float x_scale;
 	float y_scale;
 
-	float bytify(float color);
+	float normalize(float color);
 	std::array<float, 4> hsv_to_rgb(float hue, float saturation = 100.0, float value = 100.0);  
 };
 
