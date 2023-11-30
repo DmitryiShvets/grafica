@@ -41,6 +41,9 @@ void ResourceManager::init() {
 	shaderPrograms.emplace("custom", ShaderProgram(readFile("res/shaders/v_default.glsl"), readFile("res/shaders/f_custom_color.glsl")));
 	shaderPrograms.emplace("gradient", ShaderProgram(readFile("res/shaders/v_veer.glsl"), readFile("res/shaders/f_veer.glsl")));
 	shaderPrograms.emplace("texture", ShaderProgram(readFile("res/shaders/v_texture.glsl"), readFile("res/shaders/f_texture.glsl")));
+	shaderPrograms.emplace("circle", ShaderProgram(readFile("res/shaders/v_circle.glsl"), readFile("res/shaders/f_circle.glsl")));
+	shaderPrograms.emplace("move", ShaderProgram(readFile("res/shaders/v_move.glsl"), readFile("res/shaders/f_veer.glsl")));
+
 	try
 	{
 		m_textures.emplace("default", Texture2D("res/textures/awesomeface.png"));
@@ -50,7 +53,6 @@ void ResourceManager::init() {
 	{
 		Logger::error_log(e.what());
 	}
-	shaderPrograms.emplace("move", ShaderProgram(readFile("res/shaders/v_move.glsl"), readFile("res/shaders/f_veer.glsl")));
 
 	VBOLayout menuVBOLayout;
 	menuVBOLayout.addLayoutElement(2, GL_FLOAT, GL_FALSE);

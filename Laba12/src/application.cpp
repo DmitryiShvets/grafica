@@ -4,6 +4,7 @@
 #include "renderer.h"
 #include "cub_mixed_textures.h"
 #include "tetra.h"
+#include "circle.h"
 
 Application& Application::get_instance()
 {
@@ -57,6 +58,7 @@ void Application::init()
 
 	primitives["tetra"] = new Tetra();
 	primitives["cube"] = new CubMixedTextures();
+	primitives["circle"] = new Circle();
 }
 
 void DrawQuad();
@@ -92,7 +94,7 @@ void Application::start()
 			RenderObj(primitives["cube"]);
 			break;
 		case 4:
-			DrawPentagon();
+			RenderObj(primitives["circle"]);
 			break;
 		default:
 			DrawQuad();
