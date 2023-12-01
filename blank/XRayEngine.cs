@@ -18,12 +18,12 @@ namespace blank
         private Bitmap _bitmap;
         private Graphics _graphics;
         private Scene _scene;
-        private Color background_color = Color.Black;
+        private Color background_color = Color.White;
 
         Double Infinity = Double.MaxValue;
         Double projection_plane_z = 1.0;
         Double viewport_size = 1.0;
-        Vector4 camera_pos = new Vector4(0,0,-2);
+        Vector4 camera_pos = new Vector4(0, 0, -2);
 
         public XRayEngine()
         {
@@ -58,6 +58,35 @@ namespace blank
             return new Vector4((x * (float)(viewport_size / canvas.Width)), (y * (float)(viewport_size / canvas.Height)), (float)projection_plane_z);
         }
 
+        private double ComputateLightning(Vector4 point, Vector4 normal)
+        {
+            double intensity = 0.0;
+            foreach (var light in _scene.light_sources)
+            {
+                if (light.type == LIGHT_TYPE.AMBIENT) intensity += light.intensity;
+                else
+                {
+                    Vector4 vec_light = light.type == LIGHT_TYPE.POINT ?   light.position - point : light.position;
+                    float cos_light = Vector4.DotProduct(vec_light, normal);
+                    if (cos_light > 0) intensity += cos_light / (normal.Length() * vec_light.Length());
+                }
+            }
+            return intensity;
+        }
+
+        private int Clamp(double i, double h)
+        {
+            return Math.Min(255, Math.Max(0,(int)(i*h)));
+        }
+
+        private Color MixColor(Color color, double h)
+        {   
+            int r = Clamp(color.R, h);
+            int g = Clamp(color.G, h); 
+            int b = Clamp(color.B, h);
+            return Color.FromArgb(r, g, b);
+        }
+
         private Color TraceRay(Vector4 origin, Vector4 direction, Double min_t, Double max_t)
         {
             double closest_t = Infinity;
@@ -82,9 +111,18 @@ namespace blank
 
             if (closest_obj == null) return background_color;
 
-            return closest_obj.color;
+            Vector4 p = origin + direction * (float)closest_t;
+            //Console.WriteLine("o: " + origin + " d: " + direction + " t: " + closest_t + " p:" + p );
+
+            //Vector4 normal = (closest_obj.position - p).Normalize();
+            Vector4 normal = (p - closest_obj.position).Normalize();
+            double h = ComputateLightning(p, normal);
+            //Console.WriteLine("p: " + p.ToString() + " нормаль: " + normal.ToString() + " h: " + h);
+
+            //Console.WriteLine(h);
+            return MixColor(closest_obj.color, h);
         }
-      
+
         private void button1_Click(object sender, EventArgs e)
         {
             DrawAll();

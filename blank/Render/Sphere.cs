@@ -36,8 +36,8 @@ namespace blank.Render
                 return (Infinity, Infinity);
             }
 
-            double t1 = (-b - Math.Sqrt(discrminant)) / 2 * a;
-            double t2 = (-b + Math.Sqrt(discrminant)) / 2 * a;
+            double t1 = (-b - Math.Sqrt(discrminant)) / (2 * a);
+            double t2 = (-b + Math.Sqrt(discrminant)) / (2 * a);
 
             return (t1, t2);
         }
