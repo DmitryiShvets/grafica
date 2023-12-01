@@ -55,6 +55,7 @@
     <Compile Include="AffineTransformations.cs" />
     <Compile Include="Primitives\Edge.cs" />
     <Compile Include="Primitives\EdgeD.cs" />
+    <Compile Include="Render\Box.cs" />
     <Compile Include="Render\Scene.cs" />
     <Compile Include="Render\Shape.cs" />
     <Compile Include="Render\Sphere.cs" />

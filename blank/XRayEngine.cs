@@ -23,7 +23,8 @@ namespace blank
         Double Infinity = Double.MaxValue;
         Double projection_plane_z = 1.0;
         Double viewport_size = 1.0;
-        Vector4 camera_pos = new Vector4();
+        Vector4 camera_pos = new Vector4(0,0,-2);
+
         public XRayEngine()
         {
             InitializeComponent();
@@ -45,7 +46,7 @@ namespace blank
                     {
                         Vector4 direction = CanvsToViewport(x, y);
                         Color color = TraceRay(camera_pos, direction, 1, Infinity);
-                        fastBitmap[ x+ canvas.Width / 2, canvas.Height / 2 - y-1] = color;
+                        fastBitmap[x + canvas.Width / 2, canvas.Height / 2 - y - 1] = color;
                     }
             }
             canvas.Image = _bitmap;
@@ -64,18 +65,18 @@ namespace blank
 
             foreach (var obj in _scene.objects)
             {
-                (double, double) cur_t = IntersectRaySphere(origin, direction, obj as Sphere);
+                (double, double) cur_t = obj.Intersect(origin, direction);
 
                 if (cur_t.Item1 < closest_t && cur_t.Item1 > min_t && cur_t.Item1 < max_t)
                 {
                     closest_t = cur_t.Item1;
-                    closest_obj = obj;
+                    closest_obj = obj as Shape;
                 }
 
                 if (cur_t.Item2 < closest_t && cur_t.Item2 > min_t && cur_t.Item2 < max_t)
                 {
                     closest_t = cur_t.Item2;
-                    closest_obj = obj;
+                    closest_obj = obj as Shape;
                 }
             }
 
@@ -83,32 +84,10 @@ namespace blank
 
             return closest_obj.color;
         }
-
-        private (double, double) IntersectRaySphere(Vector4 origin, Vector4 direction, Sphere sphere)
-        {
-            Vector4 oc = origin - sphere.position;
-
-            float a = Vector4.DotProduct(direction, direction);
-            float b = 2*Vector4.DotProduct(oc, direction);
-            float c = Vector4.DotProduct(oc, oc) - sphere.radius * sphere.radius;
-
-            double discrminant = (b * b) - (4 * a * c);
-
-            if (discrminant < 0)
-            {
-                return (Infinity, Infinity);
-            }
-
-            double t1 = (-b - Math.Sqrt(discrminant)) / 2 * a;
-            double t2 = (-b + Math.Sqrt(discrminant)) / 2 * a;
-
-            return (t1, t2);
-        }
-
+      
         private void button1_Click(object sender, EventArgs e)
         {
             DrawAll();
-
         }
     }
 }

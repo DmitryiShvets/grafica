@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace blank.Render
 {
-    internal class Sphere : Shape
+    internal class Sphere : Shape, IIntersect
     {
         public int radius;
 
@@ -20,5 +20,27 @@ namespace blank.Render
         {
             this.radius = radius;
         }
+
+        public (double, double) Intersect(Vector4 origin, Vector4 direction)
+        {
+            Vector4 oc = origin - position;
+
+            float a = Vector4.DotProduct(direction, direction);
+            float b = 2 * Vector4.DotProduct(oc, direction);
+            float c = Vector4.DotProduct(oc, oc) - radius * radius;
+
+            double discrminant = (b * b) - (4 * a * c);
+
+            if (discrminant < 0)
+            {
+                return (Infinity, Infinity);
+            }
+
+            double t1 = (-b - Math.Sqrt(discrminant)) / 2 * a;
+            double t2 = (-b + Math.Sqrt(discrminant)) / 2 * a;
+
+            return (t1, t2);
+        }
+
     }
 }
