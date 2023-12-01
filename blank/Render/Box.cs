@@ -27,13 +27,13 @@ namespace blank.Render
 
         public (double, double) Intersect(Vector4 origin, Vector4 direction)
         {
-            float tmin = (bounds[0].x - origin.x) / direction.x;
-            float tmax = (bounds[1].x - origin.x) / direction.x;
+            double tmin = (bounds[0].x - origin.x) / direction.x;
+            double tmax = (bounds[1].x - origin.x) / direction.x;
 
             if (tmin > tmax) (tmin, tmax) = (tmax, tmin);
 
-            float tymin = (bounds[0].y - origin.y) / direction.y;
-            float tymax = (bounds[1].y - origin.y) / direction.y;
+            double tymin = (bounds[0].y - origin.y) / direction.y;
+            double tymax = (bounds[1].y - origin.y) / direction.y;
 
             if (tymin > tymax) (tymin, tymax) = (tymax, tymin);
 
@@ -42,8 +42,8 @@ namespace blank.Render
             if (tymin > tmin) tmin = tymin;
             if (tymax < tmax) tmax = tymax;
 
-            float tzmin = (bounds[0].z - origin.z) / direction.z;
-            float tzmax = (bounds[1].z - origin.z) / direction.z;
+            double tzmin = (bounds[0].z - origin.z) / direction.z;
+            double tzmax = (bounds[1].z - origin.z) / direction.z;
 
             if (tzmin > tzmax) (tzmin, tzmax) = (tzmax, tzmin);
 
