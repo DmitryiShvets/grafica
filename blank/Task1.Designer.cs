@@ -28,22 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.vectorPaint1 = new blank.VectorPaint();
+            this.xRayEngine1 = new blank.XRayEngine();
             this.SuspendLayout();
             // 
-            // vectorPaint1
+            // xRayEngine1
             // 
-            this.vectorPaint1.Location = new System.Drawing.Point(12, 12);
-            this.vectorPaint1.Name = "vectorPaint1";
-            this.vectorPaint1.Size = new System.Drawing.Size(776, 530);
-            this.vectorPaint1.TabIndex = 0;
+            this.xRayEngine1.Location = new System.Drawing.Point(12, 12);
+            this.xRayEngine1.Name = "xRayEngine1";
+            this.xRayEngine1.Size = new System.Drawing.Size(824, 406);
+            this.xRayEngine1.TabIndex = 0;
             // 
             // Task1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 588);
-            this.Controls.Add(this.vectorPaint1);
+            this.ClientSize = new System.Drawing.Size(836, 522);
+            this.Controls.Add(this.xRayEngine1);
             this.Name = "Task1";
             this.Text = "Task1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Task1_FormClosing);
@@ -53,6 +53,6 @@
 
         #endregion
 
-        private VectorPaint vectorPaint1;
+        private XRayEngine xRayEngine1;
     }
 }
