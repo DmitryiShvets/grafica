@@ -35,8 +35,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
+    <StartupObject>blank.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
