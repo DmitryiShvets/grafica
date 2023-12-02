@@ -64,7 +64,22 @@ namespace blank
                 if (light.type == LIGHT_TYPE.AMBIENT) intensity += light.intensity;
                 else
                 {
-                    Vector4 vec_light = light.type == LIGHT_TYPE.POINT ? light.position - point : light.position;
+                    double t_max;
+                    Vector4 vec_light;
+                    if (light.type == LIGHT_TYPE.POINT)
+                    {
+                        vec_light = light.position - point;
+                        t_max = 1.0f;
+                    }
+                    else
+                    {
+                        vec_light = light.position;
+                        t_max = Infinity;
+                    }
+                    
+                    var (shadow_obj, shadow_t) = ClosestInIntersection(point, vec_light, 0.001, t_max);
+                    if (shadow_obj != null) continue;
+
                     double cos_light = Vector4.DotProduct(vec_light, normal);
                     if (cos_light > 0) intensity += light.intensity * cos_light / (normal.Length() * vec_light.Length());
 
@@ -95,6 +110,19 @@ namespace blank
 
         private Color TraceRay(Vector4 origin, Vector4 direction, Double min_t, Double max_t)
         {
+            var (closest_obj, closest_t) = ClosestInIntersection(origin, direction, min_t, max_t);
+
+            if (closest_obj == null) return background_color;
+
+            Vector4 p = origin + direction * closest_t;
+            Vector4 normal = (closest_obj as IIntersect).GetNormal(p);
+            double h = ComputateLightning(p, normal, -direction, closest_obj.specular);
+
+            return MixColor(closest_obj.color, h);
+        }
+
+        private (Shape, double) ClosestInIntersection(Vector4 origin, Vector4 direction, Double min_t, Double max_t)
+        {
             double closest_t = Infinity;
             Shape closest_obj = null;
 
@@ -114,14 +142,7 @@ namespace blank
                     closest_obj = obj as Shape;
                 }
             }
-
-            if (closest_obj == null) return background_color;
-
-            Vector4 p = origin + direction * closest_t;
-            Vector4 normal = (closest_obj as IIntersect).GetNormal(p);
-            double h = ComputateLightning(p, normal, -direction, closest_obj.specular);
-
-            return MixColor(closest_obj.color, h);
+            return (closest_obj, closest_t);
         }
 
         private void button1_Click(object sender, EventArgs e)
