@@ -18,17 +18,19 @@ namespace blank.Render
         public Vector4 position;
         public Color color;
         public Double Infinity = Double.MaxValue;
-
-        public Shape(Vector4 position, Color color)
+        public int specular;
+        public Shape(Vector4 position, Color color, int specular)
         {
             this.position = position;
             this.color = color;
+            this.specular = specular;
         }
 
         public Shape()
         {
             this.position = new Vector4();
             this.color = Color.Red;
+            this.specular = 0;
         }
     }
 }

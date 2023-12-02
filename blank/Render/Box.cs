@@ -13,7 +13,7 @@ namespace blank.Render
         private Vector4[] vertexes = new Vector4[8];
         private Vector4[] normals = new Vector4[6];
 
-        public Box(Vector4 v1, Vector4 v2, Vector4 pos, Color color) : base(pos, color)
+        public Box(Vector4 v1, Vector4 v2, Vector4 pos, Color color,int specular) : base(pos, color, specular)
         {
             bounds[0] = pos + v1;
             bounds[1] = pos + v2;

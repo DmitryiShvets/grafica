@@ -23,7 +23,7 @@ namespace blank
         Double Infinity = Double.MaxValue;
         Double projection_plane_z = 1.0;
         Double viewport_size = 1;
-        Vector4 camera_pos = new Vector4(0, 0, -5);
+        Vector4 camera_pos = new Vector4(0, 0, 0);
 
         public XRayEngine()
         {
@@ -56,7 +56,7 @@ namespace blank
             return new Vector4(x * (viewport_size / canvas.Width), y * (viewport_size / canvas.Height), projection_plane_z);
         }
 
-        private double ComputateLightning(Vector4 point, Vector4 normal)
+        private double ComputateLightning(Vector4 point, Vector4 normal, Vector4 view, int specular)
         {
             double intensity = 0.0;
             foreach (var light in _scene.light_sources)
@@ -66,9 +66,14 @@ namespace blank
                 {
                     Vector4 vec_light = light.type == LIGHT_TYPE.POINT ? light.position - point : light.position;
                     double cos_light = Vector4.DotProduct(vec_light, normal);
-                    if (cos_light > 0)
+                    if (cos_light > 0) intensity += light.intensity * cos_light / (normal.Length() * vec_light.Length());
+
+
+                    if (specular >= 0)
                     {
-                        intensity += light.intensity * cos_light / (normal.Length() * vec_light.Length());
+                        Vector4 vec_ref = (2 * normal * Vector4.DotProduct(vec_light, normal)) - vec_light;
+                        double cos_ref = Vector4.DotProduct(vec_ref, view);
+                        if (cos_ref > 0) intensity += light.intensity * Math.Pow(cos_ref / (vec_ref.Length() * view.Length()), specular);
                     }
                 }
             }
@@ -114,7 +119,7 @@ namespace blank
 
             Vector4 p = origin + direction * closest_t;
             Vector4 normal = (closest_obj as IIntersect).GetNormal(p);
-            double h = ComputateLightning(p, normal);
+            double h = ComputateLightning(p, normal, -direction, closest_obj.specular);
 
             return MixColor(closest_obj.color, h);
         }

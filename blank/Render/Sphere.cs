@@ -16,7 +16,7 @@ namespace blank.Render
             this.radius = radius;
         }
 
-        public Sphere(Vector4 pos, Color color, int radius) : base(pos, color)
+        public Sphere(Vector4 pos, Color color, int radius,int specular) : base(pos, color, specular)
         {
             this.radius = radius;
         }
