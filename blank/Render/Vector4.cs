@@ -77,67 +77,33 @@ namespace blank.Render
         {
             return new Vector4(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs);
         }
-        public static Vector4 operator /(double lhs, Vector4 rhs)
-        {
-            return new Vector4(lhs / rhs.x, lhs / rhs.y, lhs / rhs.z);
-        }
-        public static bool operator <(Vector4 lhs, Vector4 rhs)
-        {
-            return (lhs.x < rhs.x) || ((lhs.x == rhs.x) && (lhs.y < rhs.y))
-                || ((lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.z < rhs.z));
-        }
-        public static bool operator >(Vector4 lhs, Vector4 rhs)
-        {
-            return (lhs.x > rhs.x) || ((lhs.x == rhs.x) && (lhs.y > rhs.y))
-                || ((lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.z > rhs.z));
-        }
-        public static bool operator ==(Vector4 lhs, Vector4 rhs)
-        {
-            return (lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.z == rhs.z);
-        }
-        public static bool operator !=(Vector4 lhs, Vector4 rhs)
-        {
-            return !(lhs == rhs);
-        }
 
         public static double Length(Vector4 v)
         {
             return Math.Sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
         }
 
+        private Vector4 Clamp()
+        {
+            return new Vector4(Math.Min(255, Math.Max(0, (int)x)),
+                Math.Min(255, Math.Max(0, (int)y)),
+                Math.Min(255, Math.Max(0, (int)z)));
+        }
+
+        public Color ToColor()
+        {   
+            Vector4 v = this.Clamp();
+            return Color.FromArgb((int)v.x, (int)v.y, (int)v.z);
+        }
+
+        public static Vector4 MixColor(Color color, double h)
+        {
+            return new Vector4(color.R * h, color.G * h, color.B * h);
+        }
+
         public double Length()
         {
             return Math.Sqrt(x * x + y * y + z * z);
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is Vector4 d &&
-                   x == d.x &&
-                   y == d.y &&
-                   z == d.z;
-        }
-
-        public override int GetHashCode()
-        {
-            int hashCode = 373119288;
-            hashCode = hashCode * -1521134295 + x.GetHashCode();
-            hashCode = hashCode * -1521134295 + y.GetHashCode();
-            hashCode = hashCode * -1521134295 + z.GetHashCode();
-            return hashCode;
-        }
-
-        public override string ToString()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            sb.Append(x + " ");
-            sb.Append(y + " ");
-            sb.Append(z + " ");
-            sb.Append('\n');
-
-
-            return sb.ToString();
         }
     }
 }

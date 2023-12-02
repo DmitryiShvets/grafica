@@ -19,11 +19,13 @@ namespace blank.Render
         public Color color;
         public Double Infinity = Double.MaxValue;
         public int specular;
-        public Shape(Vector4 position, Color color, int specular)
+        public double reflective;
+        public Shape(Vector4 position, Color color, int specular, double reflective)
         {
             this.position = position;
             this.color = color;
             this.specular = specular;
+            this.reflective = reflective;
         }
 
         public Shape()
@@ -31,6 +33,7 @@ namespace blank.Render
             this.position = new Vector4();
             this.color = Color.Red;
             this.specular = 0;
+            this.reflective = 0;
         }
     }
 }

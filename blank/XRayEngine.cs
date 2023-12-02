@@ -18,7 +18,7 @@ namespace blank
         private Bitmap _bitmap;
         private Graphics _graphics;
         private Scene _scene;
-        private Color background_color = Color.White;
+        private Color bg_col = Color.White;
 
         Double Infinity = Double.MaxValue;
         Double projection_plane_z = 1.0;
@@ -43,7 +43,8 @@ namespace blank
                     for (int y = -canvas.Height / 2; y < canvas.Height / 2; y++)
                     {
                         Vector4 direction = CanvsToViewport(x, y);
-                        Color color = TraceRay(camera_pos, direction, 1, Infinity);
+                        Vector4 rgb = TraceRay(camera_pos, direction, 1, Infinity, 1);
+                        Color color = rgb.ToColor();
                         fastBitmap[x + canvas.Width / 2, canvas.Height / 2 - y - 1] = color;
                     }
             }
@@ -51,9 +52,24 @@ namespace blank
             canvas.Invalidate();
         }
 
-        private Vector4 CanvsToViewport(int x, int y)
+        private Vector4 TraceRay(Vector4 origin, Vector4 direction, Double min_t, Double max_t, int depth)
         {
-            return new Vector4(x * (viewport_size / canvas.Width), y * (viewport_size / canvas.Height), projection_plane_z);
+            var (closest_obj, closest_t) = ClosestInIntersection(origin, direction, min_t, max_t);
+
+            if (closest_obj == null) return new Vector4(bg_col.R, bg_col.G, bg_col.B);
+
+            Vector4 p = origin + direction * closest_t;
+            Vector4 normal = (closest_obj as IIntersect).GetNormal(p);
+
+            double local_lighting = ComputateLightning(p, normal, -direction, closest_obj.specular);
+            Vector4 local_color = Vector4.MixColor(closest_obj.color, local_lighting);
+
+            if (closest_obj.reflective <= 0 || depth <= 0) return local_color;
+
+            Vector4 reflect_ray = ReflectiveRay(-direction, normal);
+            Vector4 reflected_color = TraceRay(p, reflect_ray, 0.001, Infinity, depth - 1);
+            
+            return  (reflected_color * closest_obj.reflective) + (local_color * (1 - closest_obj.reflective));
         }
 
         private double ComputateLightning(Vector4 point, Vector4 normal, Vector4 view, int specular)
@@ -76,7 +92,7 @@ namespace blank
                         vec_light = light.position;
                         t_max = Infinity;
                     }
-                    
+
                     var (shadow_obj, shadow_t) = ClosestInIntersection(point, vec_light, 0.001, t_max);
                     if (shadow_obj != null) continue;
 
@@ -86,39 +102,13 @@ namespace blank
 
                     if (specular >= 0)
                     {
-                        Vector4 vec_ref = (2 * normal * Vector4.DotProduct(vec_light, normal)) - vec_light;
+                        Vector4 vec_ref = ReflectiveRay(vec_light, normal);
                         double cos_ref = Vector4.DotProduct(vec_ref, view);
                         if (cos_ref > 0) intensity += light.intensity * Math.Pow(cos_ref / (vec_ref.Length() * view.Length()), specular);
                     }
                 }
             }
             return intensity;
-        }
-
-        private int Clamp(double i, double h)
-        {
-            return Math.Min(255, Math.Max(0, (int)(i * h)));
-        }
-
-        private Color MixColor(Color color, double h)
-        {
-            int r = Clamp(color.R, h);
-            int g = Clamp(color.G, h);
-            int b = Clamp(color.B, h);
-            return Color.FromArgb(r, g, b);
-        }
-
-        private Color TraceRay(Vector4 origin, Vector4 direction, Double min_t, Double max_t)
-        {
-            var (closest_obj, closest_t) = ClosestInIntersection(origin, direction, min_t, max_t);
-
-            if (closest_obj == null) return background_color;
-
-            Vector4 p = origin + direction * closest_t;
-            Vector4 normal = (closest_obj as IIntersect).GetNormal(p);
-            double h = ComputateLightning(p, normal, -direction, closest_obj.specular);
-
-            return MixColor(closest_obj.color, h);
         }
 
         private (Shape, double) ClosestInIntersection(Vector4 origin, Vector4 direction, Double min_t, Double max_t)
@@ -145,6 +135,17 @@ namespace blank
             return (closest_obj, closest_t);
         }
 
+        private Vector4 ReflectiveRay(Vector4 ray, Vector4 normal)
+        {
+            return ((2 * normal * Vector4.DotProduct(ray, normal)) - ray);
+        }
+
+        private Vector4 CanvsToViewport(int x, int y)
+        {
+            return new Vector4(x * (viewport_size / canvas.Width), y * (viewport_size / canvas.Height), projection_plane_z);
+        }
+
+      
         private void button1_Click(object sender, EventArgs e)
         {
             DrawAll();
@@ -154,7 +155,6 @@ namespace blank
         {
             viewport_size = trackBar1.Value;
             DrawAll();
-            Console.WriteLine(trackBar1.Value);
         }
     }
 }

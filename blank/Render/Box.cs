@@ -10,10 +10,10 @@ namespace blank.Render
     internal class Box : Shape, IIntersect
     {
         public Vector4[] bounds = new Vector4[2];
-        private Vector4[] vertexes = new Vector4[8];
         private Vector4[] normals = new Vector4[6];
 
-        public Box(Vector4 v1, Vector4 v2, Vector4 pos, Color color,int specular) : base(pos, color, specular)
+        public Box(Vector4 v1, Vector4 v2, Vector4 pos, Color color,int specular,double reflective) 
+            : base(pos, color, specular, reflective)
         {
             bounds[0] = pos + v1;
             bounds[1] = pos + v2;
