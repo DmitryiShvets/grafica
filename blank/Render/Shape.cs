@@ -20,12 +20,14 @@ namespace blank.Render
         public Double Infinity = Double.MaxValue;
         public int specular;
         public double reflective;
-        public Shape(Vector4 position, Color color, int specular, double reflective)
+        public double transparency;
+        public Shape(Vector4 position, Color color, int specular, double reflective, double transparency)
         {
             this.position = position;
             this.color = color;
             this.specular = specular;
             this.reflective = reflective;
+            this.transparency = transparency;
         }
 
         public Shape()
@@ -34,6 +36,7 @@ namespace blank.Render
             this.color = Color.Red;
             this.specular = 0;
             this.reflective = 0;
+            this.transparency = 0;
         }
     }
 }

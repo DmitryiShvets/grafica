@@ -12,8 +12,8 @@ namespace blank.Render
         public Vector4[] bounds = new Vector4[2];
         private Vector4[] normals = new Vector4[6];
 
-        public Box(Vector4 v1, Vector4 v2, Vector4 pos, Color color,int specular,double reflective) 
-            : base(pos, color, specular, reflective)
+        public Box(Vector4 v1, Vector4 v2, Vector4 pos, Color color,int specular,double reflective,double transparency) 
+            : base(pos, color, specular, reflective, transparency)
         {
             bounds[0] = pos + v1;
             bounds[1] = pos + v2;

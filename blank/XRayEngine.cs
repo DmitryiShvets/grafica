@@ -55,26 +55,35 @@ namespace blank
         private Vector4 TraceRay(Vector4 origin, Vector4 direction, Double min_t, Double max_t, int depth)
         {
             var (closest_obj, closest_t) = ClosestInIntersection(origin, direction, min_t, max_t);
-
             if (closest_obj == null) return new Vector4(bg_col.R, bg_col.G, bg_col.B);
 
             Vector4 p = origin + direction * closest_t;
             Vector4 normal = (closest_obj as IIntersect).GetNormal(p);
 
             double local_lighting = ComputateLightning(p, normal, -direction, closest_obj.specular);
+
             Vector4 local_color = Vector4.MixColor(closest_obj.color, local_lighting);
 
             if (closest_obj.reflective <= 0 || depth <= 0) return local_color;
 
             Vector4 reflect_ray = ReflectiveRay(-direction, normal);
             Vector4 reflected_color = TraceRay(p, reflect_ray, 0.001, Infinity, depth - 1);
-            
-            return  (reflected_color * closest_obj.reflective) + (local_color * (1 - closest_obj.reflective));
+            Vector4 blend_color = (reflected_color * closest_obj.reflective) + (local_color * (1 - closest_obj.reflective));
+            if (closest_obj.transparency <= 0) return blend_color;
+
+            var (t1, t2) = (closest_obj as IIntersect).Intersect(origin, direction);
+            var tmax = Math.Max(t1, t2);
+            Vector4 transparent_color = TraceRay(origin, direction, tmax, max_t, 0);
+
+            Vector4 mixed_color = (transparent_color * closest_obj.transparency) + (blend_color * (1 - closest_obj.transparency));
+
+            return mixed_color;
         }
 
         private double ComputateLightning(Vector4 point, Vector4 normal, Vector4 view, int specular)
         {
             double intensity = 0.0;
+
             foreach (var light in _scene.light_sources)
             {
                 if (light.type == LIGHT_TYPE.AMBIENT) intensity += light.intensity;
@@ -94,11 +103,10 @@ namespace blank
                     }
 
                     var (shadow_obj, shadow_t) = ClosestInIntersection(point, vec_light, 0.001, t_max);
-                    if (shadow_obj != null) continue;
+                    if (shadow_obj != null && shadow_obj.transparency < 1) continue;
 
                     double cos_light = Vector4.DotProduct(vec_light, normal);
                     if (cos_light > 0) intensity += light.intensity * cos_light / (normal.Length() * vec_light.Length());
-
 
                     if (specular >= 0)
                     {
@@ -118,6 +126,7 @@ namespace blank
 
             foreach (var obj in _scene.objects)
             {
+                if ((obj as Shape).transparency == 1) continue;
                 (double, double) cur_t = obj.Intersect(origin, direction);
 
                 if (cur_t.Item1 < closest_t && cur_t.Item1 > min_t && cur_t.Item1 < max_t)
@@ -145,7 +154,7 @@ namespace blank
             return new Vector4(x * (viewport_size / canvas.Width), y * (viewport_size / canvas.Height), projection_plane_z);
         }
 
-      
+
         private void button1_Click(object sender, EventArgs e)
         {
             DrawAll();
