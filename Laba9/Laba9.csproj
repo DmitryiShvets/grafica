@@ -240,6 +240,9 @@
     <Content Include="Scene\height_cube.txt" />
     <Content Include="Scene\sphere.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="objects\" />
+    <Folder Include="textures\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

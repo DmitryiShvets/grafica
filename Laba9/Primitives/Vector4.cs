@@ -12,6 +12,10 @@ namespace blank.Primitives
         public float z;
         public float w;
         public float h;
+
+        //Текстурные координаты
+        public float u;
+        public float v;
         
         public Vector4(Vector4 other)
         {
@@ -43,6 +47,16 @@ namespace blank.Primitives
             this.y = y;
             this.z = z;
             this.w = w;
+        }
+
+        public Vector4(float x, float y, float z, float u, float v)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.w = 1.0f;
+            this.u = u;
+            this.v = v;
         }
         public static Vector4 Normalize(Vector4 v)
         {
@@ -145,10 +159,12 @@ namespace blank.Primitives
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.Append(x + " ");
-            sb.Append(y + " ");
-            sb.Append(z + " ");
-            sb.Append(w + " ");
+            sb.Append("x " + x + " ");
+            sb.Append("y " + y + " ");
+            sb.Append("z " + z + " ");
+            sb.Append("w " + w + " ");
+            sb.Append("u " + u + " ");
+            sb.Append("v " + v + " ");
             sb.Append('\n');
 
 

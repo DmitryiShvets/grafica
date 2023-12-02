@@ -15,6 +15,8 @@ using static blank.Utility.Matrix3D;
 using blank.Shapes;
 using static blank.Vertex2D;
 using System.Xml.Linq;
+using System.IO;
+using System.Diagnostics;
 
 namespace blank
 {
@@ -46,12 +48,15 @@ namespace blank
         private bool back_face_culling = false;
         private bool zbuffer = false;
         private bool lightning = false;
+        private bool texture_mapping = false;
         private float[] arrzbuffer;
 
         private Render render;
 
         ChartFH chartFH = null;
         List<Func<double, double, double>> functions = new List<Func<double, double, double>>();
+        string texture_filename = "";
+
         public Task1()
         {
             InitializeComponent();
@@ -174,6 +179,10 @@ namespace blank
             {
                 DrawTriangleLightningPerspective(triangle, transform);
             }
+            else if (texture_mapping)
+            {
+                DrawTriangleTexturePerspective(triangle, transform);
+            }
             else
             {
                 if (g_projection_type == PROJECTION_TYPE.PERSPECTIVE)
@@ -250,7 +259,7 @@ namespace blank
             var normal = Vector4.CrossProduct(v[1] - v[0], v[2] - v[0]);
 
             // new Vector4(0.0f, 0.0f, -1.0f) это начальная позиция камеры
-            if (Vector4.DotProduct(normal, new Vector4(0.0f, 0.0f, -1.0f)) > 0)
+            if (Vector4.DotProduct(normal, new Vector4(0.0f, 0.0f, -1.0f)) < 0)
             {
                 if (points.Count >= 3)
                 {
@@ -279,7 +288,7 @@ namespace blank
             var normal = Vector4.CrossProduct(v[1] - v[0], v[2] - v[0]);
 
             // new Vector4(0.0f, 0.0f, -1.0f) это начальная позиция камеры
-            if (Vector4.DotProduct(normal, new Vector4(0.0f, 0.0f, -1.0f)) > 0)
+            if (Vector4.DotProduct(normal, new Vector4(0.0f, 0.0f, -1.0f)) < 0)
             {
                 if (points.Count >= 3)
                 {
@@ -499,6 +508,30 @@ namespace blank
                 else
                 {
                     render.DrawTriangle(v[0], v[1], v[2], triangle.color);
+                }
+            }
+        }
+
+        private void DrawTriangleTexturePerspective(Triangle3D triangle, Transform transform)
+        {
+            Matrix3D viewport_matrix = Matrix3D.GetViewPortMatrix(zoom, zoom, canvas.Width / 2, canvas.Height / 2);
+            List<Vector4> v = new List<Vector4>();
+            for (int i = 0; i < triangle.Size; ++i)
+            {
+                Matrix3D projection = projection_matrix * view_matrix * transform.ApplyTransform(triangle[i]);
+                projection /= projection[3, 0];
+                Matrix3D canvas = viewport_matrix * projection;
+                v.Add(canvas.ToVector4());
+
+                v[i].u = triangle[i].u;
+                v[i].v = triangle[i].v;
+            }
+            if (v.Count == 3)
+            {
+                var normal = Vector4.CrossProduct(v[1] - v[0], v[2] - v[0]);
+                if ((double)Vector4.DotProduct(normal, new Vector4(0.0f, 0.0f, -1.0f)) < 0)
+                {
+                    render.DrawTriangleTextured(v[0], v[1], v[2]);
                 }
             }
         }
@@ -1238,6 +1271,22 @@ namespace blank
                 DrawAll();
             }
         }
+        private void bt_parse_obj_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog saveFileDialog1 = new OpenFileDialog();
+            saveFileDialog1.InitialDirectory = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "objects"));
+            //saveFileDialog1.RestoreDirectory = true;
+            saveFileDialog1.Filter = "Object Files(*.obj;*.txt)|*.obj;*.txt|All files (*.*)|*.*";
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                imported_model = FileStorage.ImportModelObj(saveFileDialog1.FileName);
+                string file_name = saveFileDialog1.FileName.Split('\\').Last();
+                imported_model.obj_name = file_name.Substring(0, file_name.Length - 4);
+                _objects_loaded.Add(imported_model);
+                scene_list.Items.Add(imported_model);
+                DrawAll();
+            }
+        }
 
         private void btn_delete_obj_Click(object sender, EventArgs e)
         {
@@ -1338,6 +1387,24 @@ namespace blank
         {
             chartFH.SetAngleZ(trackBarZ.Value);
             DrawChartFH();
+        }
+        private void bt_texture_load_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.InitialDirectory = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "textures"));
+            //openFileDialog1.RestoreDirectory = true;
+            openFileDialog1.Filter = "Image Files(*.png;*.jpg)|*.png;*.jpg|All files (*.*)|*.*";
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                texture_filename = openFileDialog1.FileName;
+                render.texture = new Bitmap(openFileDialog1.FileName);
+            }
+        }
+
+        private void cb_texture_mapping_CheckedChanged(object sender, EventArgs e)
+        {
+            texture_mapping = cb_texture_mapping.Checked;
+            DrawAll();
         }
     }
 }

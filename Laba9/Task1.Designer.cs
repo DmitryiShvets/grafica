@@ -118,6 +118,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.bt_parse_obj = new System.Windows.Forms.Button();
             this.btn_hide_obj = new System.Windows.Forms.Button();
             this.btn_delete_obj = new System.Windows.Forms.Button();
             this.btn_add_obj = new System.Windows.Forms.Button();
@@ -132,6 +133,8 @@
             this.label20 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.bt_texture_load = new System.Windows.Forms.Button();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.btn_clear_zbuff = new System.Windows.Forms.Button();
             this.btn_zbuffer = new System.Windows.Forms.CheckBox();
@@ -150,6 +153,7 @@
             this.input_info = new System.Windows.Forms.Label();
             this.mouse_info = new System.Windows.Forms.Label();
             this.cb_interactive_mode = new System.Windows.Forms.CheckBox();
+            this.cb_texture_mapping = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.track_zoom)).BeginInit();
@@ -176,6 +180,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBarX)).BeginInit();
             this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.groupBox12.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox8.SuspendLayout();
@@ -1185,6 +1190,7 @@
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.bt_parse_obj);
             this.groupBox10.Controls.Add(this.btn_hide_obj);
             this.groupBox10.Controls.Add(this.btn_delete_obj);
             this.groupBox10.Controls.Add(this.btn_add_obj);
@@ -1195,6 +1201,16 @@
             this.groupBox10.TabIndex = 1;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Обьекты на сцене";
+            // 
+            // bt_parse_obj
+            // 
+            this.bt_parse_obj.Location = new System.Drawing.Point(301, 107);
+            this.bt_parse_obj.Name = "bt_parse_obj";
+            this.bt_parse_obj.Size = new System.Drawing.Size(75, 23);
+            this.bt_parse_obj.TabIndex = 2;
+            this.bt_parse_obj.Text = "Parse .obj";
+            this.bt_parse_obj.UseVisualStyleBackColor = true;
+            this.bt_parse_obj.Click += new System.EventHandler(this.bt_parse_obj_Click);
             // 
             // btn_hide_obj
             // 
@@ -1348,6 +1364,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.groupBox12);
             this.tabPage4.Controls.Add(this.groupBox9);
             this.tabPage4.Controls.Add(this.groupBox11);
             this.tabPage4.Controls.Add(this.groupBox8);
@@ -1357,6 +1374,27 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Настройки";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.cb_texture_mapping);
+            this.groupBox12.Controls.Add(this.bt_texture_load);
+            this.groupBox12.Location = new System.Drawing.Point(3, 284);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(203, 82);
+            this.groupBox12.TabIndex = 84;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "Текстурирование";
+            // 
+            // bt_texture_load
+            // 
+            this.bt_texture_load.Location = new System.Drawing.Point(6, 19);
+            this.bt_texture_load.Name = "bt_texture_load";
+            this.bt_texture_load.Size = new System.Drawing.Size(191, 23);
+            this.bt_texture_load.TabIndex = 0;
+            this.bt_texture_load.Text = "Загрузить текстуру";
+            this.bt_texture_load.UseVisualStyleBackColor = true;
+            this.bt_texture_load.Click += new System.EventHandler(this.bt_texture_load_Click);
             // 
             // groupBox9
             // 
@@ -1552,6 +1590,17 @@
             this.cb_interactive_mode.UseVisualStyleBackColor = true;
             this.cb_interactive_mode.CheckedChanged += new System.EventHandler(this.cb_interactive_mode_CheckedChanged);
             // 
+            // cb_texture_mapping
+            // 
+            this.cb_texture_mapping.AutoSize = true;
+            this.cb_texture_mapping.Location = new System.Drawing.Point(6, 48);
+            this.cb_texture_mapping.Name = "cb_texture_mapping";
+            this.cb_texture_mapping.Size = new System.Drawing.Size(147, 17);
+            this.cb_texture_mapping.TabIndex = 1;
+            this.cb_texture_mapping.Text = "Текстурировать объект";
+            this.cb_texture_mapping.UseVisualStyleBackColor = true;
+            this.cb_texture_mapping.CheckedChanged += new System.EventHandler(this.cb_texture_mapping_CheckedChanged);
+            // 
             // Task1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1605,6 +1654,8 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage4.ResumeLayout(false);
+            this.groupBox12.ResumeLayout(false);
+            this.groupBox12.PerformLayout();
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
             this.groupBox11.ResumeLayout(false);
@@ -1739,5 +1790,9 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.Button bt_texture_load;
+        private System.Windows.Forms.Button bt_parse_obj;
+        private System.Windows.Forms.CheckBox cb_texture_mapping;
     }
 }

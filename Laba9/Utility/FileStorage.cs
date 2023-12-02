@@ -8,9 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Cryptography;
+using System.Diagnostics;
 
 namespace blank.Utility
 {
+
     internal class FileStorage
     {
         public static void ExportModel(string file_name, Object3D obj)
@@ -43,7 +47,88 @@ namespace blank.Utility
             }
         }
 
+        //Чтение .obj файла
+        public static Object3D ImportModelObj(string filename)
+        {
+            Object3D newObj = new Object3D();
 
+            var vertices = new List<Vector4>();
+            var normals = new List<Vector4>();
+            var texCoords = new List<Point2D>();
+            var faces = new List<Face>();
+
+            CultureInfo cultureInfo = new CultureInfo("en-US");
+
+            foreach (var line in File.ReadLines(filename))
+            {
+                var parts = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Count() == 0)
+                {
+                    continue;
+                }
+
+                switch (parts[0])
+                {
+                    case "v": { vertices.Add(ParseVector3(parts, cultureInfo)); break; }
+                    case "vn": { normals.Add(ParseVector3(parts, cultureInfo)); break; }
+                    case "vt": { texCoords.Add(ParseVector2(parts, cultureInfo)); break; }
+                    case "f": { faces.Add(ParseFace(parts.Skip(1), cultureInfo)); break; }
+                }
+            }
+            Random random = new Random();
+            int trCount = 0;
+            foreach (var face in faces)
+            {
+                var trVert = new List<Vector4>();
+                foreach (var vertexData in face.VertexData)
+                {
+                    int vertexIndex = vertexData[0] - 1;
+                    int uvIndex = vertexData[1] - 1;
+
+                    Vector4 vertex = vertices[vertexIndex];
+                    // UV-развертка
+                    vertex.u = 1-texCoords[uvIndex].x;
+                    vertex.v = 1-texCoords[uvIndex].y;
+
+
+                    trVert.Add(vertex);
+                    //Debug.WriteLine($"u {trVert[trVert.Count-1].u} v {trVert[trVert.Count - 1].v}");
+                }
+
+                int red = random.Next(256);
+                int green = random.Next(256);
+                int blue = random.Next(256);
+
+                var tr = new Triangle3D(new Vector4(trVert[0].x, trVert[0].y, trVert[0].z, trVert[0].u, trVert[0].v),
+                                        new Vector4(trVert[1].x, trVert[1].y, trVert[1].z, trVert[1].u, trVert[1].v),
+                                        new Vector4(trVert[2].x, trVert[2].y, trVert[2].z, trVert[2].u, trVert[2].v), Color.FromArgb(red, green, blue));
+                tr.index = trCount++;
+                //Debug.WriteLine(tr);
+                newObj.mech.AddFace(tr);
+                if (trVert.Count == 4)
+                {
+                    tr = new Triangle3D(new Vector4(trVert[0].x, trVert[0].y, trVert[0].z, trVert[0].u, trVert[0].v),
+                                            new Vector4(trVert[2].x, trVert[2].y, trVert[2].z, trVert[2].u, trVert[2].v),
+                                            new Vector4(trVert[3].x, trVert[3].y, trVert[3].z, trVert[3].u, trVert[3].v), Color.FromArgb(red, green, blue));
+                    tr.index = trCount++;
+                    //Debug.WriteLine(tr);
+                    newObj.mech.AddFace(tr);
+                }
+            }
+            //Debug.WriteLine("Модель считана");
+            return newObj;
+        }
+
+        private static Point2D ParseVector2(string[] parts, CultureInfo info) =>
+                new Point2D(float.Parse(parts[1], info), float.Parse(parts[2], info));
+
+        private static Vector4 ParseVector3(string[] parts, CultureInfo info)
+        {
+            return new Vector4(float.Parse(parts[1], info), float.Parse(parts[2], info), float.Parse(parts[3], info));
+        }
+
+        private static Face ParseFace(IEnumerable<string> vertexData, CultureInfo info) =>
+                new Face(vertexData.Select(v => v.Split('/').Select(int.Parse).ToArray()));
 
         public static Object3D ImportModel(string file_name)
         {

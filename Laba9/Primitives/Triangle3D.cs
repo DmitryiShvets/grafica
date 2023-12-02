@@ -7,11 +7,21 @@ using System.Threading.Tasks;
 
 namespace blank.Primitives
 {
+    class Face
+    {
+        public List<int[]> VertexData { get; } = new List<int[]>();
+
+        public Face(IEnumerable<int[]> vertexData)
+        {
+            VertexData.AddRange(vertexData);
+        }
+    }
     internal class Triangle3D
     {
         private List<Vector4> vertexes;
         private Vector4 normal;
         public Color color;
+        public int index;
 
         public Triangle3D(Color color)
         {
@@ -50,5 +60,13 @@ namespace blank.Primitives
         }
         public int Size { get => this.vertexes.Count; }
         public Vector4 Normal { get => normal; }
+
+        public override string ToString()
+        {
+            return $"index {index}\n" +
+                   $"Vertex 0: {vertexes[0].ToString()}" +
+                   $"Vertex 1: {vertexes[1].ToString()}" +
+                   $"Vertex 2: {vertexes[2].ToString()}";
+        }
     }
 }
