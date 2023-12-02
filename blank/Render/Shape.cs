@@ -10,9 +10,10 @@ namespace blank.Render
     internal interface IIntersect
     {
         (double, double) Intersect(Vector4 origin, Vector4 direction);
+        Vector4 GetNormal(Vector4 p);
     }
 
-    internal class Shape 
+    internal class Shape
     {
         public Vector4 position;
         public Color color;

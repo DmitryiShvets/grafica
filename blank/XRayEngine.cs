@@ -22,8 +22,8 @@ namespace blank
 
         Double Infinity = Double.MaxValue;
         Double projection_plane_z = 1.0;
-        Double viewport_size = 1.0;
-        Vector4 camera_pos = new Vector4(0, 0, -2);
+        Double viewport_size = 1;
+        Vector4 camera_pos = new Vector4(0, 0, -5);
 
         public XRayEngine()
         {
@@ -32,8 +32,6 @@ namespace blank
             _graphics = Graphics.FromImage(_bitmap);
             _graphics.Clear(Color.White);
             canvas.Image = _bitmap;
-            //_bitmap.SetPixel(400, 0, Color.Red);
-            //_bitmap.SetPixel(0, 300, Color.Blue);
             _scene = new Scene();
         }
 
@@ -68,7 +66,10 @@ namespace blank
                 {
                     Vector4 vec_light = light.type == LIGHT_TYPE.POINT ? light.position - point : light.position;
                     double cos_light = Vector4.DotProduct(vec_light, normal);
-                    if (cos_light > 0) intensity += light.intensity * cos_light / (normal.Length() * vec_light.Length());
+                    if (cos_light > 0)
+                    {
+                        intensity += light.intensity * cos_light / (normal.Length() * vec_light.Length());
+                    }
                 }
             }
             return intensity;
@@ -112,8 +113,7 @@ namespace blank
             if (closest_obj == null) return background_color;
 
             Vector4 p = origin + direction * closest_t;
-
-            Vector4 normal = (p - closest_obj.position).Normalize();
+            Vector4 normal = (closest_obj as IIntersect).GetNormal(p);
             double h = ComputateLightning(p, normal);
 
             return MixColor(closest_obj.color, h);
@@ -122,6 +122,13 @@ namespace blank
         private void button1_Click(object sender, EventArgs e)
         {
             DrawAll();
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            viewport_size = trackBar1.Value;
+            DrawAll();
+            Console.WriteLine(trackBar1.Value);
         }
     }
 }

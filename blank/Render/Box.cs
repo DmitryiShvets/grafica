@@ -7,22 +7,45 @@ using System.Threading.Tasks;
 
 namespace blank.Render
 {
-    internal class Box : Shape,IIntersect
+    internal class Box : Shape, IIntersect
     {
         public Vector4[] bounds = new Vector4[2];
+        private Vector4[] vertexes = new Vector4[8];
+        private Vector4[] normals = new Vector4[6];
+
         public Box(Vector4 v1, Vector4 v2, Vector4 pos, Color color) : base(pos, color)
         {
-            if (v1.Length() < v2.Length())
-            {
-                bounds[0] = pos + v1;
-                bounds[1] = pos + v2;
-            }
-            else
-            {
-                bounds[0] = pos + v2;
-                bounds[1] = pos + v1;
-            }
+            bounds[0] = pos + v1;
+            bounds[1] = pos + v2;
+        }
 
+        public Vector4 GetNormal(Vector4 point)
+        {
+            Vector4 center = (bounds[0] + bounds[1]) / 2;
+            Vector4 p = point - center;
+            Vector4 d = (bounds[0] - bounds[1]) / 2;
+            double bias = 1.000001;
+
+            int x = (int)(p.x / Math.Abs(d.x) * bias);
+            int y = (int)(p.y / Math.Abs(d.y) * bias);
+            int z = (int)(p.z / Math.Abs(d.z) * bias);
+
+            return new Vector4(x, y, z).Normalize();
+        }
+
+
+        public Vector4 GetNormal1(Vector4 p)
+        {
+            foreach (Vector4 normal in normals)
+            {
+                double s = Vector4.DotProduct(p, normal);
+                if (s == 0)
+                {
+                    //Console.WriteLine(normal);
+                    return normal;
+                }
+            }
+            return new Vector4();
         }
 
         public (double, double) Intersect(Vector4 origin, Vector4 direction)

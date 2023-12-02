@@ -21,6 +21,11 @@ namespace blank.Render
             this.radius = radius;
         }
 
+        public Vector4 GetNormal(Vector4 p)
+        {
+            return (p - position).Normalize();
+        }
+
         public (double, double) Intersect(Vector4 origin, Vector4 direction)
         {
             Vector4 oc = origin - position;
