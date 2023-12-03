@@ -279,7 +279,7 @@ namespace blank
         {
             if (selected_obj != null)
             {
-                selected_obj.color = Color.FromArgb((int)color_r.Value, (int)color_g.Value, selected_obj.color.B);
+                selected_obj.color = Color.FromArgb((int)color_r.Value, (int)color_g.Value, (int)color_b.Value);
                 selected_obj.position = new Vector4((double)pos_x.Value, (double)pos_y.Value, (double)pos_z.Value);
                 selected_obj.specular = (double)n_specular.Value;
                 selected_obj.visible = chb_visible.Checked;

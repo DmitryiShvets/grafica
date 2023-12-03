@@ -24,16 +24,16 @@ namespace blank.Render
             objects.Add(new Box(new Vector4(0, 0, 0), new Vector4(1, 1, 1),
                 new Vector4(-1.5, -2, 4), Color.Orange, 1, 0.2, 0));
 
-            objects.Add(new Plane(new Vector4(0, 0, 1000), new Vector4(0, 0, 1), Color.White, 5, 0, 0));
+            objects.Add(new Plane(new Vector4(0, 0, 1000), new Vector4(0, 0, 1), Color.FromArgb(204,230,255), 5, 0, 0));
             objects.Add(new Plane(new Vector4(400, 0, 0), new Vector4(1, 0, 0), Color.Blue, 5, 0.1, 0));
             objects.Add(new Plane(new Vector4(-400, 0, 0), new Vector4(-1, 0, 0), Color.Red, 5, 0.1, 0));
-            objects.Add(new Plane(new Vector4(0, -500, 0), new Vector4(0, -1, 0), Color.White, 5, 0, 0));
-            objects.Add(new Plane(new Vector4(0, 500, 0), new Vector4(0, 1, 0), Color.White, 5, 0, 0));
+            objects.Add(new Plane(new Vector4(0, -500, 0), new Vector4(0, -1, 0), Color.FromArgb(204, 230, 255), 5, 0, 0));
+            objects.Add(new Plane(new Vector4(0, 500, 0), new Vector4(0, 1, 0), Color.FromArgb(204, 230, 255), 5, 0, 0));
 
             light_sources = new List<LightSource>();
             light_sources.Add(new LightSource(LIGHT_TYPE.AMBIENT, 0.2, new Vector4(0, 0, 0)));
             light_sources.Add(new LightSource(LIGHT_TYPE.POINT, 0.6, new Vector4(12, 29, -11)));
-            light_sources.Add(new LightSource(LIGHT_TYPE.DIRECTIONAL, 0.5, new Vector4(1, 4, 4)));
+            light_sources.Add(new LightSource(LIGHT_TYPE.DIRECTIONAL, 0.3, new Vector4(0, 0, -1)));
         }
     }
 }
