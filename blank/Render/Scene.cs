@@ -14,16 +14,26 @@ namespace blank.Render
         public Scene()
         {
             objects = new List<IIntersect>();
-            objects.Add(new Sphere(new Vector4(0, -1, 3), Color.Red, 1, 500, 0.2, 0.5));
-            objects.Add(new Sphere(new Vector4(2, 0, 4), Color.Blue, 1, 500, 0.3, 0));
-            objects.Add(new Sphere(new Vector4(-2, 0, 4), Color.Green, 1, 10, 0.4, 0));
-            objects.Add(new Sphere(new Vector4(0, -5001, 0), Color.Yellow, 5000, 1000, 0, 0));
-            //objects.Add(new Box(new Vector4(0, 0, 0), new Vector4(1, 2, 1), new Vector4(0, -1, 3), Color.Yellow, 200, 0.3,0));
+            objects.Add(new Sphere(new Vector4(0, 2, 3), Color.White, 0.1, 0.5, 0.2, 0.9));
+            objects.Add(new Sphere(new Vector4(0, 1, 3), Color.Red, 0.5, 0.7, 0.2, 0.5));
+            objects.Add(new Sphere(new Vector4(1, -2, 7), Color.Blue, 1, 0.5, 0.3, 0));
+            objects.Add(new Sphere(new Vector4(-1.5, -2, 4), Color.Green, 0.7, 0.4, 1, 0.25));
+            //objects.Add(new Sphere(new Vector4(0, -5001, 0), Color.Yellow, 5000, 1000, 0, 0));
+            objects.Add(new Box(new Vector4(0, 0, 0), new Vector4(1, 3, 1), 
+                new Vector4(1, -3, 4.5), Color.Yellow, 1, 0.2, 0));
+            objects.Add(new Box(new Vector4(0, 0, 0), new Vector4(1, 1, 1),
+                new Vector4(-1.5, -2, 4), Color.Orange, 1, 0.2, 0));
+
+            objects.Add(new Plane(new Vector4(0, 0, 1000), new Vector4(0, 0, 1), Color.White, 5, 0, 0));
+            objects.Add(new Plane(new Vector4(400, 0, 0), new Vector4(1, 0, 0), Color.Blue, 5, 0.1, 0));
+            objects.Add(new Plane(new Vector4(-400, 0, 0), new Vector4(-1, 0, 0), Color.Red, 5, 0.1, 0));
+            objects.Add(new Plane(new Vector4(0, -500, 0), new Vector4(0, -1, 0), Color.White, 5, 0, 0));
+            objects.Add(new Plane(new Vector4(0, 500, 0), new Vector4(0, 1, 0), Color.White, 5, 0, 0));
 
             light_sources = new List<LightSource>();
-            light_sources.Add(new LightSource(LIGHT_TYPE.AMBIENT, 0.2, null));
-            light_sources.Add(new LightSource(LIGHT_TYPE.POINT, 0.6, new Vector4(2, 1, 0)));
-            //light_sources.Add(new LightSource(LIGHT_TYPE.DIRECTIONAL, 0.5, new Vector4(1, 4, 4)));
+            light_sources.Add(new LightSource(LIGHT_TYPE.AMBIENT, 0.2, new Vector4(0, 0, 0)));
+            light_sources.Add(new LightSource(LIGHT_TYPE.POINT, 0.6, new Vector4(12, 29, -11)));
+            light_sources.Add(new LightSource(LIGHT_TYPE.DIRECTIONAL, 0.5, new Vector4(1, 4, 4)));
         }
     }
 }

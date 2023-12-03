@@ -12,12 +12,19 @@ namespace blank.Render
         public Vector4[] bounds = new Vector4[2];
         private Vector4[] normals = new Vector4[6];
 
-        public Box(Vector4 v1, Vector4 v2, Vector4 pos, Color color,int specular,double reflective,double transparency) 
+        public Box(Vector4 v1, Vector4 v2, Vector4 pos, Color color, double specular, double reflective, double transparency)
             : base(pos, color, specular, reflective, transparency)
         {
             bounds[0] = pos + v1;
             bounds[1] = pos + v2;
         }
+
+        public Box() : base()
+        {
+            bounds[0] = base.position + new Vector4(0, 0, 0);
+            bounds[1] = base.position + new Vector4(1, 1, 1);
+        }
+
 
         public Vector4 GetNormal(Vector4 point)
         {
@@ -76,6 +83,11 @@ namespace blank.Render
             if (tzmax < tmax) tmax = tzmax;
 
             return (tmin, tmax);
+        }
+
+        public override string ToString()
+        {
+            return "Box(" + color + ")";
         }
     }
 }

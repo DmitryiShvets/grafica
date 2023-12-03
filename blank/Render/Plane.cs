@@ -13,11 +13,11 @@ namespace blank.Render
         Vector4 point;
         Vector4 normal;
 
-        public Plane(Vector4 v1, Vector4 v2, Color color, int specular, double reflective, double transparency)
-             : base(v1, color, specular, reflective, transparency)
+        public Plane(Vector4 p, Vector4 normal, Color color, double specular, double reflective, double transparency)
+             : base(p, color, specular, reflective, transparency)
         {
-            point = v1;
-            normal = v2;
+            this.point = p;
+            this.normal = normal;
         }
 
         public Vector4 GetNormal(Vector4 p)
@@ -31,6 +31,10 @@ namespace blank.Render
             var t = -(d + Vector4.DotProduct(origin, normal)) / Vector4.DotProduct(direction, normal);
             if (t <= 1e-4) return (Infinity, Infinity);
             else return (t, t);
+        }
+        public override string ToString()
+        {
+            return "Plane (" + color + ")";
         }
     }
 }

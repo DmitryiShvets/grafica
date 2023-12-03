@@ -24,5 +24,18 @@ namespace blank.Render
             this.intensity = intensity;
             this.position = position;
         }
+
+        public LightSource()
+        {
+            this.type = LIGHT_TYPE.AMBIENT;
+            this.intensity = 0;
+            this.position = new Vector4();
+        }
+
+        public override string ToString()
+        {
+            return type.ToString();
+        }
     }
+
 }

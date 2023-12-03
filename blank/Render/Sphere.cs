@@ -9,13 +9,18 @@ namespace blank.Render
 {
     internal class Sphere : Shape, IIntersect
     {
-        public int radius;
+        public double radius;
 
 
-        public Sphere(Vector4 pos, Color color, int radius,int specular,double reflective,double transparency)
+        public Sphere(Vector4 pos, Color color, double radius, double specular, double reflective, double transparency)
             : base(pos, color, specular, reflective, transparency)
         {
             this.radius = radius;
+        }
+
+        public Sphere() : base()
+        {
+            this.radius = 1;
         }
 
         public Vector4 GetNormal(Vector4 p)
@@ -44,5 +49,9 @@ namespace blank.Render
             return (t1, t2);
         }
 
+        public override string ToString()
+        {
+            return "Sphere(" + color + ")";
+        }
     }
 }
