@@ -57,6 +57,10 @@ namespace blank
         List<Func<double, double, double>> functions = new List<Func<double, double, double>>();
         string texture_filename = "";
 
+        bool isDrawingCalled = true;
+        double idleThresholdSeconds = 0.1;
+        private DateTime lastMouseMove;
+
         public Task1()
         {
             InitializeComponent();
@@ -94,7 +98,28 @@ namespace blank
 
             render = new Render(canvas, _bitmap);
             light_info.Text = light_source.ToString();
+
+            var timer = new Timer
+            {
+                Interval = 100, // Интервал проверки в миллисекундах
+                Enabled = true
+            };
+            timer.Tick += Timer_Tick;
+
             DrawAll();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (_interactive_mode)
+            {
+                var idleTime = (DateTime.Now - lastMouseMove).TotalSeconds;
+                if (idleTime >= idleThresholdSeconds && !isDrawingCalled)
+                {
+                    isDrawingCalled = true;
+                    DrawAll();
+                }
+            }
         }
 
         private void AddAllObjects()
@@ -133,7 +158,7 @@ namespace blank
         {
             _graphics.Clear(Color.White);
             _graphics_editor.Clear(Color.White);
-            if(lightning)render.ClearZBuff();
+            if(lightning && (!_interactive_mode || isDrawingCalled))render.ClearZBuff();
             DrawAxes();
 
             if (editor_points.Count > 0) DrawEditor();
@@ -153,6 +178,18 @@ namespace blank
         }
         private void DrawTriangle(Triangle3D triangle, Transform transform)
         {
+            if (_interactive_mode && !isDrawingCalled)
+            {
+                if (g_projection_type == PROJECTION_TYPE.PERSPECTIVE)
+                {
+                    DrawTrianglePerspective(triangle, transform);
+                }
+                else
+                {
+                    DrawTriangleOrtho(triangle, transform);
+                }
+                return;
+            }
             if (zbuffer)
             {
                 if (g_projection_type == PROJECTION_TYPE.PERSPECTIVE)
@@ -1174,13 +1211,19 @@ namespace blank
         {
             if (_interactive_mode)
             {
+
                 float xpos = Cursor.Position.X;
                 float ypos = Cursor.Position.Y;
 
                 float xoffset = xpos - fixed_pos.X;
                 float yoffset = fixed_pos.Y - ypos;
 
-                Cursor.Position = fixed_pos;
+                if (Cursor.Position != fixed_pos)
+                {
+                    lastMouseMove = DateTime.Now;
+                    Cursor.Position = fixed_pos;
+                    isDrawingCalled = false;
+                }
 
                 const float sensitivity = 0.1f;
                 xoffset *= sensitivity;
@@ -1204,7 +1247,6 @@ namespace blank
                 mouse_info.Text = "x = " + xpos + " | y = " + ypos;
                 view_matrix = Matrix3D.LookAt(camera_pos, camera_pos + camera_front, camera_up);
                 DrawAll();
-
             }
         }
 
