@@ -26,6 +26,35 @@ Mesh::Mesh(const char* meshPath)
     parseFile(meshPath);
     InitPositionBuffers();
 }
+Mesh::~Mesh() {
+    if (glIsBuffer(VBO)) {
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glDeleteBuffers(1, &VBO);
+    }
+    if (glIsVertexArray(VAO)) {
+        glBindVertexArray(0);
+        glDeleteVertexArrays(1, &VAO);
+    }
+}
+
+Mesh& Mesh::operator=(Mesh&& mesh) noexcept {
+    if (this != &mesh) {
+        vertices = std::move(mesh.vertices);
+        VBO = mesh.VBO;
+        VAO = mesh.VAO;
+        mesh.VBO = 0;
+        mesh.VAO = 0;
+    }
+    return *this;
+}
+
+Mesh::Mesh(Mesh&& mesh) noexcept {
+    vertices = std::move(mesh.vertices);
+    VBO = mesh.VBO;
+    VAO = mesh.VAO;
+    mesh.VBO = 0;
+    mesh.VAO = 0;
+}
 
 void Mesh::parseFile(const std::string& filePath)
 {
@@ -119,10 +148,4 @@ void Mesh::InitPositionBuffers()
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (GLvoid*)offsetof(MeshVertex, texture));
 
     glBindVertexArray(0);
-}
-
-Mesh::~Mesh() {
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glDeleteBuffers(1, &VBO);
-    glDeleteVertexArrays(1, &VAO);
 }

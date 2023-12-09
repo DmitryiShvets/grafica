@@ -25,5 +25,12 @@ public:
     GLuint VBO;
     GLuint VAO;
     Mesh(const char* meshPath);
+
     ~Mesh();
+
+    Mesh() = delete;
+    Mesh(Mesh&) = delete;
+    Mesh& operator=(const Mesh&) = delete;
+    Mesh& operator=(Mesh&& mesh) noexcept;
+    Mesh(Mesh&& mesh) noexcept;
 };

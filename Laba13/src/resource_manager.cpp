@@ -47,9 +47,9 @@ void ResourceManager::init() {
 
 	try
 	{
+		m_textures.emplace("skull", Texture2D("res/textures/skull.jpg"));
 		m_textures.emplace("default", Texture2D("res/textures/awesomeface.png"));
 		m_textures.emplace("container", Texture2D("res/textures/container.jpg"));
-		m_textures.emplace("skull", Texture2D("res/textures/skull.jpg"));
 	}
 	catch (const std::exception& e)
 	{
