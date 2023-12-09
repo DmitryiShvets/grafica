@@ -5,6 +5,7 @@
 #include "cub_mixed_textures.h"
 #include "tetra.h"
 #include "circle.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 Application& Application::get_instance()
 {
@@ -64,6 +65,7 @@ void Application::init()
 void DrawQuad();
 void RenderObj(Renderable* obj);
 void DrawPentagon();
+void DrawSkull();
 
 
 void Application::start()
@@ -91,7 +93,7 @@ void Application::start()
 			RenderObj(primitives["cube"]);
 			break;
 		case 3:
-			RenderObj(primitives["cube"]);
+			DrawSkull();
 			break;
 		case 4:
 			RenderObj(primitives["circle"]);
@@ -126,6 +128,38 @@ void Application::select_task(int value)
 
 Application::Application(std::string name, int width, int height) : name(std::move(name)), width(width), height(height) {}
 
+void DrawSkull()
+{
+	ResourceManager* resources = &ResourceManager::getInstance();
+	ShaderProgram* program = &resources->getProgram("model");
+	Texture2D* texture = &resources->getTexture("skull");
+
+
+	// Create transformations
+	// Установка матриц преобразования
+	glm::mat4 model = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+
+	glm::mat4 view = glm::lookAt(glm::vec3(40, -40.0f, 15.0f),   // eye (позиция камеры)
+		glm::vec3(0.0f, 0.0f, 10.0f),   // target (точка, на которую смотрит камера)
+		glm::vec3(0.0f, 0.0f, 1.0f));  // up (вектор "вверх")
+
+	glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+
+	program->use();
+	program->setUniform("view", view);
+	program->setUniform("projection", projection);
+	program->setUniform("model", model);
+
+	glActiveTexture(GL_TEXTURE0);
+	texture->bind();
+
+	glBindVertexArray(resources->getMesh("skull").VAO);
+	glDrawArrays(GL_TRIANGLES, 0, resources->getMesh("skull").vertices.size());
+	glBindVertexArray(0);
+
+	texture->unbind();
+	program->unbind();
+}
 void DrawQuad() {
 	ResourceManager* resources = &ResourceManager::getInstance();
 	ShaderProgram* mProgram = &resources->getProgram("custom");

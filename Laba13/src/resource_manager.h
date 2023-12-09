@@ -4,6 +4,7 @@
 #include "shader_program.h"
 #include "buffer_objects.h"
 #include "texture.h"
+#include "mesh.h"
 class ResourceManager {
 public:
     static ResourceManager& getInstance();
@@ -19,6 +20,7 @@ public:
     EBO& getEBO(const std::string& vaoName);
     glm::vec3& getColor(const std::string& colorName);
     Texture2D& getTexture(const std::string& textureName);
+    Mesh& getMesh(const std::string& meshName);
 private:
     ResourceManager();
 
@@ -35,4 +37,5 @@ private:
     std::map<std::string, EBO> m_ebo;
     std::map<std::string, glm::vec3> m_colors;
     std::map<std::string, Texture2D> m_textures;
+    std::map<std::string, Mesh> m_meshes;
 };

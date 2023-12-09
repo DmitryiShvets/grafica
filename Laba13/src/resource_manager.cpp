@@ -43,16 +43,20 @@ void ResourceManager::init() {
 	shaderPrograms.emplace("texture", ShaderProgram(readFile("res/shaders/v_texture.glsl"), readFile("res/shaders/f_texture.glsl")));
 	shaderPrograms.emplace("circle", ShaderProgram(readFile("res/shaders/v_circle.glsl"), readFile("res/shaders/f_circle.glsl")));
 	shaderPrograms.emplace("move", ShaderProgram(readFile("res/shaders/v_move.glsl"), readFile("res/shaders/f_veer.glsl")));
+	shaderPrograms.emplace("model", ShaderProgram(readFile("res/shaders/v_model.glsl"), readFile("res/shaders/f_model.glsl")));
 
 	try
 	{
 		m_textures.emplace("default", Texture2D("res/textures/awesomeface.png"));
 		m_textures.emplace("container", Texture2D("res/textures/container.jpg"));
+		m_textures.emplace("skull", Texture2D("res/textures/skull.jpg"));
 	}
 	catch (const std::exception& e)
 	{
 		Logger::error_log(e.what());
 	}
+
+	m_meshes.emplace("skull", Mesh("res/meshes/skull.txt"));
 
 	VBOLayout menuVBOLayout;
 	menuVBOLayout.addLayoutElement(2, GL_FLOAT, GL_FALSE);
@@ -214,6 +218,15 @@ Texture2D& ResourceManager::getTexture(const std::string& textureName)
 	}
 	return m_textures.find("default")->second;
 
+}
+
+Mesh& ResourceManager::getMesh(const std::string& meshName)
+{
+	auto it = m_meshes.find(meshName);
+	if (it != m_meshes.end()) {
+		return it->second;
+	}
+	return m_meshes.find("default")->second;
 }
 
 ResourceManager& ResourceManager::getInstance() {
