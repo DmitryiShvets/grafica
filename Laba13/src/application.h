@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 #include "resource_manager.h"
 #include "object.h"
+#include "camera.h"
 
 class Application {
 public:
@@ -26,8 +27,8 @@ public:
 	Application& operator=(const Application&) = delete;
 
 	void select_task(int value);
-	Renderable* tetra = nullptr;
-	std::map<std::string, Renderable*> primitives;
+
+	Camera camera = Camera();
 private:
 	Application(std::string name, int width, int height);
 	int m_current_task = 1;
@@ -36,4 +37,5 @@ private:
 	int height;
 	GLFWwindow* window = nullptr;
 	ResourceManager* resourceManager = nullptr;
+	std::map<std::string, Renderable*> primitives;
 };

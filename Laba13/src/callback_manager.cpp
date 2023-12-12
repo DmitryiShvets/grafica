@@ -20,56 +20,26 @@ void CallbackManager::key_callback(GLFWwindow* window, int key, int scancode, in
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS) {
 	}
-	if ((key == GLFW_KEY_1 || key == GLFW_KEY_2 || key == GLFW_KEY_3 || key == GLFW_KEY_4)&& action == GLFW_PRESS) {
-		std::cout << "click - "<< key - 48 <<std::endl;
-		Application::get_instance().select_task(key - 48);
+	if (key == GLFW_KEY_W) {
+		Application::get_instance().camera.ProcessKeyboard(FORWARD, 0.2);
 	}
-	if (key == GLFW_KEY_UP ) {
-		Application::get_instance().primitives["tetra"]->update(
-			Event(EVENT_TYPE::TRANSFORM, std::make_tuple(0.f, 0.05f, 0.f)));
+	if (key == GLFW_KEY_D) {
+		Application::get_instance().camera.ProcessKeyboard(RIGHT, 0.2);
 	}
-	if (key == GLFW_KEY_RIGHT ) {
-		Application::get_instance().primitives["tetra"]->update(
-			Event(EVENT_TYPE::TRANSFORM, std::make_tuple(0.05f, 0.f, 0.f)));
+	if (key == GLFW_KEY_S) {
+		Application::get_instance().camera.ProcessKeyboard(BACKWARD, 0.2);
 	}
-	if (key == GLFW_KEY_DOWN ) {
-		Application::get_instance().primitives["tetra"]->update(
-			Event(EVENT_TYPE::TRANSFORM, std::make_tuple(0.f, -0.05f, 0.f)));
+	if (key == GLFW_KEY_A) {
+		Application::get_instance().camera.ProcessKeyboard(LEFT, 0.2);
 	}
-	if (key == GLFW_KEY_LEFT ) {
-		Application::get_instance().primitives["tetra"]->update(
-			Event(EVENT_TYPE::TRANSFORM, std::make_tuple(-0.05f, 0.f, 0.f)));
-	}
-	if (key == GLFW_KEY_MINUS && action == GLFW_PRESS) {
-		Application::get_instance().primitives["cube"]->update(
-			Event(EVENT_TYPE::RATIO, std::make_tuple(-0.1f, 0.f, 0.f)));
-	}
-	if (key == GLFW_KEY_EQUAL && action == GLFW_PRESS) {
-		Application::get_instance().primitives["cube"]->update(
-			Event(EVENT_TYPE::RATIO, std::make_tuple(0.1f, 0.f, 0.f)));
-	}
-	if (key == GLFW_KEY_W ) {
-		Application::get_instance().primitives["circle"]->update(
-			Event(EVENT_TYPE::SCALE, std::make_tuple(0.f, 0.05f, 0.f)));
-	}
-	if (key == GLFW_KEY_D ) {
-		Application::get_instance().primitives["circle"]->update(
-			Event(EVENT_TYPE::SCALE, std::make_tuple(0.05f, 0.f, 0.f)));
-	}
-	if (key == GLFW_KEY_S ) {
-		Application::get_instance().primitives["circle"]->update(
-			Event(EVENT_TYPE::SCALE, std::make_tuple(0.f, -0.05f, 0.f)));
-	}
-	if (key == GLFW_KEY_A ) {
-		Application::get_instance().primitives["circle"]->update(
-			Event(EVENT_TYPE::SCALE, std::make_tuple(-0.05f, 0.f, 0.f)));
-	}
+
 }
 
 void CallbackManager::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
 	int width, nowHeight;
 	glfwGetWindowSize(window, &width, &nowHeight);
+	Application::get_instance().camera.ProcessMouseMovement(xpos, ypos);
 
 }
 void CallbackManager::error_callback(int error, const char* description)

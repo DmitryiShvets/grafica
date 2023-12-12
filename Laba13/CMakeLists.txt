@@ -28,7 +28,8 @@ set(PROJ_SRC
 				"src/cub_mixed_textures.cpp"
 				"src/mesh.h"
 				"src/mesh.cpp"
- "src/circle.h" "src/circle.cpp")
+				"src/circle.h" 
+				"src/circle.cpp" "src/camera.h" "src/camera.cpp")
 
 add_executable (${PROJ_NAME} ${PROJ_SRC})
 

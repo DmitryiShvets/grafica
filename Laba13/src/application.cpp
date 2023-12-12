@@ -60,48 +60,47 @@ void Application::init()
 	primitives["tetra"] = new Tetra();
 	primitives["cube"] = new CubMixedTextures();
 	primitives["circle"] = new Circle();
+
+	glfwSetCursorPos(window, 450, 450);
+
 }
 
-void DrawQuad();
-void RenderObj(Renderable* obj);
-void DrawPentagon();
-void DrawSkull();
+void RenderObj(glm::vec3 position, Mesh* obj, ShaderProgram* program,
+	Texture2D* texture, float scale, glm::mat4 view, glm::vec3 rotation, float angle);
 
 
 void Application::start()
 {
 	Renderer::setClearColor(175.0f / 255.0f, 218.0f / 255.0f, 252.0f / 255.0f, 1.0f);
-	ShaderProgram& p = resourceManager->getProgram("texture");
-	p.use();
-	p.setUniform("texture1", 0);
-	p.setUniform("texture2", 1);
-	p.unbind();
 
+	ResourceManager* resources = &ResourceManager::getInstance();
+	ShaderProgram* program = &resources->getProgram("model");
+	Texture2D* texture_skull = &resources->getTexture("skull");
+	Texture2D* texture_barrel = &resources->getTexture("barrel");
+	Mesh* skull_obj = &resources->getMesh("skull");
+	Mesh* barrel_obj = &resources->getMesh("barrel");
 
+	//Матрица проекции - не меняется между кадрами, поэтому устанавливается вне цикла
+	glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+
+	program->use();
+	program->setUniform("projection", projection);
+	program->unbind();
+
+	//glm::mat4 view = glm::lookAt(glm::vec3(0), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	// Game loop
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
 
 		Renderer::clear();
 
-		switch (m_current_task)
+		glm::mat4 view = camera.GetViewMatrix();
+
+		for (int i = 0; i < 5; i++)
 		{
-		case 1:
-			RenderObj(primitives["tetra"]);
-			break;
-		case 2:
-			RenderObj(primitives["cube"]);
-			break;
-		case 3:
-			DrawSkull();
-			break;
-		case 4:
-			RenderObj(primitives["circle"]);
-			break;
-		default:
-			DrawQuad();
-			break;
+			RenderObj(glm::vec3(i,0,0), skull_obj, program, texture_skull, 0.2f, view, glm::vec3(0.0f, 0.0f, 1.0f), 0);
 		}
+		RenderObj(glm::vec3(1, 0, 0), barrel_obj, program, texture_barrel, 1.0f, view, glm::vec3(0.0f, 0.0f, 1.0f), 0);
 
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
@@ -117,7 +116,7 @@ void Application::close()
 
 Application::~Application()
 {
-	for (auto x : primitives)delete(x.second);
+	for (auto& x : primitives)delete(x.second);
 }
 
 void Application::select_task(int value)
@@ -128,79 +127,25 @@ void Application::select_task(int value)
 
 Application::Application(std::string name, int width, int height) : name(std::move(name)), width(width), height(height) {}
 
-void DrawSkull()
+void RenderObj(glm::vec3 position, Mesh* obj, ShaderProgram* program,
+	Texture2D* texture, float scale, glm::mat4 view, glm::vec3 rotation, float angle)
 {
-	ResourceManager* resources = &ResourceManager::getInstance();
-	ShaderProgram* program = &resources->getProgram("model");
-	Texture2D* texture = &resources->getTexture("skull");
-
-
-	// Create transformations
-	// Установка матриц преобразования
-	glm::mat4 model = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0.0f, 0.0f, 1.0f));
-
-	glm::mat4 view = glm::lookAt(glm::vec3(40, -40.0f, 15.0f),   // eye (позиция камеры)
-		glm::vec3(0.0f, 0.0f, 10.0f),   // target (точка, на которую смотрит камера)
-		glm::vec3(0.0f, 0.0f, 1.0f));  // up (вектор "вверх")
-
-	glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+	//Матрица модели - меняется между кадрами, поэтому устанавливается в цикле
+	glm::mat4 model = glm::translate(glm::mat4(1.0f), position);
+	model = glm::rotate(model, angle, rotation);
+	model = glm::scale(model, glm::vec3(scale));
 
 	program->use();
 	program->setUniform("view", view);
-	program->setUniform("projection", projection);
 	program->setUniform("model", model);
 
 	glActiveTexture(GL_TEXTURE0);
 	texture->bind();
 
-	glBindVertexArray(resources->getMesh("skull").VAO);
-	glDrawArrays(GL_TRIANGLES, 0, resources->getMesh("skull").vertices.size());
+	glBindVertexArray(obj->VAO);
+	glDrawArrays(GL_TRIANGLES, 0, obj->vertices.size());
 	glBindVertexArray(0);
 
 	texture->unbind();
 	program->unbind();
-}
-void DrawQuad() {
-	ResourceManager* resources = &ResourceManager::getInstance();
-	ShaderProgram* mProgram = &resources->getProgram("custom");
-	VAO* vao = &resources->getVAO("quad");
-	glm::vec3 color = resources->getColor("randomColor");
-
-	mProgram->use();
-	mProgram->setUniform("customColor", glm::vec4(color, 1.0));
-	Renderer::draw(vao);
-	mProgram->unbind();
-}
-
-void DrawVeer() {
-	ResourceManager* resources = &ResourceManager::getInstance();
-	ShaderProgram* mProgram = &resources->getProgram("texture");
-	Texture2D* mTexture1 = &resources->getTexture("default");
-	Texture2D* mTexture2 = &resources->getTexture("container");
-	VAO* vao = &resources->getVAO("veer");
-	EBO* ebo = &resources->getEBO("veer");
-
-	mProgram->use();
-	glActiveTexture(GL_TEXTURE0);
-	mTexture1->bind();
-	glActiveTexture(GL_TEXTURE1);
-	mTexture2->bind();
-	Renderer::draw(vao, ebo);
-	mTexture2->unbind();
-	mTexture1->unbind();
-	mProgram->unbind();
-}
-
-void RenderObj(Renderable* obj) {
-	obj->render();
-}
-
-void DrawPentagon() {
-	ResourceManager* resources = &ResourceManager::getInstance();
-	ShaderProgram* mProgram = &resources->getProgram("default");
-	VAO* vao = &resources->getVAO("pentagon");
-	EBO* ebo = &resources->getEBO("pentagon");
-	mProgram->use();
-	Renderer::draw(vao, ebo);
-	mProgram->unbind();
 }
