@@ -6,6 +6,7 @@
 #include "tetra.h"
 #include "circle.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include <chrono>
 
 Application& Application::get_instance()
 {
@@ -71,7 +72,7 @@ void RenderObj(glm::vec3 position, Mesh* obj, ShaderProgram* program,
 
 void Application::start()
 {
-	Renderer::setClearColor(175.0f / 255.0f, 218.0f / 255.0f, 252.0f / 255.0f, 1.0f);
+	Renderer::setClearColor(65.0f / 255.0f, 74.0f / 255.0f, 76.0f / 255.0f, 1.0f);
 
 	ResourceManager* resources = &ResourceManager::getInstance();
 	ShaderProgram* program = &resources->getProgram("model");
@@ -87,26 +88,41 @@ void Application::start()
 	program->setUniform("projection", projection);
 	program->unbind();
 
+	float radius = 15.0f;
+	float pi = 3.14f;
+
+	glm::vec3 newPos = glm::vec3(5, -2, -10);
+
 	//glm::mat4 view = glm::lookAt(glm::vec3(0), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	// Game loop
+	auto start = std::chrono::steady_clock::now();
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
 
 		Renderer::clear();
 
+		auto end = std::chrono::steady_clock::now();
+		auto diff = end - start;
+		auto delta = std::chrono::duration_cast<std::chrono::milliseconds> (diff).count();
 		glm::mat4 view = camera.GetViewMatrix();
-
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 10; i++)
 		{
-			RenderObj(glm::vec3(i,0,0), skull_obj, program, texture_skull, 0.2f, view, glm::vec3(0.0f, 0.0f, 1.0f), 0);
+			newPos = glm::vec3(round(radius * cos(i * 0.01 * delta / 100 * 72 * pi / 180)), -2, -10 + round(radius * sin(i * 0.01 * delta / 100 * 72 * pi / 180)));
+			RenderObj(glm::vec3(0, -2, -10), barrel_obj, program, texture_barrel, 0.5f, view, glm::vec3(0.0f, 1.0f, 0.0f), r);
+			RenderObj(newPos, skull_obj, program, texture_skull, 0.02f * i, view, glm::vec3(0.0f, 1.0f, 0.0f), r);
 		}
-		RenderObj(glm::vec3(1, 0, 0), barrel_obj, program, texture_barrel, 1.0f, view, glm::vec3(0.0f, 0.0f, 1.0f), 0);
+
 
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
 	}
 	resourceManager->destroy();
 	glfwTerminate();
+}
+
+void Application::changeRotate(float c)
+{
+	r += c;
 }
 
 void Application::close()

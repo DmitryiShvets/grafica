@@ -32,7 +32,14 @@ void CallbackManager::key_callback(GLFWwindow* window, int key, int scancode, in
 	if (key == GLFW_KEY_A) {
 		Application::get_instance().camera.ProcessKeyboard(LEFT, 0.2);
 	}
-
+	if (key == GLFW_KEY_RIGHT)
+	{
+		Application::get_instance().changeRotate(0.01);
+	}
+	if (key == GLFW_KEY_LEFT)
+	{
+		Application::get_instance().changeRotate(-0.01);
+	}
 }
 
 void CallbackManager::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)

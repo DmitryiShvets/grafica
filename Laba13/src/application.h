@@ -29,6 +29,7 @@ public:
 	void select_task(int value);
 
 	Camera camera = Camera();
+	void changeRotate(float c);
 private:
 	Application(std::string name, int width, int height);
 	int m_current_task = 1;
@@ -38,4 +39,5 @@ private:
 	GLFWwindow* window = nullptr;
 	ResourceManager* resourceManager = nullptr;
 	std::map<std::string, Renderable*> primitives;
+	float r = 0;
 };
