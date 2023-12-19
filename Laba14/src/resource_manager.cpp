@@ -44,6 +44,7 @@ void ResourceManager::init() {
 	shaderPrograms.emplace("circle", ShaderProgram(readFile("res/shaders/v_circle.glsl"), readFile("res/shaders/f_circle.glsl")));
 	shaderPrograms.emplace("move", ShaderProgram(readFile("res/shaders/v_move.glsl"), readFile("res/shaders/f_veer.glsl")));
 	shaderPrograms.emplace("model", ShaderProgram(readFile("res/shaders/v_model.glsl"), readFile("res/shaders/f_model.glsl")));
+	shaderPrograms.emplace("directionalLight", ShaderProgram(readFile("res/shaders/v_light.glsl"), readFile("res/shaders/f_directional_light.glsl")));
 
 	try
 	{

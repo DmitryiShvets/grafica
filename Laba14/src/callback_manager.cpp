@@ -32,6 +32,10 @@ void CallbackManager::key_callback(GLFWwindow* window, int key, int scancode, in
 	if (key == GLFW_KEY_A) {
 		Application::get_instance().camera.ProcessKeyboard(LEFT, 0.2);
 	}
+	if ((key == GLFW_KEY_1 || key == GLFW_KEY_2 || key == GLFW_KEY_3 || key == GLFW_KEY_4) && action == GLFW_PRESS) {
+		std::cout << "click - " << key - 48 << std::endl;
+		Application::get_instance().select_task(key - 48);
+	}
 
 }
 

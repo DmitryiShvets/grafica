@@ -53,6 +53,7 @@ void Application::init()
 	glfwSetMouseButtonCallback(window, CallbackManager::mouse_button_callback);
 	glfwSetCursorPosCallback(window, CallbackManager::cursor_position_callback);
 	glfwSetFramebufferSizeCallback(window, CallbackManager::framebuffer_size_callback);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	resourceManager = &ResourceManager::getInstance();
 	resourceManager->init();
@@ -69,6 +70,12 @@ void Application::init()
 void RenderObj(glm::vec3 position, Mesh* obj, ShaderProgram* program,
 	Texture2D* texture, float scale, glm::mat4 view, glm::vec3 rotation, float angle);
 
+//TODO вынести в отдельный файл
+struct Material {
+	glm::vec3 diffuseColor;
+	glm::vec3 specularColor;
+	float shininess;
+};
 
 void Application::start()
 {
@@ -88,6 +95,29 @@ void Application::start()
 	program->setUniform("projection", projection);
 	program->unbind();
 
+	//Направленный источник света (Фонг)
+	ShaderProgram* directionalLight = &resources->getProgram("directionalLight");
+	directionalLight->use();
+	directionalLight->setUniform("projection", projection);
+
+	glm::vec3 lightDirection(1.0f, -1.0f, -1.0f);
+	glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
+	float lightIntensity = 1.0f;
+	directionalLight->setUniform("light.direction", lightDirection);
+	directionalLight->setUniform("light.color", lightColor);
+	directionalLight->setUniform("light.intensity", lightIntensity);
+
+	Material material;
+	material.diffuseColor = glm::vec3(1.0f, 1.0f, 1.0f);
+	material.specularColor = glm::vec3(1.0f, 1.0f, 1.0f);
+	material.shininess = 32.0f;
+	directionalLight->setUniform("material.diffuseColor", material.diffuseColor);
+	directionalLight->setUniform("material.specularColor", material.specularColor);
+	directionalLight->setUniform("material.shininess", material.shininess);
+
+	directionalLight->unbind();
+	//************************
+
 	float radius = 15.0f;
 	float pi = 3.14f;
 
@@ -96,11 +126,22 @@ void Application::start()
 	//glm::mat4 view = glm::lookAt(glm::vec3(0), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	// Game loop
 	auto start = std::chrono::steady_clock::now();
+	float r = 0; //Вращение черепа
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
 
 		Renderer::clear();
-
+		switch (m_current_task)
+		{
+			case 2:
+			{
+				r += 0.01;
+				glm::mat4 view = camera.GetViewMatrix();
+				RenderObj(glm::vec3(1, 0, 0), barrel_obj, directionalLight, texture_barrel, 1.0f, view, glm::vec3(0.0f, 0.0f, 1.0f), 0);
+				RenderObj(glm::vec3(-20, 2, -50), skull_obj, directionalLight, texture_skull, 1.0f, view, glm::vec3(1.0f, 0.0f, 0.0f), 30 + r);
+				break;
+			}
+		}
 
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
