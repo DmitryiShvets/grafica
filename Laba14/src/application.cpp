@@ -88,8 +88,22 @@ void Application::start()
 	ShaderProgram* program = &resources->getProgram("model");
 	Texture2D* texture_skull = &resources->getTexture("skull");
 	Texture2D* texture_barrel = &resources->getTexture("barrel");
+	Texture2D* texture_t_rex = &resources->getTexture("t-rex");
+	Texture2D* texture_elas = &resources->getTexture("elas");
+	Texture2D* texture_cear = &resources->getTexture("cear");
+	Texture2D* texture_tric = &resources->getTexture("tric");
+	Texture2D* texture_diplo = &resources->getTexture("diplo");
+	Texture2D* texture_tree = &resources->getTexture("tree");
+	Texture2D* texture_patrik = &resources->getTexture("patrik");
 	Mesh* skull_obj = &resources->getMesh("skull");
 	Mesh* barrel_obj = &resources->getMesh("barrel");
+	Mesh* t_rex_obj = &resources->getMesh("t-rex");
+	Mesh* elas_obj = &resources->getMesh("elas");
+	Mesh* cear_obj = &resources->getMesh("cear");
+	Mesh* tric_obj = &resources->getMesh("tric");
+	Mesh* diplo_obj = &resources->getMesh("diplo");
+	Mesh* tree_obj = &resources->getMesh("tree");
+	Mesh* patrik_obj = &resources->getMesh("patrik");
 
 	//Матрица проекции - не меняется между кадрами, поэтому устанавливается вне цикла
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
@@ -141,14 +155,30 @@ void Application::start()
 		glm::mat4 view = camera.GetViewMatrix();
 
 		glm::vec3 viewPos = camera.GetPosition();
-		RenderObj(glm::vec3(1, 0, 0), barrel_obj, directionalLight, texture_barrel,
+		//RenderObj(glm::vec3(1, 0, 0), barrel_obj, directionalLight, texture_barrel,
+		//	1.0f, view, glm::vec3(0.0f, 0.0f, 1.0f), 0, 0, viewPos, m_current_task - 1);
+
+		// T-Rex
+		RenderObj(glm::vec3(-20, -8, 0), t_rex_obj, directionalLight, texture_t_rex,
 			1.0f, view, glm::vec3(0.0f, 0.0f, 1.0f), 0, 0, viewPos, m_current_task - 1);
-
-		RenderObj(glm::vec3(-20, 8, -50), skull_obj, directionalLight, texture_skull,
-			0.5f, view, glm::vec3(1.0f, 0.0f, 0.0f), 30, 1, viewPos, m_current_task - 1);
-
-		RenderObj(glm::vec3(-20, -8, -50), skull_obj, directionalLight, texture_skull,
-			0.5f, view, glm::vec3(1.0f, 0.0f, 0.0f), 30, 2, viewPos, m_current_task - 1);
+		// Elasmosaurus
+		RenderObj(glm::vec3(-50, -8, -50), elas_obj, directionalLight, texture_elas,
+			0.1f, view, glm::vec3(1.0f, 0.0f, 0.0f), 30, 1, viewPos, m_current_task - 1);
+		//Cearadactylus
+		RenderObj(glm::vec3(20, 20, 0), cear_obj, directionalLight, texture_cear,
+			0.1f, view, glm::vec3(0.0f, 1.0f, 1.0f), 30, 2, viewPos, m_current_task - 1);
+		//Triceratops
+		RenderObj(glm::vec3(0, -4, 0), tric_obj, directionalLight, texture_tric,
+			1.6f, view, glm::vec3(1.0f, 0.0f, 0.0f), 0, 0, viewPos, m_current_task - 1);
+		// Diplodocus
+		//RenderObj(glm::vec3(10, 0, 5), diplo_obj, directionalLight, texture_diplo,
+		//	3.0f, view, glm::vec3(1.0f, 0.0f, 0.0f), 0, 0, viewPos, m_current_task - 1);
+		// Tree
+		//RenderObj(glm::vec3(10, 0, 5), tree_obj, directionalLight, texture_tree,
+		//	0.03f, view, glm::vec3(1.0f, 0.0f, 0.0f), 0, 0, viewPos, m_current_task - 1);
+		//patrik
+		RenderObj(glm::vec3(5, 0, -10), patrik_obj, directionalLight, texture_patrik,
+			50.0f, view, glm::vec3(1.0f, 0.0f, 0.0f), 0, 1, viewPos, m_current_task - 1);
 
 		// Swap the screen buffers
 		glfwSwapBuffers(window);

@@ -52,6 +52,13 @@ void ResourceManager::init() {
 		m_textures.emplace("default", Texture2D("res/textures/awesomeface.png"));
 		m_textures.emplace("container", Texture2D("res/textures/container.jpg"));
 		m_textures.emplace("barrel", Texture2D("res/textures/barrel.png"));
+		m_textures.emplace("t-rex", Texture2D("res/textures/tietu.jpg"));
+		m_textures.emplace("elas", Texture2D("res/textures/Elasmosaurus.jpg"));
+		m_textures.emplace("cear", Texture2D("res/textures/Cearadactylus.jpg"));
+		m_textures.emplace("tric", Texture2D("res/textures/Triceratops.png"));
+		m_textures.emplace("diplo", Texture2D("res/textures/diplodoc.jpg"));
+		m_textures.emplace("tree", Texture2D("res/textures/treeBirch.jpg"));
+		m_textures.emplace("patrik", Texture2D("res/textures/patrick.png"));
 		//m_textures.emplace("drum", Texture2D("res/textures/drum.png"));
 	}
 	catch (const std::exception& e)
@@ -61,6 +68,13 @@ void ResourceManager::init() {
 
 	m_meshes.emplace("skull", Mesh("res/meshes/skull.obj"));
 	m_meshes.emplace("barrel", Mesh("res/meshes/barrel.obj"));
+	m_meshes.emplace("t-rex", Mesh("res/meshes/T-rex.obj"));
+	m_meshes.emplace("elas", Mesh("res/meshes/Elasmosaurus.obj"));
+	m_meshes.emplace("cear", Mesh("res/meshes/Cearadactylus.obj"));
+	m_meshes.emplace("tric", Mesh("res/meshes/Triceratops.obj"));
+	m_meshes.emplace("diplo", Mesh("res/meshes/diplodoc.obj"));
+	m_meshes.emplace("tree", Mesh("res/meshes/treeBirch.obj"));
+	m_meshes.emplace("patrik", Mesh("res/meshes/patrick.obj"));
 	//m_meshes.emplace("drum", Mesh("res/meshes/drum.obj"));
 
 	VBOLayout menuVBOLayout;
