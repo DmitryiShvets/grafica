@@ -137,6 +137,10 @@ void Application::start()
 			{
 				r += 0.01;
 				glm::mat4 view = camera.GetViewMatrix();
+				glm::vec3 viewPos = camera.GetPosition();
+				directionalLight->use();
+				directionalLight->setUniform("ViewPos", viewPos);
+				directionalLight->unbind();
 				RenderObj(glm::vec3(1, 0, 0), barrel_obj, directionalLight, texture_barrel, 1.0f, view, glm::vec3(0.0f, 0.0f, 1.0f), 0);
 				RenderObj(glm::vec3(-20, 2, -50), skull_obj, directionalLight, texture_skull, 1.0f, view, glm::vec3(1.0f, 0.0f, 0.0f), 30 + r);
 				break;

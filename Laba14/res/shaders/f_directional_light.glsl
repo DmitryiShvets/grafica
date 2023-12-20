@@ -20,6 +20,8 @@ uniform struct Light {
     float intensity;      // Интенсивность света
 } light;
 
+uniform vec3 ViewPos;
+
 void main() {
     //Расчет фоновой освещенности (амбиентного света)
     vec3 ambient = 0.1 * material.diffuseColor;
@@ -34,7 +36,7 @@ void main() {
 
     //if (diff > 0.0) //Отключение бликов на теневой стороне
     {
-        vec3 viewDir = normalize(-FragPos);
+        vec3 viewDir = normalize(ViewPos-FragPos);
         vec3 reflectDir = reflect(-lightDir, norm);
         float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
         specular = spec * light.color * material.specularColor;
