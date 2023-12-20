@@ -68,7 +68,8 @@ void Application::init()
 }
 
 void RenderObj(glm::vec3 position, Mesh* obj, ShaderProgram* program,
-	Texture2D* texture, float scale, glm::mat4 view, glm::vec3 rotation, float angle);
+	Texture2D* texture, float scale, glm::mat4 view, glm::vec3 rotation, float angle,
+	int shading, glm::vec3 viewPos, int light_type);
 
 //TODO вынести в отдельный файл
 struct Material {
@@ -102,12 +103,19 @@ void Application::start()
 	directionalLight->use();
 	directionalLight->setUniform("projection", projection);
 
-	glm::vec3 lightDirection(1.0f, -1.0f, -1.0f);
+	glm::vec3 lightPosition(1, 2, 8);
+	glm::vec3 lightDirection(0.0f, 0, -1.0f);
 	glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
 	float lightIntensity = 1.0f;
+
+	directionalLight->setUniform("light.position", lightPosition);
 	directionalLight->setUniform("light.direction", lightDirection);
 	directionalLight->setUniform("light.color", lightColor);
 	directionalLight->setUniform("light.intensity", lightIntensity);
+	directionalLight->setUniform("light.constant", 1.0f);
+	directionalLight->setUniform("light.linear", 0.09f);
+	directionalLight->setUniform("light.quadratic", 0.032f);
+	directionalLight->setUniform("light.cutOff", glm::cos(glm::radians(12.5f)));
 
 	Material material = { glm::vec3(1.0f, 1.0f, 1.0f), // diffuseColor
 						 glm::vec3(1.0f, 1.0f, 1.0f),  // specularColor
@@ -122,14 +130,7 @@ void Application::start()
 	directionalLight->setUniform("material.shininess", material.shininess);
 
 	directionalLight->unbind();
-	//************************
 
-	float radius = 15.0f;
-	float pi = 3.14f;
-
-	glm::vec3 newPos = glm::vec3(5, -2, -10);
-
-	//glm::mat4 view = glm::lookAt(glm::vec3(0), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	// Game loop
 	auto start = std::chrono::steady_clock::now();
 	float r = 0; //Вращение черепа
@@ -137,29 +138,17 @@ void Application::start()
 		glfwPollEvents();
 
 		Renderer::clear();
-		switch (m_current_task)
-		{
-			case 2:
-			{
-				r += 0.01;
-				glm::mat4 view = camera.GetViewMatrix();
-				glm::vec3 viewPos = camera.GetPosition();
-				directionalLight->use();
-				directionalLight->setUniform("ViewPos", viewPos);
-				directionalLight->setUniform("lightingMethod", 0);
-				directionalLight->unbind();
-				RenderObj(glm::vec3(1, 0, 0), barrel_obj, directionalLight, texture_barrel, 1.0f, view, glm::vec3(0.0f, 0.0f, 1.0f), 0);
-				directionalLight->use();
-				directionalLight->setUniform("lightingMethod", 1);
-				directionalLight->unbind();
-				RenderObj(glm::vec3(-20, 2, -50), skull_obj, directionalLight, texture_skull, 1.0f, view, glm::vec3(1.0f, 0.0f, 0.0f), 30 + r);
-				directionalLight->use();
-				directionalLight->setUniform("lightingMethod", 2);
-				directionalLight->unbind();
-				RenderObj(glm::vec3(20, -2, -50), skull_obj, directionalLight, texture_skull, 1.0f, view, glm::vec3(1.0f, 0.0f, 0.0f), 30);
-				break;
-			}
-		}
+		glm::mat4 view = camera.GetViewMatrix();
+
+		glm::vec3 viewPos = camera.GetPosition();
+		RenderObj(glm::vec3(1, 0, 0), barrel_obj, directionalLight, texture_barrel,
+			1.0f, view, glm::vec3(0.0f, 0.0f, 1.0f), 0, 0, viewPos, m_current_task - 1);
+
+		RenderObj(glm::vec3(-20, 8, -50), skull_obj, directionalLight, texture_skull,
+			0.5f, view, glm::vec3(1.0f, 0.0f, 0.0f), 30, 1, viewPos, m_current_task - 1);
+
+		RenderObj(glm::vec3(-20, -8, -50), skull_obj, directionalLight, texture_skull,
+			0.5f, view, glm::vec3(1.0f, 0.0f, 0.0f), 30, 2, viewPos, m_current_task - 1);
 
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
@@ -189,7 +178,8 @@ void Application::select_task(int value)
 Application::Application(std::string name, int width, int height) : name(std::move(name)), width(width), height(height) {}
 
 void RenderObj(glm::vec3 position, Mesh* obj, ShaderProgram* program,
-	Texture2D* texture, float scale, glm::mat4 view, glm::vec3 rotation, float angle)
+	Texture2D* texture, float scale, glm::mat4 view, glm::vec3 rotation,
+	float angle, int shading, glm::vec3 viewPos, int light_type)
 {
 	//Матрица модели - меняется между кадрами, поэтому устанавливается в цикле
 	glm::mat4 model = glm::translate(glm::mat4(1.0f), position);
@@ -199,7 +189,9 @@ void RenderObj(glm::vec3 position, Mesh* obj, ShaderProgram* program,
 	program->use();
 	program->setUniform("view", view);
 	program->setUniform("model", model);
-
+	program->setUniform("ViewPos", viewPos);
+	program->setUniform("lightingMethod", shading);
+	program->setUniform("lighting_type", light_type);
 	glActiveTexture(GL_TEXTURE0);
 	texture->bind();
 
