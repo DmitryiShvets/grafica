@@ -74,6 +74,8 @@ void RenderObj(glm::vec3 position, Mesh* obj, ShaderProgram* program,
 struct Material {
 	glm::vec3 diffuseColor;
 	glm::vec3 specularColor;
+	glm::vec3 emissionColor;
+	glm::vec3 ambientColor;
 	float shininess;
 };
 
@@ -107,12 +109,16 @@ void Application::start()
 	directionalLight->setUniform("light.color", lightColor);
 	directionalLight->setUniform("light.intensity", lightIntensity);
 
-	Material material;
-	material.diffuseColor = glm::vec3(1.0f, 1.0f, 1.0f);
-	material.specularColor = glm::vec3(1.0f, 1.0f, 1.0f);
-	material.shininess = 32.0f;
+	Material material = { glm::vec3(1.0f, 1.0f, 1.0f), // diffuseColor
+						 glm::vec3(1.0f, 1.0f, 1.0f),  // specularColor
+						 glm::vec3(0.0f, 0.0f, 0.0f),  // emissionColor
+						 glm::vec3(0.1f, 0.1f, 0.1f),  // ambientColor
+						 32.0f };                      // shininess
+
 	directionalLight->setUniform("material.diffuseColor", material.diffuseColor);
 	directionalLight->setUniform("material.specularColor", material.specularColor);
+	directionalLight->setUniform("material.emissionColor", material.emissionColor);
+	directionalLight->setUniform("material.ambientColor", material.ambientColor);
 	directionalLight->setUniform("material.shininess", material.shininess);
 
 	directionalLight->unbind();
@@ -140,9 +146,17 @@ void Application::start()
 				glm::vec3 viewPos = camera.GetPosition();
 				directionalLight->use();
 				directionalLight->setUniform("ViewPos", viewPos);
+				directionalLight->setUniform("lightingMethod", 0);
 				directionalLight->unbind();
 				RenderObj(glm::vec3(1, 0, 0), barrel_obj, directionalLight, texture_barrel, 1.0f, view, glm::vec3(0.0f, 0.0f, 1.0f), 0);
+				directionalLight->use();
+				directionalLight->setUniform("lightingMethod", 1);
+				directionalLight->unbind();
 				RenderObj(glm::vec3(-20, 2, -50), skull_obj, directionalLight, texture_skull, 1.0f, view, glm::vec3(1.0f, 0.0f, 0.0f), 30 + r);
+				directionalLight->use();
+				directionalLight->setUniform("lightingMethod", 2);
+				directionalLight->unbind();
+				RenderObj(glm::vec3(20, -2, -50), skull_obj, directionalLight, texture_skull, 1.0f, view, glm::vec3(1.0f, 0.0f, 0.0f), 30);
 				break;
 			}
 		}
